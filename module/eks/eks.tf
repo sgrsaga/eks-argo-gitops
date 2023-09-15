@@ -41,6 +41,7 @@ resource "aws_eks_cluster" "eks_cluster" {
     subnet_ids              = var.cluster_subnets
     security_group_ids      = "${var.cluster_security_group}"
     endpoint_public_access  = false
+    endpoint_private_access = true
   }
   encryption_config {
     resources               = ["secrets"]
