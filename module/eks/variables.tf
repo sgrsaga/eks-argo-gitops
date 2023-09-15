@@ -13,7 +13,7 @@ variable "cluster_subnets" {
 
 # 3. EKS Cluster security group
 variable "cluster_security_group" {
-    type = list()
+    type = list(string)
     default = ["sg1"]
   
 }
