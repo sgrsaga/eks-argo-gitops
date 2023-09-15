@@ -80,7 +80,9 @@ resource "aws_eks_cluster" "eks_cluster" {
   }
   encryption_config {
     resources               = ["secrets"]
-    provider                = aws_kms_key.eks_new_key.arn
+    provider {
+      key_arn               = aws_kms_key.eks_new_key.arn
+    }
   }
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
   # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling.
