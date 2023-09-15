@@ -29,6 +29,10 @@ resource "aws_kms_key" "eks_new_key" {
   deletion_window_in_days   = 7  # Set the desired deletion window (7 to 30 days)
 }
 
+resource "aws_kms_alias" "key-alias" {
+  name          = "alias/k8s-master-key"
+  target_key_id = aws_kms_key.eks_new_key.key_id
+}
 
 
 #######################
@@ -40,7 +44,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   vpc_config {
     subnet_ids              = var.cluster_subnets
     security_group_ids      = "${var.cluster_security_group}"
-    endpoint_public_access  = false
+    endpoint_public_access  = true
     endpoint_private_access = true
   }
   encryption_config {
