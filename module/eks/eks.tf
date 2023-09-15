@@ -75,7 +75,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 
   vpc_config {
     subnet_ids              = var.cluster_subnets
-    security_group_ids      = [var.cluster_security_group]
+    security_group_ids      = ["${var.cluster_security_group}"]
     endpoint_public_access  = false
   }
   encryption_config {
@@ -125,5 +125,5 @@ data "aws_iam_policy_document" "assume_role_policy" {
 
 resource "aws_iam_role" "oidc_role" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-  name               = "oidc_role"
+  name               = "oidc_role_service_account"
 }
