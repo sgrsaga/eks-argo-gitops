@@ -67,7 +67,7 @@ EOF
 
 
 
-
+#######################
 # EKS Cluster resource
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster_name
@@ -126,4 +126,66 @@ data "aws_iam_policy_document" "assume_role_policy" {
 resource "aws_iam_role" "oidc_role" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
   name               = "oidc_role_service_account"
+}
+
+# Create IAM Role for EKS Node Group
+resource "aws_iam_role" "ng_role" {
+  name = "eks-node-group-role"
+
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.ng_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEKS_CNI_Policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.ng_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEC2ContainerRegistryReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.ng_role.name
+}
+
+# Create Node Group
+resource "aws_eks_node_group" "node_group_1" {
+  count = length(var.node_group_names)
+    cluster_name    = aws_eks_cluster.eks_cluster.name
+    node_group_name = "${var.node_group_names[count.index]}"
+    node_role_arn   = aws_iam_role.ng_role.arn
+    subnet_ids      = var.cluster_subnets
+
+    scaling_config {
+        desired_size = "${var.node_group_size[0]}"
+        max_size     = "${var.node_group_size[1]}"
+        min_size     = "${var.node_group_size[2]}"
+    }
+
+    update_config {
+        max_unavailable = "${var.node_group_size[3]}"
+    }
+    tags = {
+      Name = "${var.node_group_names[count.index]}"
+      Type = "NodeGroup"
+    }
+
+  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
+  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
+  depends_on = [
+    aws_iam_role_policy_attachment.example-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.example-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
+  ]
 }

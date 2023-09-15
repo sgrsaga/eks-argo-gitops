@@ -65,7 +65,7 @@ resource "aws_subnet" "public_subnet" {
     cidr_block = var.public_subnets[count.index]
     vpc_id = aws_vpc.new_vpc.id
     availability_zone = element(data.aws_availability_zones.azs.names, count.index )
-    map_public_ip_on_launch = true
+    map_public_ip_on_launch = false
     tags = {
       Name = "PUBLIC_SUBNET_${count.index}"
       Access = "PUBLIC"
@@ -110,6 +110,7 @@ resource "aws_route_table_association" "private_rt_subnet_association" {
 # 1.6. Create Public access Security Group
 resource "aws_security_group" "public_access_sg" {
   name = "PUBLIC_SG"
+  description = "Publicly reachable Security group"
   vpc_id = aws_vpc.new_vpc.id
   egress {
     from_port = 0
@@ -140,6 +141,7 @@ resource "aws_security_group_rule" "public_sg_ingress_rules" {
 # 2.6. Allow Inbound traffic from Public Security group to the Private Security group
 resource "aws_security_group" "private_access_sg" {
   name = "PRIVATE_SG"
+  description = "Not allowed to access resource directly from public internet"
   vpc_id = aws_vpc.new_vpc.id
   ingress {
     from_port = 0

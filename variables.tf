@@ -71,6 +71,20 @@ variable "cluster_security_group" {
   
 }
 
+# 4. Node Group Names
+variable "node_group_names" {
+    type = list(string)
+    default = ["NG1"]
+}
+
+# 5. Node Group Thresholds
+variable "node_group_size" {
+    type = list(number)
+    description = "Value should be desired_size,max_size, min_size and max_unavailable"
+    default = [1,2,1,1]
+}
+
+
 ### EC2 Nodes Parameter
 # 1. EC2 AMI
 variable "ami_id" {

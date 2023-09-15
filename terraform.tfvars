@@ -28,6 +28,9 @@ public_access_sg_ingress_rules = [
 
 ### ----------- EKS Cluster variables
 cluster_name = "EKS-GitOps-Cluster"
+node_group_names = ["NG_1","NG_2"]
+node_group_size = [1,2,1,1]
+
 
 ### ----------- EC2 nodes
 ami_id         = "ami-0f5ee92e2d63afc18"
