@@ -27,42 +27,6 @@ resource "aws_kms_key" "eks_new_key" {
   description               = "EKS KMS Key"
   enable_key_rotation       = true
   deletion_window_in_days   = 7  # Set the desired deletion window (7 to 30 days)
-
-  policy                    = <<EOF
-{
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "VisualEditor0",
-			"Effect": "Allow",
-			"Action": [
-				"kms:GetParametersForImport",
-				"kms:GetPublicKey",
-				"kms:TagResource",
-				"kms:UntagResource",
-				"kms:ListKeyPolicies",
-				"kms:ListRetirableGrants",
-				"kms:GetKeyRotationStatus",
-				"kms:GetKeyPolicy",
-				"kms:DescribeKey",
-				"kms:ListResourceTags",
-				"kms:ListGrants"
-			],
-			"Resource": "arn:aws:kms:*:598792377165:key/*"
-		},
-		{
-			"Sid": "VisualEditor1",
-			"Effect": "Allow",
-			"Action": [
-				"kms:DescribeCustomKeyStores",
-				"kms:ListKeys",
-				"kms:ListAliases"
-			],
-			"Resource": "*"
-		}
-	]
-}
-EOF
 }
 
 
