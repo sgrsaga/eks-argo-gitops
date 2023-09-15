@@ -160,7 +160,7 @@ resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEC2ContainerRegistryR
 }
 
 # Create Node Group
-resource "aws_eks_node_group" "node_group_1" {
+resource "aws_eks_node_group" "node_groups" {
   count = length(var.node_group_names)
     cluster_name    = aws_eks_cluster.eks_cluster.name
     node_group_name = "${var.node_group_names[count.index]}"
