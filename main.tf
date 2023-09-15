@@ -65,7 +65,7 @@ module "main_network" {
 module "eks_gitops_cluster" {
   source                  = "./module/eks"
   cluster_subnets         = module.main_network.private_subnet_list
-  cluster_security_group  = module.main_network.public_security_group
+  cluster_security_group  = [module.main_network.public_security_group]
   cluster_name            = var.cluster_name
 
   depends_on              = [ module.main_network ]
