@@ -159,7 +159,7 @@ resource "aws_security_group" "private_access_sg" {
   }
 }
 
-/*
+
 # 1.8. Create EIP
 resource "aws_eip" "nat_public_ip" {
   vpc = true
@@ -185,4 +185,3 @@ resource "aws_route" "link_nat_gateway" {
   depends_on = [aws_eip.nat_public_ip,aws_route_table.private_route, aws_subnet.public_subnet]
 }
 
-*/

@@ -48,6 +48,29 @@ variable "public_access_sg_ingress_rules" {
   ]
 }
 
+
+### EKS Cluster variables
+# 1. EKS Cluster name
+variable "cluster_name" {
+    type = string
+    default = "MyEKS_Cluster"
+  
+}
+
+# 2. EKS Cluster subnets
+variable "cluster_subnets" {
+    type = list(string)
+    default = ["sub1"]
+  
+}
+
+# 3. EKS Cluster security group
+variable "cluster_security_group" {
+    type = list(string)
+    default = ["sg1"]
+  
+}
+
 ### EC2 Nodes Parameter
 # 1. EC2 AMI
 variable "ami_id" {
