@@ -25,8 +25,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        repository: sgrsaga/eks-argo-gitops
-        token: $${{ secrets.GIT_REPO_ACCESSS_TOKEN }}
+        ref : main
+      env:
+        GITHUB_TOKEN: $${{ secrets.GIT_REPO_ACCESSS_TOKEN }}
 
     # Set AWS Credentials
     - name: Configure AWS credentials with OIDC and Role
