@@ -28,7 +28,7 @@ jobs:
 
     # Set AWS Credentials
     - name: Configure AWS credentials with OIDC and Role
-      uses: aws-actions/configure-aws-credentials@v3
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: arn:aws:iam::598792377165:role/github-oidc-role
         aws-region: ap-south-1
