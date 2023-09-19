@@ -24,6 +24,9 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        repository: https://github.com/sgrsaga/eks-argo-gitops.git
+        token: $${{ secrets.GIT_REPO_ACCESSS_TOKEN }}
 
     # Set AWS Credentials
     - name: Configure AWS credentials with OIDC and Role
