@@ -29,7 +29,7 @@ jobs:
     - name: Configure AWS credentials with OIDC and Role
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: ${{ secret.AWS_OIDC_ROLE }}
+        role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
         aws-region: ap-south-1
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
