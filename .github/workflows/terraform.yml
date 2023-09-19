@@ -7,8 +7,7 @@ on:
 
 permissions:
   id-token: write # This is required for requesting the JWT
-  #contents: read
-  
+  contents: read
 
 jobs:
   terraform:
@@ -30,7 +29,7 @@ jobs:
     - name: Configure AWS credentials with OIDC and Role
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        role-to-assume: arn:aws:iam::598792377165:role/github-oidc-role
+        role-to-assume: ${{ secret.AWS_OIDC_ROLE }}
         aws-region: ap-south-1
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
