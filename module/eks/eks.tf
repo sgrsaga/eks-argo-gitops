@@ -36,17 +36,15 @@ resource "aws_kms_alias" "key-alias" {
 
 # Get the subnet list
 data "aws_subnets" "all_subnet" {
-  filter {
-    name   = "Type"
-    values = ["SUBNET"]
+  tags = {
+    Type = "SUBNET"
   }
 }
 
 # Get Securiy Group
 data "aws_security_groups" "all_sg" {
-  filter {
-    name   = "Type"
-    values = ["SECURITY_GROUP"]
+  tags = {
+    Type = "SECURITY_GROUP"
   }
 }
 #######################
@@ -145,29 +143,25 @@ resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEC2ContainerRegistryR
 
 # Get the subnet list
 data "aws_subnets" "public_subnets" {
-  filter {
-    name   = "Access"
-    values = ["PUBLIC"]
+  tags = {
+    Access = "PUBLIC"
   }
 }
 data "aws_subnets" "private_subnets" {
-  filter {
-    name   = "Access"
-    values = ["PRIVATE"]
+  tags = {
+    Access = "PRIVATE"
   }
 }
 
 # Get Securiy Group
 data "aws_security_groups" "public_sg" {
-  filter {
-    name   = "Name"
-    values = ["PUBLIC_SG"]
+  tags = {
+    Name = "PUBLIC_SG"
   }
 }
 data "aws_security_groups" "private_sg" {
-  filter {
-    name   = "Name"
-    values = ["PRIVATE_SG"]
+  tags = {
+    Name = "PRIVATE_SG"
   }
 }
 
