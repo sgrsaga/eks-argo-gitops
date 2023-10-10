@@ -38,4 +38,6 @@
                     name: my-service
                     port:
                     number: 80
+
+6. Install Promethius
     

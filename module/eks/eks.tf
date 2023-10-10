@@ -245,3 +245,8 @@ resource "aws_eks_addon" "kube-proxy" {
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = "kube-proxy"
 }
+# ebs-csi plugin
+resource "aws_eks_addon" "ebs-csi" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "ebs-csi"
+}
