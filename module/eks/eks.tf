@@ -141,6 +141,11 @@ resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEC2ContainerRegistryR
   role       = aws_iam_role.ng_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEBSCSIDriverPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.ng_role.name
+}
+
 # Get the subnet list
 data "aws_subnets" "public_subnets" {
   tags = {
@@ -193,6 +198,7 @@ resource "aws_eks_node_group" "node_groups1" {
     aws_iam_role_policy_attachment.ng-policy-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.ng-policy-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.ng-policy-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.ng-policy-AmazonEBSCSIDriverPolicy,
   ]
 }
 
@@ -224,6 +230,7 @@ resource "aws_eks_node_group" "node_groups2" {
     aws_iam_role_policy_attachment.ng-policy-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.ng-policy-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.ng-policy-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.ng-policy-AmazonEBSCSIDriverPolicy,
   ]
 }
 
