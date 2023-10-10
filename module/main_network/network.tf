@@ -69,6 +69,7 @@ resource "aws_subnet" "public_subnet" {
     tags = {
       Name = "PUBLIC_SUBNET_${count.index}"
       Access = "PUBLIC"
+      Type = "SUBNET"
     }
 }
 
@@ -87,6 +88,7 @@ resource "aws_subnet" "private_subnet" {
     tags = {
       Name = "PRIVATE_SUBNET_${count.index}"
       Access = "PRIVATE"
+      Type = "SUBNET"
     }
 }
 
@@ -121,6 +123,7 @@ resource "aws_security_group" "public_access_sg" {
   }
   tags = {
     Name = "PUBLIC_SG"
+    Type = "SECURITY_GROUP"
   }
 }
 
@@ -158,6 +161,7 @@ resource "aws_security_group" "private_access_sg" {
   }
   tags = {
     Name = "PRIVATE_SG"
+    Type = "SECURITY_GROUP"
   }
 }
 

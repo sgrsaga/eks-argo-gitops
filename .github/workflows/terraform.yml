@@ -21,13 +21,18 @@ jobs:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
+    # Checkout the repository to the GitHub Actions runner in Pirivate repo mode
     - name: Checkout
       uses: actions/checkout@v3
       with:
         ref : main
       env:
         GITHUB_TOKEN: $${{ secrets.GIT_REPO_ACCESSS_TOKEN }}
+
+    # Checkout the repository to the GitHub Actions runner in Public repo
+    #- name: Checkout
+    #  uses: actions/checkout@v3
+
 
     # Set AWS Credentials
     - name: Configure AWS credentials with OIDC and Role

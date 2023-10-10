@@ -64,8 +64,8 @@ module "main_network" {
 # 2. EKS Cluster creation
 module "eks_gitops_cluster" {
   source                  = "./module/eks"
-  cluster_subnets         = module.main_network.private_subnet_list + module.main_network.public_subnet_list
-  cluster_security_group  = [module.main_network.public_security_group] + [module.main_network.public_security_group]
+  private_ng_size         = var.private_ng_size
+  public_ng_size          = var.public_ng_size
   cluster_name            = var.cluster_name
   node_group_names        = var.node_group_names
   node_group_size         = var.node_group_size

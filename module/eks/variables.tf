@@ -28,3 +28,13 @@ variable "node_group_size" {
     description = "Value should be desired_size,max_size, min_size and max_unavailable"
     default = [1,2,1,1]
 }
+# 6. Public NG size
+variable "public_ng_size" {
+  type = number
+  default = 1
+}
+# 7. Private NG size
+variable "private_ng_size" {
+  type = number
+  default = 1
+}

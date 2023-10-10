@@ -1,2 +1,41 @@
-NEw File
-TRy only with thumb print - 6938fd4d98bab03faadb97b34396831e3780aea1
+1. Apply the Terraform code to create the infrastructure
+    This will create the EKS cluster. @ node Groups and Some AddOns such as CNI, CoreDN and kube-proxy
+
+2. Run the command to configure the AWS CLI command for the "kubectl"
+    #aws eks --region ap-south-1 update-kubeconfig --name EKS-GitOps-Cluster
+
+3. Now need to install the Nginx-Ingress controller
+    "https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx"
+
+    #helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+    #helm repo update
+    #helm install eks-ingress-nginx ingress-nginx/ingress-nginx
+
+4. Create sample deployment and sxpose using clusterip service
+    Create deployment
+    #kubectl create deploy dep1 --image=httpd --replicas=2 --port=80
+    Expose deployment with service
+    #kubectl expose deploy dep1 --name=my-svc --port=80 --target-port=80
+
+5. Create Ingress Rule
+    Rule will direct the traffic to "my-svc" and service will direct to one of the pods
+    '''
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+        name: minimal-ingress
+        annotations:
+            nginx.ingress.kubernetes.io/rewrite-target: /
+        spec:
+        ingressClassName: nginx
+        rules:
+        - http:
+            paths:
+            - path: /testpath
+                pathType: Prefix
+                backend:
+                service:
+                    name: my-service
+                    port:
+                    number: 80
+    

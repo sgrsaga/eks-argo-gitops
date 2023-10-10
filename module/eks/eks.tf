@@ -34,7 +34,19 @@ resource "aws_kms_alias" "key-alias" {
   target_key_id = aws_kms_key.eks_new_key.key_id
 }
 
+# Get the subnet list
+data "aws_subnets" "all_subnet" {
+  tags = {
+    Type = "SUBNET"
+  }
+}
 
+# Get Securiy Group
+data "aws_security_groups" "all_sg" {
+  tags = {
+    Type = "SECURITY_GROUP"
+  }
+}
 #######################
 # EKS Cluster resource
 resource "aws_eks_cluster" "eks_cluster" {
@@ -42,10 +54,11 @@ resource "aws_eks_cluster" "eks_cluster" {
   role_arn = aws_iam_role.eks_iam_role.arn
 
   vpc_config {
-    subnet_ids              = var.cluster_subnets
-    security_group_ids      = "${var.cluster_security_group}"
-    endpoint_public_access  = false
+    subnet_ids              = data.aws_subnets.all_subnet.ids
+    security_group_ids      = data.aws_security_groups.all_sg.ids
+    endpoint_public_access  = true
     endpoint_private_access = true
+    public_access_cidrs = ["0.0.0.0/0"]
   }
   encryption_config {
     resources               = ["secrets"]
@@ -128,27 +141,51 @@ resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEC2ContainerRegistryR
   role       = aws_iam_role.ng_role.name
 }
 
+# Get the subnet list
+data "aws_subnets" "public_subnets" {
+  tags = {
+    Access = "PUBLIC"
+  }
+}
+data "aws_subnets" "private_subnets" {
+  tags = {
+    Access = "PRIVATE"
+  }
+}
+
+# Get Securiy Group
+data "aws_security_groups" "public_sg" {
+  tags = {
+    Name = "PUBLIC_SG"
+  }
+}
+data "aws_security_groups" "private_sg" {
+  tags = {
+    Name = "PRIVATE_SG"
+  }
+}
+
 # Create Node Group
-resource "aws_eks_node_group" "node_groups" {
-  count = length(var.node_group_names)
-    cluster_name    = aws_eks_cluster.eks_cluster.name
-    node_group_name = "${var.node_group_names[count.index]}"
-    node_role_arn   = aws_iam_role.ng_role.arn
-    subnet_ids      = var.cluster_subnets
+resource "aws_eks_node_group" "node_groups1" {
+  count           = var.public_ng_size
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "PUBLIC_NG"
+  node_role_arn   = aws_iam_role.ng_role.arn
+  subnet_ids      = data.aws_subnets.public_subnets.ids
 
-    scaling_config {
-        desired_size = "${var.node_group_size[0]}"
-        max_size     = "${var.node_group_size[1]}"
-        min_size     = "${var.node_group_size[2]}"
-    }
+  scaling_config {
+      desired_size = "${var.node_group_size[0]}"
+      max_size     = "${var.node_group_size[1]}"
+      min_size     = "${var.node_group_size[2]}"
+  }
 
-    update_config {
-        max_unavailable = "${var.node_group_size[3]}"
-    }
-    tags = {
-      Name = "${var.node_group_names[count.index]}"
-      Type = "NodeGroup"
-    }
+  update_config {
+    max_unavailable = "${var.node_group_size[3]}"
+  }
+  tags = {
+    Name = "PUBLIC_NODE_${count.index}"
+    Type = "NodeGroup"
+  }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
@@ -157,4 +194,54 @@ resource "aws_eks_node_group" "node_groups" {
     aws_iam_role_policy_attachment.ng-policy-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.ng-policy-AmazonEC2ContainerRegistryReadOnly,
   ]
+}
+
+# Create Node Group
+resource "aws_eks_node_group" "node_groups2" {
+  count           = var.private_ng_size
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "PRIVATE_NG"
+  node_role_arn   = aws_iam_role.ng_role.arn
+  subnet_ids      = data.aws_subnets.private_subnets.ids
+
+  scaling_config {
+      desired_size = "${var.node_group_size[0]}"
+      max_size     = "${var.node_group_size[1]}"
+      min_size     = "${var.node_group_size[2]}"
+  }
+
+  update_config {
+    max_unavailable = "${var.node_group_size[3]}"
+  }
+  tags = {
+    Name = "PRIVATE_NODE_${count.index}"
+    Type = "NodeGroup"
+  }
+
+  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
+  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
+  depends_on = [
+    aws_iam_role_policy_attachment.ng-policy-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.ng-policy-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.ng-policy-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
+
+# Install Add-ons install
+
+# CNI plugin
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "vpc-cni"
+}
+# CoreDNS plugin
+resource "aws_eks_addon" "coredns" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "coredns"
+}
+# kube-proxy plugin
+resource "aws_eks_addon" "kube-proxy" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "kube-proxy"
 }
