@@ -84,6 +84,16 @@ variable "node_group_size" {
     default = [1,2,1,1]
 }
 
+# 6. Public NG size
+variable "public_ng_size" {
+  type = number
+  default = 1
+}
+# 7. Private NG size
+variable "private_ng_size" {
+  type = number
+  default = 1
+}
 
 ### EC2 Nodes Parameter
 # 1. EC2 AMI

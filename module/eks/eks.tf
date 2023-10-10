@@ -173,6 +173,7 @@ data "aws_security_groups" "private_sg" {
 
 # Create Node Group
 resource "aws_eks_node_group" "node_groups1" {
+  count           = var.public_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "PUBLIC_NG"
   node_role_arn   = aws_iam_role.ng_role.arn
@@ -188,7 +189,7 @@ resource "aws_eks_node_group" "node_groups1" {
     max_unavailable = "${var.node_group_size[3]}"
   }
   tags = {
-    Name = "${var.node_group_names[count.index]}"
+    Name = "PUBLIC_NODE_${count.index}"
     Type = "NodeGroup"
   }
 
@@ -203,6 +204,7 @@ resource "aws_eks_node_group" "node_groups1" {
 
 # Create Node Group
 resource "aws_eks_node_group" "node_groups2" {
+  count           = var.private_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "PRIVATE_NG"
   node_role_arn   = aws_iam_role.ng_role.arn
@@ -218,7 +220,7 @@ resource "aws_eks_node_group" "node_groups2" {
     max_unavailable = "${var.node_group_size[3]}"
   }
   tags = {
-    Name = "${var.node_group_names[count.index]}"
+    Name = "PRIVATE_NODE_${count.index}"
     Type = "NodeGroup"
   }
 
