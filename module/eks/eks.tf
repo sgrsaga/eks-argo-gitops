@@ -173,3 +173,21 @@ resource "aws_eks_node_group" "node_groups" {
     aws_iam_role_policy_attachment.ng-policy-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
+# Install Add-ons install
+
+# CNI plugin
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "vpc-cni"
+}
+# CoreDNS plugin
+resource "aws_eks_addon" "coredns" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "coredns"
+}
+# kube-proxy plugin
+resource "aws_eks_addon" "kube-proxy" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "kube-proxy"
+}
