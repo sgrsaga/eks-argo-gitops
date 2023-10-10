@@ -143,27 +143,54 @@ resource "aws_iam_role_policy_attachment" "ng-policy-AmazonEC2ContainerRegistryR
   role       = aws_iam_role.ng_role.name
 }
 
+# Get the subnet list
+data "aws_subnets" "public_subnets" {
+  filter {
+    name   = "Access"
+    values = ["PUBLIC"]
+  }
+}
+data "aws_subnets" "private_subnets" {
+  filter {
+    name   = "Access"
+    values = ["PRIVATE"]
+  }
+}
+
+# Get Securiy Group
+data "aws_security_groups" "public_sg" {
+  filter {
+    name   = "Name"
+    values = ["PUBLIC_SG"]
+  }
+}
+data "aws_security_groups" "private_sg" {
+  filter {
+    name   = "Name"
+    values = ["PRIVATE_SG"]
+  }
+}
+
 # Create Node Group
-resource "aws_eks_node_group" "node_groups" {
-  count = length(var.node_group_names)
-    cluster_name    = aws_eks_cluster.eks_cluster.name
-    node_group_name = "${var.node_group_names[count.index]}"
-    node_role_arn   = aws_iam_role.ng_role.arn
-    subnet_ids      = var.cluster_subnets
+resource "aws_eks_node_group" "node_groups1" {
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "PUBLIC_NG"
+  node_role_arn   = aws_iam_role.ng_role.arn
+  subnet_ids      = data.aws_subnets.public_subnets.ids
 
-    scaling_config {
-        desired_size = "${var.node_group_size[0]}"
-        max_size     = "${var.node_group_size[1]}"
-        min_size     = "${var.node_group_size[2]}"
-    }
+  scaling_config {
+      desired_size = "${var.node_group_size[0]}"
+      max_size     = "${var.node_group_size[1]}"
+      min_size     = "${var.node_group_size[2]}"
+  }
 
-    update_config {
-        max_unavailable = "${var.node_group_size[3]}"
-    }
-    tags = {
-      Name = "${var.node_group_names[count.index]}"
-      Type = "NodeGroup"
-    }
+  update_config {
+    max_unavailable = "${var.node_group_size[3]}"
+  }
+  tags = {
+    Name = "${var.node_group_names[count.index]}"
+    Type = "NodeGroup"
+  }
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
@@ -173,6 +200,37 @@ resource "aws_eks_node_group" "node_groups" {
     aws_iam_role_policy_attachment.ng-policy-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
+# Create Node Group
+resource "aws_eks_node_group" "node_groups2" {
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "PRIVATE_NG"
+  node_role_arn   = aws_iam_role.ng_role.arn
+  subnet_ids      = data.aws_subnets.private_subnets.ids
+
+  scaling_config {
+      desired_size = "${var.node_group_size[0]}"
+      max_size     = "${var.node_group_size[1]}"
+      min_size     = "${var.node_group_size[2]}"
+  }
+
+  update_config {
+    max_unavailable = "${var.node_group_size[3]}"
+  }
+  tags = {
+    Name = "${var.node_group_names[count.index]}"
+    Type = "NodeGroup"
+  }
+
+  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
+  # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
+  depends_on = [
+    aws_iam_role_policy_attachment.ng-policy-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.ng-policy-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.ng-policy-AmazonEC2ContainerRegistryReadOnly,
+  ]
+}
+
 
 # Install Add-ons install
 
