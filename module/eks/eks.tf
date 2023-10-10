@@ -34,7 +34,21 @@ resource "aws_kms_alias" "key-alias" {
   target_key_id = aws_kms_key.eks_new_key.key_id
 }
 
+# Get the subnet list
+data "aws_subnets" "all_subnet" {
+  filter {
+    name   = "Type"
+    values = ["SUBNET"]
+  }
+}
 
+# Get Securiy Group
+data "aws_security_groups" "all_sg" {
+  filter {
+    name   = "Type"
+    values = ["SECURITY_GROUP"]
+  }
+}
 #######################
 # EKS Cluster resource
 resource "aws_eks_cluster" "eks_cluster" {
@@ -42,10 +56,11 @@ resource "aws_eks_cluster" "eks_cluster" {
   role_arn = aws_iam_role.eks_iam_role.arn
 
   vpc_config {
-    subnet_ids              = var.cluster_subnets
-    security_group_ids      = "${var.cluster_security_group}"
-    endpoint_public_access  = false
+    subnet_ids              = data.aws_subnets.all_subnet.ids
+    security_group_ids      = data.aws_security_groups.all_sg.ids
+    endpoint_public_access  = true
     endpoint_private_access = true
+    public_access_cidrs = ["0.0.0.0/0"]
   }
   encryption_config {
     resources               = ["secrets"]
