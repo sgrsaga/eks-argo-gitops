@@ -40,4 +40,27 @@
                     number: 80
 
 6. Install Promethius
-    
+
+    Pre-requisites
+    1. Make sure we have the Storage class with proper driver is in place.
+        I added the "aws-ebs-csi-driver" add on via Terraform 
+    2. We should have provided the access to the NodeGroup with "AmazonEBSCSIDriverPolicy"(arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy)
+        Reference: https://www.reddit.com/r/Terraform/comments/znomk4/ebs_csi_driver_entirely_from_terraform_on_aws_eks/
+        Added as Terraform resource.
+    3. Make sure that relevant Storage class is available in the cluster else create it.
+        '''
+        apiVersion: storage.k8s.io/v1
+        kind: StorageClass
+        metadata:
+        name: ebs-sc-csi
+        provisioner: ebs.csi.aws.com
+        volumeBindingMode: WaitForFirstConsumer
+    4. Now install the Prometheus
+        Reference: https://docs.aws.amazon.com/eks/latest/userguide/prometheus.html
+        # kubectl create namespace prometheus
+        # helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        # helm repo update prometheus-community
+        # helm install my-prometheus prometheus-community/prometheus --values prometheus/values.yaml
+        # helm upgrade -i prometheus prometheus-community/prometheus \
+            --namespace prometheus \
+            --set alertmanager.persistentVolume.storageClass="ebs-sc-csi",server.persistentVolume.storageClass="ebs-sc-csi"
