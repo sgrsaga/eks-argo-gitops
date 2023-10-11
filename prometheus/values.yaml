@@ -200,10 +200,10 @@ server:
   defaultFlagsOverride: []
 
   extraFlags:
-    - web.enable-lifecycle
+    - --web.enable-lifecycle
     ## modify the prometheus deployment to accept traffic on the new path (/prom)
-    - web.route-prefix=/
-    - web.external-url=http://eks.devops-expert.online/prom
+    - --web.route-prefix=/
+    - --web.external-url=http://eks.devops-expert.online/prom
     ## web.enable-admin-api flag controls access to the administrative HTTP API which includes functionality such as
     ## deleting time series. This is disabled by default.
     # - web.enable-admin-api
