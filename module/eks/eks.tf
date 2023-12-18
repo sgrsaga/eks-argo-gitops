@@ -242,23 +242,23 @@ resource "aws_eks_node_group" "node_groups2" {
 resource "aws_eks_addon" "vpc_cni" {
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = "vpc-cni"
-  addon_version = var.cni-version
+  #addon_version = var.cni-version
 }
 # CoreDNS plugin
 resource "aws_eks_addon" "coredns" {
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = "coredns"
-  addon_version = var.coredns-version
+  #addon_version = var.coredns-version
 }
 # kube-proxy plugin
 resource "aws_eks_addon" "kube-proxy" {
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = "kube-proxy"
-  addon_version = var.kube-proxy-version
+  #addon_version = var.kube-proxy-version
 }
 # ebs-csi plugin
 resource "aws_eks_addon" "ebs-csi-driver" {
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = "aws-ebs-csi-driver"
-  addon_version = var.ebs-csi-version
+  #addon_version = var.ebs-csi-version
 }
