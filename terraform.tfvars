@@ -28,10 +28,18 @@ public_access_sg_ingress_rules = [
 
 ### ----------- EKS Cluster variables
 cluster_name = "EKS-GitOps-Cluster"
+k8s_version = "1.27"
 node_group_names = ["NG_1","NG_2"]
 node_group_size = [1,2,1,1]
 public_ng_size = 1
 private_ng_size = 1
+
+## Add Ons
+cni-version = "v1.15.4-eksbuild.1"
+coredns-version = "v1.10.1-eksbuild.6"
+kube-proxy-version = "v1.28.4-eksbuild.1"
+ebs-csi-version = "v1.25.0-eksbuild.1"
+
 
 ### ----------- EC2 nodes
 ami_id         = "ami-0f5ee92e2d63afc18"

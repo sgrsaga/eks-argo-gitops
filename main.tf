@@ -70,5 +70,12 @@ module "eks_gitops_cluster" {
   node_group_names        = var.node_group_names
   node_group_size         = var.node_group_size
 
+  # Versions
+  version                 = var.k8s_version
+  cni-version             = var.cni-version
+  coredns-version         = var.coredns-version
+  kube-proxy-version      = var.kube-proxy-version
+  ebs-csi-version         = var.ebs-csi-version
+
   depends_on              = [ module.main_network ]
 }

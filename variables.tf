@@ -95,6 +95,34 @@ variable "private_ng_size" {
   default = 1
 }
 
+# 8. K8S version to spin up
+variable "k8s_version" {
+    type = string
+    default = "1.27"
+}
+
+
+# 9. CNI version
+variable "cni-version" {
+    type = string  
+}
+
+# 10. CoreDNS version
+variable "coredns-version" {
+    type = string  
+}
+
+# 11. KubeProxy version
+variable "kube-proxy-version" {
+    type = string  
+}
+
+# 12. EBS CSI version
+variable "ebs-csi-version" {
+    type = string  
+}
+
+
 ### EC2 Nodes Parameter
 # 1. EC2 AMI
 variable "ami_id" {
