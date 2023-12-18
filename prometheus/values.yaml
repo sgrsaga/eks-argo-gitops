@@ -200,7 +200,7 @@ server:
   defaultFlagsOverride: []
 
   extraFlags:
-    - --web.enable-lifecycle
+    - --web.enable-lifcyecle
     ## modify the prometheus deployment to accept traffic on the new path (/prom)
     - --web.route-prefix=/
     - --web.external-url=http://eks.devops-expert.online/prom
