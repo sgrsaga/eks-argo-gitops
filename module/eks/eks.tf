@@ -52,7 +52,7 @@ data "aws_security_groups" "all_sg" {
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks_iam_role.arn
-  version = var.k8s_version
+  #version = var.k8s_version
 
   vpc_config {
     subnet_ids              = data.aws_subnets.all_subnet.ids
