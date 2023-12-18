@@ -20,7 +20,7 @@ terraform {
 terraform {
   backend "s3" {
     bucket = "terraform-state-files-sgr-jay"
-    key    = "eks-argo.tfstate"
+    key    = "eks-argo-helm.tfstate"
     region = "ap-south-1"
   }
 }
