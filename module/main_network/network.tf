@@ -162,6 +162,7 @@ resource "aws_security_group" "private_access_sg" {
   tags = {
     Name = "PRIVATE_SG"
     Type = "SECURITY_GROUP"
+    Access = "PRIVATE"
   }
 }
 
