@@ -165,11 +165,7 @@ data "aws_security_groups" "public_sg" {
     Name = "PUBLIC_SG"
   }
 }
-data "aws_security_groups" "private_sg" {
-  tags = {
-    Name = "PRIVATE_SG"
-  }
-}
+
 
 # Create Node Group
 resource "aws_eks_node_group" "node_groups1" {
