@@ -34,17 +34,17 @@ resource "aws_kms_alias" "key-alias" {
   target_key_id = aws_kms_key.eks_new_key.key_id
 }
 
-# Get the subnet list
-data "aws_subnets" "all_subnet" {
+# Get the private subnet list
+data "aws_subnets" "private_subnet" {
   tags = {
-    Type = "SUBNET"
+    Access = "PRIVATE"
   }
 }
 
 # Get Securiy Group
-data "aws_security_groups" "all_sg" {
+data "aws_security_groups" "private_sg" {
   tags = {
-    Type = "SECURITY_GROUP"
+    Access = "PRIVATE"
   }
 }
 #######################
@@ -55,8 +55,8 @@ resource "aws_eks_cluster" "eks_cluster" {
   #version = var.k8s_version
 
   vpc_config {
-    subnet_ids              = data.aws_subnets.all_subnet.ids
-    security_group_ids      = data.aws_security_groups.all_sg.ids
+    subnet_ids              = data.aws_subnets.private_subnet.ids
+    security_group_ids      = data.aws_security_groups.private_sg.ids
     endpoint_public_access  = true
     endpoint_private_access = true
     public_access_cidrs = ["0.0.0.0/0"]
@@ -175,9 +175,9 @@ data "aws_security_groups" "private_sg" {
 resource "aws_eks_node_group" "node_groups1" {
   count           = var.public_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "PUBLIC_NG"
+  node_group_name = "NG1"
   node_role_arn   = aws_iam_role.ng_role.arn
-  subnet_ids      = data.aws_subnets.public_subnets.ids
+  subnet_ids      = data.aws_subnets.private_subnets.ids
 
   scaling_config {
       desired_size = "${var.node_group_size[0]}"
@@ -207,7 +207,7 @@ resource "aws_eks_node_group" "node_groups1" {
 resource "aws_eks_node_group" "node_groups2" {
   count           = var.private_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "PRIVATE_NG"
+  node_group_name = "NG2"
   node_role_arn   = aws_iam_role.ng_role.arn
   subnet_ids      = data.aws_subnets.private_subnets.ids
 
@@ -262,3 +262,4 @@ resource "aws_eks_addon" "ebs-csi-driver" {
   addon_name   = "aws-ebs-csi-driver"
   #addon_version = var.ebs-csi-version
 }
+
