@@ -186,3 +186,9 @@ variable "config_path"{
 variable "ingress_ns"{
     type = string
 }
+
+# ArgoCD namespace
+variable "argo_ns"{
+    type = string
+    default = "argo_ns"
+}

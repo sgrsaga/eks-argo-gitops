@@ -40,7 +40,7 @@ resource "helm_release" "nginx_ingress" {
   # Set Node Selector to Utility nodes
   set {
     name = "nodeSelector.category"
-    value = "workload"
+    value = "utility"
     type = "string"
   }
   # Set Resource limit for the nginx controller

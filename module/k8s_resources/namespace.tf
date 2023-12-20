@@ -5,3 +5,9 @@ resource "kubernetes_namespace" "ingress" {
   }
 }
 
+# Create namespace for argo
+resource "kubernetes_namespace" "argo" {  
+  metadata {
+    name = var.argo_ns
+  }
+}
