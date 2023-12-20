@@ -178,17 +178,17 @@ variable "worker_type" {
 ######################### Helm module
 
 # Config path
-variable "config_path"{
+variable "config_path" {
   type = string
 }
 
 # Ingress name spece
-variable "ingress_ns"{
-    type = string
+variable "ingress_ns" {
+  type = string
 }
 
 # ArgoCD namespace
-variable "argo_ns"{
-    type = string
-    default = "argo_ns"
+variable "argo_ns" {
+  type    = string
+  default = "argo_ns"
 }

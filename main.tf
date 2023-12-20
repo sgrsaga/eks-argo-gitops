@@ -29,7 +29,7 @@ provider "helm" {
 }
 
 provider "kubernetes" {
-  config_path    = var.config_path
+  config_path = var.config_path
   #config_context = "my-context"
 
   # Use Exec plugins
@@ -112,18 +112,18 @@ module "eks_gitops_cluster" {
 
 # 3. Kubernetes resources 
 module "k8s" {
-  source = "./module/k8s_resources"
+  source     = "./module/k8s_resources"
   ingress_ns = var.ingress_ns
-  argo_ns = var.argo_ns
+  argo_ns    = var.argo_ns
 
   depends_on = [module.eks_gitops_cluster]
 }
 
 # 4. Install Helm based utilities for the EKS
 module "helm_repos" {
-  source = "./module/helm"
+  source     = "./module/helm"
   ingress_ns = module.k8s.ingress_ns
-  argo_ns = module.k8s.argo_ns
-  
+  argo_ns    = module.k8s.argo_ns
+
   depends_on = [module.k8s]
 }

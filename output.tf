@@ -37,7 +37,7 @@ output "private_security_group" {
 # EKS cluster endpoiny
 output "eks_cluster_endpoint" {
   value = module.eks_gitops_cluster.eks_cluster_endpoint
-  
+
 }
 
 /*
