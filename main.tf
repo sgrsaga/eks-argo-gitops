@@ -100,3 +100,8 @@ module "eks_gitops_cluster" {
 
   depends_on = [module.main_network]
 }
+
+# 3. Install Helm based utilities for the EKS
+module "helm_repos" {
+  source = "./module/helm"  
+}
