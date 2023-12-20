@@ -3,7 +3,10 @@ kind: Ingress
 metadata:
   creationTimestamp: null
   name: app1-ing1
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
