@@ -10,8 +10,8 @@ resource "helm_release" "nginx_ingress" {
   chart      = "ingress-nginx"
   version    = "4.5.2"
 
-  namespace = var.utility
-  
+  namespace = var.ingress_ns
+
   # Spin up a AWS ALB
   set {
     name  = "service.type"

@@ -1,5 +1,5 @@
 # Utility namespace
-variable "utility"{
+variable "ingress_ns"{
     type = string
     default = "ingress"
 }

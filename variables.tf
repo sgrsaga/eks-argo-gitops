@@ -186,9 +186,3 @@ variable "config_path"{
 variable "ingress_ns"{
     type = string
 }
-
-# Utility namespace
-variable "utility"{
-    type = string
-    default = "ingress"
-}
