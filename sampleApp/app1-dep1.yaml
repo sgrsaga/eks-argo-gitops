@@ -5,6 +5,15 @@ metadata:
     app: app1
   name: app1
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: category
+            operator: In
+            values:
+            - workload
   replicas: 3
   selector:
     matchLabels:
@@ -14,16 +23,7 @@ spec:
     metadata:
       labels:
         app: app1
-    spec:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: category
-              operator: In
-              values:
-              - workload 
+    spec: 
       containers:
       - image: nginx
         name: nginx
