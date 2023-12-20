@@ -6,11 +6,11 @@ terraform {
       version = "5.15.0" ## was 5.5.0
     }
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "2.12.1"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "2.24.0"
     }
   }
@@ -84,12 +84,12 @@ module "main_network" {
 
 # 2. EKS Cluster creation
 module "eks_gitops_cluster" {
-  source                  = "./module/eks"
-  private_ng_size         = var.private_ng_size
-  public_ng_size          = var.public_ng_size
-  cluster_name            = var.cluster_name
-  node_group_names        = var.node_group_names
-  node_group_size         = var.node_group_size
+  source           = "./module/eks"
+  private_ng_size  = var.private_ng_size
+  public_ng_size   = var.public_ng_size
+  cluster_name     = var.cluster_name
+  node_group_names = var.node_group_names
+  node_group_size  = var.node_group_size
 
   # Versions
   # version                 = var.k8s_version
@@ -98,5 +98,5 @@ module "eks_gitops_cluster" {
   # kube-proxy-version      = var.kube-proxy-version
   # ebs-csi-version         = var.ebs-csi-version
 
-  depends_on              = [ module.main_network ]
+  depends_on = [module.main_network]
 }

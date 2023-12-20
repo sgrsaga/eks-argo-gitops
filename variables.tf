@@ -52,46 +52,46 @@ variable "public_access_sg_ingress_rules" {
 ### EKS Cluster variables
 # 1. EKS Cluster name
 variable "cluster_name" {
-    type = string
-    default = "MyEKS_Cluster"
-  
+  type    = string
+  default = "MyEKS_Cluster"
+
 }
 
 # 2. EKS Cluster subnets
 variable "cluster_subnets" {
-    type = list(string)
-    default = ["sub1"]
-  
+  type    = list(string)
+  default = ["sub1"]
+
 }
 
 # 3. EKS Cluster security group
 variable "cluster_security_group" {
-    type = list(string)
-    default = ["sg1"]
-  
+  type    = list(string)
+  default = ["sg1"]
+
 }
 
 # 4. Node Group Names
 variable "node_group_names" {
-    type = list(string)
-    default = ["NG1"]
+  type    = list(string)
+  default = ["NG1"]
 }
 
 # 5. Node Group Thresholds
 variable "node_group_size" {
-    type = list(number)
-    description = "Value should be desired_size,max_size, min_size and max_unavailable"
-    default = [1,2,1,1]
+  type        = list(number)
+  description = "Value should be desired_size,max_size, min_size and max_unavailable"
+  default     = [1, 2, 1, 1]
 }
 
 # 6. Public NG size
 variable "public_ng_size" {
-  type = number
+  type    = number
   default = 1
 }
 # 7. Private NG size
 variable "private_ng_size" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -152,13 +152,13 @@ variable "user_data_file" {
 }
 # 9. Volume size
 variable "root_sorage" {
-  type = number
+  type    = number
   default = 20
 }
 
 # 10. Master Nodes
 variable "master_names" {
-  type = list(string)
+  type    = list(string)
   default = ["Master1"]
 }
 # 5. Master Type - master_names
@@ -168,8 +168,8 @@ variable "master_type" {
 
 # 11. Worker Nodes
 variable "worker_names" {
-  type = list(string)
-  default = ["Worker_1","Worker_2"]
+  type    = list(string)
+  default = ["Worker_1", "Worker_2"]
 }
 # 5. Worker Type - worker_names
 variable "worker_type" {

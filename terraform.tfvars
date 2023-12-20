@@ -29,10 +29,10 @@ public_access_sg_ingress_rules = [
 ### ----------- EKS Cluster variables
 cluster_name = "EKS-GitOps-Cluster"
 #k8s_version = "1.27"
-node_group_names = ["NG_1","NG_2"]
-node_group_size = [1,2,1,1] #[desired_size,max_size,min_size,max_unavailable]
-public_ng_size = 1
-private_ng_size = 1
+node_group_names = ["NG_1", "NG_2"]
+node_group_size  = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
+public_ng_size   = 1
+private_ng_size  = 1
 
 ## Add Ons
 # cni-version = "v1.15.4-eksbuild.1"
@@ -47,11 +47,11 @@ ec2_node_cnt   = 1
 ssh_key_name   = "NewKey"
 instance_type  = "t2.micro"
 role_name      = "admin"
-root_sorage = 30
-master_names = ["Master1"]
-master_type = "t2.medium"
-worker_names = ["Worker_1","Worker_2"]
-worker_type = "t2.micro"
+root_sorage    = 30
+master_names   = ["Master1"]
+master_type    = "t2.medium"
+worker_names   = ["Worker_1", "Worker_2"]
+worker_type    = "t2.micro"
 user_data_file = <<UDT
 #!/bin/bash
 ### K8S cluster nodes
