@@ -7,7 +7,7 @@ resource "helm_release" "argocd" {
     name = "argocd"
     repository = "https://argoproj.github.io/argo-helm"
     chart = "argo-cd"
-    namesapce = var.argo_ns
+    namespace = var.argo_ns
     version = "5.51.6"
 
     # Set replicas
