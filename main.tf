@@ -112,7 +112,7 @@ module "k8s" {
 # 4. Install Helm based utilities for the EKS
 module "helm_repos" {
   source = "./module/helm"
-  namesapce = module.k8s.ingress_ns
+  ingress_ns = module.k8s.ingress_ns
 
   depends_on = [module.k8s]
 }
