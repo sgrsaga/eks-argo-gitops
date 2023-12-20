@@ -104,7 +104,7 @@ module "eks_gitops_cluster" {
 # 3. Kubernetes resources 
 module "k8s" {
   source = "./module/k8s_resources"
-  name = var.ingress_ns
+  ingress_ns = var.ingress_ns
 
   depends_on = [module.eks_gitops_cluster]
 }
