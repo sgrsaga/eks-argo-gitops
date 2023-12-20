@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   creationTimestamp: null
   name: argocd-ing1
+  namespace: argo
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
