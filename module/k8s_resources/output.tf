@@ -5,6 +5,6 @@ output "ingress_ns"{
 
 
 # ArgoCD namesapce
-output "ingress_ns"{
+output "argo_ns"{
     value = kubernetes_namespace.argo.metadata.0.name
 }
