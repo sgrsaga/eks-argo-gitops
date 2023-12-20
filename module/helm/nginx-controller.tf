@@ -20,7 +20,7 @@ resource "helm_release" "nginx_ingress" {
   # Set replicas
   set {
     name  = "replicas"
-    value = 2
+    value = "2"
   }
   # Export metrics from nginx controller to prometheus
   set {
