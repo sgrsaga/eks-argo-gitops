@@ -32,6 +32,14 @@ output "public_security_group" {
 output "private_security_group" {
   value = module.main_network.private_security_group
 }
+
+# EKS Cluster details
+# EKS cluster endpoiny
+output "eks_cluster_endpoint" {
+  value = module.eks_gitops_cluster.eks_cluster_endpoint
+  
+}
+
 /*
 ## EIP details
 output "eip_allocation_id" {

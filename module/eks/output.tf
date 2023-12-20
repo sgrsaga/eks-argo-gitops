@@ -12,3 +12,10 @@ output "kubeconfig-certificate-authority-data" {
 output "eks_key_id" {
   value = aws_kms_key.eks_new_key.key_id
 }
+
+
+# EKS cluster endpoiny
+output "eks_cluster_endpoint" {
+  value = aws_eks_cluster.eks_cluster.endpoint
+  
+}
