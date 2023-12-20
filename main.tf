@@ -24,12 +24,12 @@ provider "aws" {
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/config"
+    config_path = var.config_path
   }
 }
 
 provider "kubernetes" {
-  config_path    = "~/.kube/config"
+  config_path    = var.config_path
   #config_context = "my-context"
 }
 
@@ -101,8 +101,18 @@ module "eks_gitops_cluster" {
   depends_on = [module.main_network]
 }
 
-# 3. Install Helm based utilities for the EKS
+# 3. Kubernetes resources 
+module "k8s" {
+  source = "./module/k8s_resources"
+  name = var.ingress_ns
+
+  depends_on = [module.eks_gitops_cluster]
+}
+
+# 4. Install Helm based utilities for the EKS
 module "helm_repos" {
   source = "./module/helm"
-  utility = var.utility
+  namesapce = module.k8s.ingress_ns
+
+  depends_on = [module.k8s]
 }

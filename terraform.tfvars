@@ -42,7 +42,8 @@ private_ng_size  = 1
 
 
 ##-------------- HELM module 
-utility = "ingress"
+config_path = "~/.kube/config"
+ingress_ns = "ingress"
 
 ### ----------- EC2 nodes
 ami_id         = "ami-0f5ee92e2d63afc18"

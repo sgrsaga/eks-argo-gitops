@@ -1,21 +1,17 @@
-
-# Create name space for Ingress Controller
-# resource "kubernetes_namespace" "ingress" {  
-#   metadata {
-#     name = "ingress"
-#   }
-# }
+#######################################
+## Install required utilities with helm
+#######################################
 
 # Install Nginx Ingress Controller
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress-controller"
-  create_namespace = var.utility
+
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   version    = "4.5.2"
 
-  namespace = kubernetes_namespace.ingress.metadata.0.name
-
+  namespace = var.utility
+  
   # Spin up a AWS ALB
   set {
     name  = "service.type"
@@ -35,5 +31,19 @@ resource "helm_release" "nginx_ingress" {
     name  = "controller.podAnnotations.prometheus\\.io/port"
     value = "10254"
     type  = "string"
+  }
+  # Set Resource limit for the nginx controller
+  set {
+    name = "server\\.resources"
+    value = yamlencode({
+      limits = {
+        cpu    = "200m"
+        memory = "50Mi"
+      }
+      requests = {
+        cpu    = "100m"
+        memory = "30Mi"
+      }
+    })
   }
 }

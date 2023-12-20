@@ -175,7 +175,17 @@ variable "worker_names" {
 variable "worker_type" {
   type = string
 }
-######################### Help module
+######################### Helm module
+
+# Config path
+variable "config_path"{
+  type = string
+}
+
+# Ingress name spece
+variable "ingress_ns"{
+    type = string
+}
 
 # Utility namespace
 variable "utility"{
