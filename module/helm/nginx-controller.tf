@@ -22,16 +22,18 @@ resource "helm_release" "nginx_ingress" {
     value = "LoadBalancer"
   }
   # Export metrics from nginx controller to prometheus
-  # set {
-  #   name  = "controller.metrics.enabled"
-  #   value = "true"
-  # }
-  # set {
-  #   name  = "controller.podAnnotations.'prometheus\.io/scrape'"
-  #   value = "true"
-  # }
-  # set {
-  #   name  = "controller.metrics.enabled"
-  #   value = "true"
-  # }
+  set {
+    name  = "controller.metrics.enabled"
+    value = "true"
+  }
+  set {
+    name  = "controller.podAnnotations.prometheus\\.io/scrape"
+    value = "true"
+    type  = "string"
+  }
+  set {
+    name  = "controller.podAnnotations.prometheus\\.io/port"
+    value = "10254"
+    type  = "string"
+  }
 }
