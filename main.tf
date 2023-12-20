@@ -103,5 +103,6 @@ module "eks_gitops_cluster" {
 
 # 3. Install Helm based utilities for the EKS
 module "helm_repos" {
-  source = "./module/helm"  
+  source = "./module/helm"
+  utility = var.utility
 }

@@ -1,15 +1,15 @@
 
 # Create name space for Ingress Controller
-resource "kubernetes_namespace" "ingress" {  
-  metadata {
-    name = "ingress"
-  }
-}
+# resource "kubernetes_namespace" "ingress" {  
+#   metadata {
+#     name = "ingress"
+#   }
+# }
 
 # Install Nginx Ingress Controller
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress-controller"
-
+  create_namespace = var.utility
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   version    = "4.5.2"

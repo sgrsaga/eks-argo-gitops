@@ -41,6 +41,9 @@ private_ng_size  = 1
 # ebs-csi-version = "v1.25.0-eksbuild.1"
 
 
+##-------------- HELM module 
+utility = "ingress"
+
 ### ----------- EC2 nodes
 ami_id         = "ami-0f5ee92e2d63afc18"
 ec2_node_cnt   = 1

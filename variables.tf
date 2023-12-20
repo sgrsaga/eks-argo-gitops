@@ -175,4 +175,10 @@ variable "worker_names" {
 variable "worker_type" {
   type = string
 }
-######################### Database Creation related Variables
+######################### Help module
+
+# Utility namespace
+variable "utility"{
+    type = string
+    default = "ingress"
+}
