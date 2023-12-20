@@ -1,5 +1,5 @@
 #######################################
-## Install required utilities with helm
+## Install required resources for nginx controller with helm
 #######################################
 
 # Install Nginx Ingress Controller
@@ -16,6 +16,11 @@ resource "helm_release" "nginx_ingress" {
   set {
     name  = "service.type"
     value = "LoadBalancer"
+  }
+  # Set replicas
+  set {
+    name  = "replicas"
+    value = 2
   }
   # Export metrics from nginx controller to prometheus
   set {

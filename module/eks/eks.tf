@@ -194,12 +194,11 @@ resource "aws_eks_node_group" "node_groups1" {
     Type = "NodeGroup"
   }
   labels = {
-    key = "category"
-    value = "utility"
+    category = "utility"
   }
   taint {
     key    = "utility"
-    value  = "no"
+    value  = no
     effect = "PREFER_NO_SCHEDULE"
   }
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
@@ -234,11 +233,11 @@ resource "aws_eks_node_group" "node_groups2" {
     Type = "NodeGroup"
   }
   labels = {
-    "category" = "workload"
+    category = "workload"
   }
   taint {
     key    = "utility"
-    value  = "yes"
+    value  = yes
     effect = "PREFER_NO_SCHEDULE"
   }
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
