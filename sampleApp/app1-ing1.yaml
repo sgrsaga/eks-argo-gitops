@@ -8,8 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: devops-expert.foundation
-    http:
+  - http:
       paths:
       - backend:
           service:
