@@ -129,3 +129,8 @@ module "helm_repos" {
 
   depends_on = [module.k8s]
 }
+
+# 5. Create EKS Access level profile Developer and Admin users for initate access
+module "eks_access" {
+  source     = "./module/eks_access"
+}
