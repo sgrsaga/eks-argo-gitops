@@ -16,6 +16,6 @@ spec:
             port:
               number: 9090
         path: /prom
-        pathType: Exact
+        pathType: Prefix
 status:
   loadBalancer: {}
