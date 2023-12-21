@@ -34,8 +34,8 @@ resource "aws_iam_group" "developers" {
 }
 
 # Attach the Developer Policy to Developer Group
-resource "aws_iam_group_policy_attachment" "test-attach" {
-  group      = aws_iam_group.group.developers
+resource "aws_iam_group_policy_attachment" "developer-attach" {
+  group      = aws_iam_group.developers.name
   policy_arn = aws_iam_policy.policy.arn
 }
 
