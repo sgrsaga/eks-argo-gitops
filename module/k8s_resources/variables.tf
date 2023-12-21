@@ -8,3 +8,9 @@ variable "ingress_ns"{
 variable "argo_ns"{
     type = string
 }
+
+
+# Monitoring  namespece
+variable "monitoring_ns"{
+    type = string
+}

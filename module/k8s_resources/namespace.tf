@@ -11,3 +11,10 @@ resource "kubernetes_namespace" "argo" {
     name = var.argo_ns
   }
 }
+
+# Create namespace for monitoring
+resource "kubernetes_namespace" "monitoring" {  
+  metadata {
+    name = var.monitoring_ns
+  }
+}
