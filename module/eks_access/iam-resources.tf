@@ -1,7 +1,7 @@
 # IAM Policy to attach to EKS Developer role
-resource "aws_iam_policy" "developer_policy" {
-  name        = "developer_policy"
-  path        = "/"
+resource "aws_iam_group_policy" "developer_group_policy" {
+  name        = "developer_group_policy"
+  group = aws_iam_group.developers.name
   description = "Developer policy"
 
   # Terraform's "jsonencode" function converts a
