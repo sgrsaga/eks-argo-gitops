@@ -35,7 +35,7 @@ resource "aws_iam_group" "developers" {
 # Attach the Developer Policy to Developer Group
 resource "aws_iam_group_policy_attachment" "developer_attach" {
   group      = aws_iam_group.developers.name
-  policy_arn = aws_iam_group_policy.developer_group_policy.arn
+  policy_arn = aws_iam_group_policy.developer_group_policy.name
 }
 
 # Create 1 Developer role
