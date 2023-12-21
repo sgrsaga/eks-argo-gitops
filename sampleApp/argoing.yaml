@@ -4,8 +4,8 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-  name: argoing1
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  name: argoing
   namespace: argo
 spec:
   ingressClassName: nginx
