@@ -5,7 +5,7 @@ data:
       username: developer
       groups:
       - developer
-    - userarn: arn:aws:iam::598792377165:user/developer1
+    - userarn: arn:aws:iam::598792377165:user/eks_admins1
       username: admin
       groups:
       - admin
