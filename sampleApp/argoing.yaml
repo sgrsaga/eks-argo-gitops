@@ -16,6 +16,6 @@ spec:
           service:
             name: argocd-server
             port:
-              name: http
+              name: 8080
         path: /myargo
         pathType: Exact
