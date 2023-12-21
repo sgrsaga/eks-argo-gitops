@@ -1,5 +1,10 @@
 apiVersion: v1
 data:
+  mapUsers: |
+    - userarn: arn:aws:iam::598792377165:user/developer1
+      username: developer
+      groups:
+      - developer
   mapRoles: |
     - groups:
       - system:bootstrappers
