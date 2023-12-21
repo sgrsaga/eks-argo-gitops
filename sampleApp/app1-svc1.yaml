@@ -4,6 +4,7 @@ metadata:
   labels:
     app: app1-svc1
   name: app1-svc1
+  namespace: monitoring
 spec:
   ports:
   - name: 80-80

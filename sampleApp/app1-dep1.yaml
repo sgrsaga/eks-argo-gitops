@@ -4,6 +4,7 @@ metadata:
   labels:
     app: app1
   name: app1
+  namespace: monitoring
 spec:
   replicas: 3
   selector:
