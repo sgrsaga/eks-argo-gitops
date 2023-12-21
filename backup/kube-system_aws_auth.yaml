@@ -5,6 +5,10 @@ data:
       username: developer
       groups:
       - developer
+    - userarn: arn:aws:iam::598792377165:user/developer1
+      username: admin
+      groups:
+      - admin
   mapRoles: |
     - groups:
       - system:bootstrappers
