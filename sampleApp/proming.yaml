@@ -14,8 +14,8 @@ spec:
           service:
             name: prometheus-server
             port:
-              number: 80
-        path: /prom
+              number: 9090
+        path: /
         pathType: Prefix
 status:
   loadBalancer: {}
