@@ -1,5 +1,5 @@
 # IAM Policy to attach to EKS Developer role
-resource "aws_iam_policy" "policy" {
+resource "aws_iam_policy" "developer_policy" {
   name        = "developer_policy"
   path        = "/"
   description = "Developer policy"
@@ -34,9 +34,9 @@ resource "aws_iam_group" "developers" {
 }
 
 # Attach the Developer Policy to Developer Group
-resource "aws_iam_group_policy_attachment" "developer-attach" {
+resource "aws_iam_group_policy_attachment" "developer_attach" {
   group      = aws_iam_group.developers.name
-  policy_arn = aws_iam_policy.policy.arn
+  policy_arn = aws_iam_policy.developer_policy.arn
 }
 
 # Create 1 Developer role
@@ -48,4 +48,14 @@ resource "aws_iam_user" "developer" {
     Type = "Developer"
     Access = "ReadOnly" 
   }
+}
+
+resource "aws_iam_group_membership" "developer_team" {
+  name = "developer-group-membership"
+
+  users = [
+    aws_iam_user.developer.name,
+  ]
+
+  group = aws_iam_group.developers.name
 }
