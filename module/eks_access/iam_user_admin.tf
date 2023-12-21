@@ -9,7 +9,7 @@ resource "aws_iam_group_policy" "admin_group_policy" {
 	"Version": "2012-10-17",
 	"Statement": [
 		{
-			"Sid": "eks_admins0",
+			"Sid": "eks_admins",
 			"Effect": "Allow",
 			"Action": [
 				"eks:*",
