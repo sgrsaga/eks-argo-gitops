@@ -4,7 +4,7 @@ metadata:
   name: proming
   namespace: monitoring
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /prom
 spec:
   ingressClassName: nginx
   rules:
@@ -14,7 +14,7 @@ spec:
           service:
             name: prometheus-server
             port:
-              number: 3000
+              number: 9090
         path: /prom
         pathType: Prefix
 status:
