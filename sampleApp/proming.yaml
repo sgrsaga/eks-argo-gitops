@@ -14,7 +14,7 @@ spec:
           service:
             name: prometheus-server
             port:
-              number: 9090
+              number: 3000
         path: /prom
         pathType: Prefix
 status:
