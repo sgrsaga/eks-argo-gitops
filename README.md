@@ -1,3 +1,16 @@
+# AWS EKS Complete Infrastructure project
+
+This project will show case you some of the technologies you can use to completly configure AWS EKS cluster to host your Dockerized Kubernetes applications.
+
+## Features
+
+- Kubenetes platform is in AWS EKS
+- Terraform is used to configure all aws resources
+- Helm provider for the Terraform is used to install utility applications for the platform
+- Kubernetes provider is used to create initial resources
+- GitHub Action is uses as CI/CD pipeline with Open ID Connect(OIDC)
+- Kustomize is used to configure multiple environments
+
 1. Apply the Terraform code to create the infrastructure
     This will create the EKS cluster. @ node Groups and Some AddOns such as CNI, CoreDN and kube-proxy
 
