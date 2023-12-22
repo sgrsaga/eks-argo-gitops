@@ -12,6 +12,9 @@ This project will show case you some of the technologies you can use to completl
 - Kustomize is used to configure multiple environments
 - Two user categories "Developer" and "Admin" also created
 
+
+
+----------- Drafts -----------------
 1. Apply the Terraform code to create the infrastructure
     This will create the EKS cluster. @ node Groups and Some AddOns such as CNI, CoreDN and kube-proxy
 
