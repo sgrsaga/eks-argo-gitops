@@ -1,7 +1,4 @@
 resources:
-  - .\eks-config\kube-system_aws_auth.yaml
-  - .\eks_access\admin-role.yaml
-  - .\eks_access\developer-role.yaml
   - .\sampleApp\app1-dep1.yaml
   - .\sampleApp\app1-svc1.yaml
   - .\sampleApp\app1-ing1.yaml
