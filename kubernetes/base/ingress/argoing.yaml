@@ -5,6 +5,7 @@ metadata:
     #nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   name: argoing
   namespace: argo
 spec:
@@ -18,9 +19,9 @@ spec:
             name: argocd-server
             port:
               name: http
-        #path: /argo
-        #pathType: Prefix
-  tls:
-  - hosts:
-    - argocd.devops-expert.foundation
-    secretName: argocd-secret # do not change, this is provided by Argo CD
+  #       #path: /argo
+  #       #pathType: Prefix
+  # tls:
+  # - hosts:
+  #   - argocd.devops-expert.foundation
+  #   secretName: argocd-secret # do not change, this is provided by Argo CD
