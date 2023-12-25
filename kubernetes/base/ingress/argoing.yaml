@@ -21,10 +21,10 @@ spec:
               name: https
         path: /
         pathType: Prefix
-  # tls:
-  # - hosts:
-  #   - argocd.devops-expert.foundation
-  #   secretName: argocd-secret # do not change, this is provided by Argo CD
+  tls:
+  - hosts:
+    - argocd.devops-expert.foundation
+    secretName: argocd-secret # do not change, this is provided by Argo CD
 
 # Note:
 # Make sure to add the Route53 entry to the ALB for "argocd.devops-expert.foundation"
