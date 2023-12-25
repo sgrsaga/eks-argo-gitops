@@ -25,11 +25,7 @@ resource "helm_release" "nginx_ingress" {
     name  = "service.type"
     value = "LoadBalancer"
   }
-  # Set replicas
-  set {
-    name  = "replicas"
-    value = "2"
-  }
+  
   # Export metrics from nginx controller to prometheus
   set {
     name  = "controller.metrics.enabled"
@@ -47,9 +43,19 @@ resource "helm_release" "nginx_ingress" {
   }
   # Set Node Selector to Utility nodes
   set {
-    name = "nodeSelector.category"
+    name = "controller.nodeSelector.category"
     value = "utility"
     type = "string"
+  }
+  # Set Autoscaling
+  set {
+    name = "controller.autoscaling.enabled"
+    value = "true"
+  }
+  # Set Min Pods # Set replicas
+  set {
+    name = "controller.autoscaling.minReplicas"
+    value = 2
   }
   # Set  --enable-ssl-passthrough for argocd (Setting this manually)
   # Note that the nginx.ingress.kubernetes.io/ssl-passthrough annotation requires that the --enable-ssl-passthrough flag be added to the command line arguments to nginx-ingress-controller

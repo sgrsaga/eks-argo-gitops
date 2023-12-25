@@ -14,31 +14,41 @@ resource "kubernetes_namespace" "monitoring" {
 resource "helm_release" "prometheus" {
     name = "prometheus"
     repository = "https://prometheus-community.github.io/helm-charts"
-    chart = "prometheus"
+    chart = "kube-prometheus-stack"
     namespace = kubernetes_namespace.monitoring.metadata.0.name
-    version = "25.8.2"
+    version = "55.5.0"
 
-    # Set replicas
+    # Set grafana enabling
     set {
-        name  = "replicas"
-        value = "2"
+        name  = "grafana.enabled"
+        value = "true"
     }
-    # Set alertmanager.persistentVolume.storageClass
+    # Set grafana ingress enabling
     set {
-        name = "alertmanager.persistentVolume.storageClass"
-        value = "gp2"
-        type = "string"
+        name  = "grafana.ingress.ingressClassName"
+        value = "nginx"
     }
-    # Set server.persistentVolume.storageClass
+    # Set grafana ingress path
     set {
-        name = "server.persistentVolume.storageClass"
-        value = "gp2"
-        type = "string"
+        name  = "grafana.ingress.path"
+        value = "/(.*)" # /grafana/?(.*)
     }
-    # Set Node Selector to Utility nodes
+    # # Set alertmanager.persistentVolume.storageClass
+    # set {
+    #     name = "alertmanager.persistentVolume.storageClass"
+    #     value = "gp2"
+    #     type = "string"
+    # }
+    # # Set server.persistentVolume.storageClass
+    # set {
+    #     name = "server.persistentVolume.storageClass"
+    #     value = "gp2"
+    #     type = "string"
+    # }
+    # # Set Node Selector to Utility nodes
     set {
-        name = "nodeSelector.category"
-        value = "utility"
+        name = "nodeSelector"
+        value = "category: utility"
         type = "string"
     }
 }
