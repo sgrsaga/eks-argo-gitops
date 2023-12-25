@@ -1,6 +1,7 @@
 # Development configuration with Kustomization
 resources:
   - ../../base/sampleApp/
+  - ../../base/ingress
 
 namespace: dev
 
