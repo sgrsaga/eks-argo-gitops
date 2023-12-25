@@ -1,0 +1,5 @@
+resources:
+  - ./argoing.yaml
+
+commonLabels:
+   app: app1
