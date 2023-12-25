@@ -55,7 +55,7 @@ resource "helm_release" "nginx_ingress" {
   # Note that the nginx.ingress.kubernetes.io/ssl-passthrough annotation requires that the --enable-ssl-passthrough flag be added to the command line arguments to nginx-ingress-controller
   set_list {
     name = "controller.extraArgs"
-    value = "--enable-ssl-passthrough"
-    type = "string"
+    value = ["--enable-ssl-passthrough"]
+    #type = "list"
   }
 }
