@@ -76,7 +76,7 @@ terraform {
 
 # 1. Call the main network module
 module "main_network" {
-  source                         = "./module/main_network"
+  source                         = "../../module/main_network"
   vpc_name                       = var.vpc_name
   vpc_cidr                       = var.vpc_cidr
   public_source_cidr             = var.public_source_cidr
@@ -93,7 +93,7 @@ module "main_network" {
 
 # 2. EKS Cluster creation
 module "eks_gitops_cluster" {
-  source           = "./module/eks"
+  source           = "../../module/eks"
   private_ng_size  = var.private_ng_size
   public_ng_size   = var.public_ng_size
   cluster_name     = var.cluster_name
@@ -112,7 +112,7 @@ module "eks_gitops_cluster" {
 
 # 3. Kubernetes resources 
 module "k8s" {
-  source     = "./module/k8s_resources"
+  source     = "../../module/k8s_resources"
   ingress_ns = var.ingress_ns
   argo_ns    = var.argo_ns
   monitoring_ns = var.monitoring_ns
@@ -122,7 +122,7 @@ module "k8s" {
 
 # 4. Install Helm based utilities for the EKS
 module "helm_repos" {
-  source     = "./module/helm"
+  source     = "../../module/helm"
   ingress_ns = module.k8s.ingress_ns
   argo_ns    = module.k8s.argo_ns
   monitoring_ns = module.k8s.monitoring_ns
@@ -132,5 +132,5 @@ module "helm_repos" {
 
 # 5. Create EKS Access level profile Developer and Admin users for initate access
 module "eks_access" {
-  source     = "./module/eks_access"
+  source     = "../../module/eks_access"
 }
