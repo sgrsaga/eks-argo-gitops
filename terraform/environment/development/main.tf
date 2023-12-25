@@ -112,9 +112,9 @@ module "eks_gitops_cluster" {
 
 # 3. Kubernetes resources 
 module "k8s" {
-  source     = "../../module/k8s_resources"
-  ingress_ns = var.ingress_ns
-  argo_ns    = var.argo_ns
+  source        = "../../module/k8s_resources"
+  ingress_ns    = var.ingress_ns
+  argo_ns       = var.argo_ns
   monitoring_ns = var.monitoring_ns
 
   depends_on = [module.eks_gitops_cluster]
@@ -122,9 +122,9 @@ module "k8s" {
 
 # 4. Install Helm based utilities for the EKS
 module "helm_repos" {
-  source     = "../../module/helm"
-  ingress_ns = module.k8s.ingress_ns
-  argo_ns    = module.k8s.argo_ns
+  source        = "../../module/helm"
+  ingress_ns    = module.k8s.ingress_ns
+  argo_ns       = module.k8s.argo_ns
   monitoring_ns = module.k8s.monitoring_ns
 
   depends_on = [module.k8s]
@@ -132,5 +132,5 @@ module "helm_repos" {
 
 # 5. Create EKS Access level profile Developer and Admin users for initate access
 module "eks_access" {
-  source     = "../../module/eks_access"
+  source = "../../module/eks_access"
 }

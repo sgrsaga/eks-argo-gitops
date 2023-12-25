@@ -194,6 +194,6 @@ variable "argo_ns" {
 }
 
 # Monitoring  namespece
-variable "monitoring_ns"{
-    type = string
+variable "monitoring_ns" {
+  type = string
 }
