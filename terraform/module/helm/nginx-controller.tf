@@ -20,11 +20,6 @@ resource "helm_release" "nginx_ingress" {
 
   namespace = kubernetes_namespace.ingress.metadata.0.name
 
-  ## Custom config values
-  values = [
-    "${file("nginx-ingress-values.yaml")}"
-  ]
-
   # Spin up a AWS ALB
   set {
     name  = "service.type"
@@ -56,18 +51,10 @@ resource "helm_release" "nginx_ingress" {
     value = "utility"
     type = "string"
   }
-  # Set Resource limit for the nginx controller
+  # Set  --enable-ssl-passthrough 
   set {
-    name = "server\\.resources"
-    value = yamlencode({
-      limits = {
-        cpu    = "200m"
-        memory = "50Mi"
-      }
-      requests = {
-        cpu    = "100m"
-        memory = "30Mi"
-      }
-    })
+    name = "controller.extraArgs"
+    value = "--enable-ssl-passthrough"
+    type = "string"
   }
 }
