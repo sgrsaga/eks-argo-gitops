@@ -19,7 +19,7 @@ spec:
             name: argocd-server
             port:
               name: https
-        path: /)
+        path: /
         pathType: Prefix
   # tls:
   # - hosts:
