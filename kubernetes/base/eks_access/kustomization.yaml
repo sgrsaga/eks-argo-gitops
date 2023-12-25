@@ -1,6 +1,6 @@
 resources:
-  - .\eks_access\admin-role.yaml
-  - .\eks_access\developer-role.yaml
+  - .\admin-role.yaml
+  - .\developer-role.yaml
 
 commonLabels:
    paas: eks-paas

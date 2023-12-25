@@ -1,7 +1,7 @@
 resources:
-  - .\sampleApp\app1-dep1.yaml
-  - .\sampleApp\app1-svc1.yaml
-  - .\sampleApp\app1-ing1.yaml
+  - .\app1-dep1.yaml
+  - .\app1-svc1.yaml
+  - .\app1-ing1.yaml
 
 commonLabels:
    paas: eks-paas
