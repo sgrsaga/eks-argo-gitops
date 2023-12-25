@@ -46,7 +46,6 @@ config_path   = "~/.kube/config"
 ingress_ns    = "ingress"
 argo_ns       = "argo"
 monitoring_ns = "monitoring"
-nginx_ingress_controller_values = "./nginx-ingress-values.yaml"
 
 ### ----------- EC2 nodes
 ami_id         = "ami-0f5ee92e2d63afc18"
