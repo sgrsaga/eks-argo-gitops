@@ -10,13 +10,17 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: devops-expert.foundation
+  - host: argocd.devops-expert.foundation
     http:
       paths:
       - backend:
           service:
             name: argocd-server
             port:
-              number: 8080
-        path: /argo
-        pathType: Prefix
+              name: http
+        #path: /argo
+        #pathType: Prefix
+  tls:
+  - hosts:
+    - argocd.devops-expert.foundation
+    secretName: argocd-secret # do not change, this is provided by Argo CD
