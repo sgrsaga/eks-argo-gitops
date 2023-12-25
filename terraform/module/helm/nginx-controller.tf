@@ -51,10 +51,10 @@ resource "helm_release" "nginx_ingress" {
     value = "utility"
     type = "string"
   }
-  # Set  --enable-ssl-passthrough for argocd 
+  # Set  --enable-ssl-passthrough for argocd (Setting this manually)
   # Note that the nginx.ingress.kubernetes.io/ssl-passthrough annotation requires that the --enable-ssl-passthrough flag be added to the command line arguments to nginx-ingress-controller
-  set_list {
-    name = "controller.extraArgs"
-    value = ["--enable-ssl-passthrough"]
-  }
+  # set_list {
+  #   name = "controller.extraArgs"
+  #   value = ["--enable-ssl-passthrough"]
+  # }
 }
