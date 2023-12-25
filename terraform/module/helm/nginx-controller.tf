@@ -56,6 +56,5 @@ resource "helm_release" "nginx_ingress" {
   set_list {
     name = "controller.extraArgs"
     value = ["- --enable-ssl-passthrough"]
-    type = "list"
   }
 }
