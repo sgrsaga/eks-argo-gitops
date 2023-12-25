@@ -2,4 +2,4 @@ resources:
   - ./argoing.yaml
 
 commonLabels:
-   app: app1
+   app: argocd-ui
