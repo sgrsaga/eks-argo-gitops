@@ -19,8 +19,8 @@ spec:
             name: argocd-server
             port:
               name: http
-  #       #path: /argo
-  #       #pathType: Prefix
+        path: /argo
+        pathType: Prefix
   # tls:
   # - hosts:
   #   - argocd.devops-expert.foundation
