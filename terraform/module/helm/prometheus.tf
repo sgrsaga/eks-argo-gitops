@@ -2,12 +2,20 @@
 ## Install required resources for Prometheus with helm
 #######################################
 
-# Install ArgoCD helm chart
+# Create namespace for monitoring
+resource "kubernetes_namespace" "monitoring" {  
+  metadata {
+    name = var.monitoring_ns
+  }
+}
+
+
+# Install Prometheus helm chart
 resource "helm_release" "prometheus" {
     name = "prometheus"
     repository = "https://prometheus-community.github.io/helm-charts"
     chart = "prometheus"
-    namespace = var.monitoring_ns
+    namespace = kubernetes_namespace.monitoring.metadata.0.name
     version = "25.8.2"
 
     # Set replicas

@@ -1,6 +1,6 @@
 # Development configuration with Kustomization
 bases:
-  - ../../base
+  - ../../base/eks-config
 
 namespace: dev
 

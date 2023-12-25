@@ -2,6 +2,14 @@
 ## Install required resources for nginx controller with helm
 #######################################
 
+
+# Create name space for Ingress Controller
+resource "kubernetes_namespace" "ingress" {  
+  metadata {
+    name = var.ingress_ns
+  }
+}
+
 # Install Nginx Ingress Controller
 resource "helm_release" "nginx_ingress" {
   name       = "nginx-ingress-controller"
@@ -10,7 +18,7 @@ resource "helm_release" "nginx_ingress" {
   chart      = "ingress-nginx"
   version    = "4.5.2"
 
-  namespace = var.ingress_ns
+  namespace = kubernetes_namespace.ingress.metadata.0.name
 
   # Spin up a AWS ALB
   set {
