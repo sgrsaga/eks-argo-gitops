@@ -127,10 +127,12 @@ module "helm_repos" {
   argo_ns       = var.argo_ns
   monitoring_ns = var.monitoring_ns
 
-  depends_on = [module.k8s]
+  depends_on = [module.eks_gitops_cluster]
 }
 
 # 5. Create EKS Access level profile Developer and Admin users for initate access
 module "eks_access" {
   source = "../../module/eks_access"
+
+  depends_on = [module.eks_gitops_cluster]
 }
