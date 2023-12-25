@@ -1,6 +1,6 @@
 # Development configuration with Kustomization
 resources:
-  - ../../base/sampleApp
+  - ../../base/sampleApp/kustomization.yaml
 
 namespace: dev
 
