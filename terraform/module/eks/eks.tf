@@ -1,3 +1,13 @@
+### EKS Module resources
+# 1. IAM role for the EKS Cluster with Policy "AmazonEKSClusterPolicy"
+# 2. KMS key for EKS resource encryption for security
+# 3. EKS Cluster
+# 4. Kubernetes Open ID Connect Provider
+# 5. IAM Role for EKS Node Group
+# 6. Create Node Groups
+# 7. Install EKS Add-ons
+
+
 # 01. IAM role for EKS cluster
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -48,7 +58,7 @@ data "aws_security_groups" "private_sg" {
   }
 }
 #######################
-# EKS Cluster resource
+# 03. EKS Cluster resource
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks_iam_role.arn
@@ -81,6 +91,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 }
 
 
+# 04. Kubernetes Open ID Connect Provider
 # Enable IAM Roles for Service Accounts
 data "tls_certificate" "tls_cert" {
   url = aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
@@ -116,7 +127,7 @@ resource "aws_iam_role" "oidc_role" {
   name               = "oidc_role_service_account"
 }
 
-# Create IAM Role for EKS Node Group
+# 05. Create IAM Role for EKS Node Group
 resource "aws_iam_role" "ng_role" {
   name = "eks-node-group-role"
 
@@ -172,7 +183,8 @@ data "aws_security_groups" "public_sg" {
 }
 
 
-# Create Node Group
+# 06. Create Node Groups
+# Node Groups 1
 resource "aws_eks_node_group" "node_groups1" {
   count           = var.public_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
@@ -211,7 +223,7 @@ resource "aws_eks_node_group" "node_groups1" {
   ]
 }
 
-# Create Node Group
+# Node Group 2
 resource "aws_eks_node_group" "node_groups2" {
   count           = var.private_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
@@ -251,7 +263,7 @@ resource "aws_eks_node_group" "node_groups2" {
 }
 
 
-# Install Add-ons install
+# 07. Install EKS Add-ons
 
 # CNI plugin
 resource "aws_eks_addon" "vpc_cni" {

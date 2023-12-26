@@ -1,4 +1,4 @@
-### Network part
+### Network Resources
 # Main Network resources
 # 1.1. Create a VPC
 # 1.2. Create a Internet Gateway
