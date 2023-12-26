@@ -77,3 +77,4 @@ jobs:
     #   run: terraform apply -auto-approve -input=false
 
     # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
+    # TRy Main branch trigger test
