@@ -45,6 +45,8 @@ jobs:
     - name: Terraform Init
       run: |
         pwd
+        echo "${GITHUB_REF##*/}"
+        echo "${GITHUB_ENV}"
         cd terraform/environment/${GITHUB_REF##*/}/
         pwd
         terraform init
