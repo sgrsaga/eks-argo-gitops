@@ -2,8 +2,9 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "development", "staging", "production" ]
   pull_request:
+    branches: [ "staging", "production" ]
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -13,7 +14,7 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: Dev
+    environment: development
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -51,25 +52,28 @@ jobs:
         pwd
         terraform init
 
-    # # Checks that all Terraform configuration files adhere to a canonical format
-    # - name: Terraform Format
-    #   run: |
-    #     pwd
-    #     cd terraform/environment/${GITHUB_REF##*/}/
-    #     pwd
-    #     terraform fmt
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: |
+        cd terraform/environment/${GITHUB_REF##*/}/
+        terraform fmt
 
-    # # Generates an execution plan for Terraform
-    # - name: Terraform Plan
-    #   run: terraform plan -input=false
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: |
+        cd terraform/environment/${GITHUB_REF##*/}/
+        terraform plan -input=false
 
-    # # On push to "main", build or change infrastructure according to Terraform configuration files
-    # # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    #   run: terraform apply -auto-approve -input=false
+    # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
+    - name: Terraform Apply for Network and EKS modules
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        cd terraform/environment/${GITHUB_REF##*/}/
+        terraform apply -target=module.main_network -target=module.eks_gitops_cluster --auto-approve -input=false
 
     # # Destroy the whole infrastructure
     # - name: Terraform Destroy
     #   if: github.ref == 'refs/heads/destroy' && github.event_name == 'push'
     #   run: terraform apply -auto-approve -input=false
+
+    # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
