@@ -58,3 +58,4 @@ resource "aws_iam_group_membership" "developer_team" {
 
   group = aws_iam_group.developers.name
 }
+

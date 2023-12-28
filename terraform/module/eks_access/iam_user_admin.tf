@@ -53,3 +53,4 @@ resource "aws_iam_group_membership" "eks_admins_team" {
 
   group = aws_iam_group.eks_admins.name
 }
+
