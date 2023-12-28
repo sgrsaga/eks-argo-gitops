@@ -62,11 +62,11 @@ jobs:
         cd terraform/environment/${GITHUB_REF##*/}/
         terraform fmt
 
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: |
-        cd terraform/environment/${GITHUB_REF##*/}/
-        terraform plan -input=false
+    # # Generates an execution plan for Terraform
+    # - name: Terraform Plan
+    #   run: |
+    #     cd terraform/environment/${GITHUB_REF##*/}/
+    #     terraform plan -input=false
 
     # # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
     # - name: Terraform Apply for Network, EKS and EKS Access modules
