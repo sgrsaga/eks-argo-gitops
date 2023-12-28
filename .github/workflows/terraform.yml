@@ -94,6 +94,8 @@ jobs:
     # Destroy the whole infrastructure
     - name: Terraform Destroy
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
+      run: |
+        cd terraform/environment/${GITHUB_REF##*/}/
+        terraform destroy -auto-approve -input=false
 
     # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
