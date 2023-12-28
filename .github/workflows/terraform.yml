@@ -66,9 +66,11 @@ jobs:
 
     # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
     - name: Terraform Apply for Network and EKS modules
-      if: github.ref == 'refs/heads/${GITHUB_REF##*/}' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
         cd terraform/environment/${GITHUB_REF##*/}/
+        echo ${GITHUB_REF##*/}
+        echo ${GITHUB_REF}
         terraform apply -target=module.main_network -target=module.eks_gitops_cluster --auto-approve -input=false
 
     # # Destroy the whole infrastructure
