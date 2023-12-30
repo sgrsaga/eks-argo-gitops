@@ -5,14 +5,14 @@ terraform {
       source  = "hashicorp/aws"
       version = "5.15.0" ## was 5.5.0
     }
-    # helm = {
-    #   source  = "hashicorp/helm"
-    #   version = "2.12.1"
-    # }
-    # kubernetes = {
-    #   source  = "hashicorp/kubernetes"
-    #   version = "2.24.0"
-    # }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.12.1"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.24.0"
+    }
   }
 }
 
@@ -22,25 +22,25 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-# provider "helm" {
-#   kubernetes {
-#     config_path = var.config_path
-#   }
-# }
+provider "helm" {
+  kubernetes {
+    config_path = var.config_path
+  }
+}
 
-# provider "kubernetes" {
-#   config_path = var.config_path
-#   #config_context = "my-context"
+provider "kubernetes" {
+  config_path = var.config_path
+  #config_context = "my-context"
 
-#   # Use Exec plugins
-#   # host = module.k8s.eks_cluster_endpoint
-#   # cluster_ca_certificate = base64decode(module.k8s.kubeconfig-certificate-authority-data) 
-#   # exec {
-#   #   api_version = "client.authentication.k8s.io/v1beta1" 
-#   #   args = ["eks", "get-token", "--cluster-name", var.cluster_name] 
-#   #   command = "aws"
-#   # }
-# }
+  # Use Exec plugins
+  # host = module.k8s.eks_cluster_endpoint
+  # cluster_ca_certificate = base64decode(module.k8s.kubeconfig-certificate-authority-data) 
+  # exec {
+  #   api_version = "client.authentication.k8s.io/v1beta1" 
+  #   args = ["eks", "get-token", "--cluster-name", var.cluster_name] 
+  #   command = "aws"
+  # }
+}
 
 /*
 terraform {
@@ -110,25 +110,25 @@ module "eks_gitops_cluster" {
   depends_on = [module.main_network]
 }
 
-# # 3. Kubernetes resources 
-# module "k8s" {
-#   source        = "../../module/k8s_resources"
-#   ingress_ns    = var.ingress_ns
-#   argo_ns       = var.argo_ns
-#   monitoring_ns = var.monitoring_ns
+# 3. Kubernetes resources 
+module "k8s" {
+  source        = "../../module/k8s_resources"
+  ingress_ns    = var.ingress_ns
+  argo_ns       = var.argo_ns
+  monitoring_ns = var.monitoring_ns
 
-#   depends_on = [module.eks_gitops_cluster]
-# }
+  depends_on = [module.eks_gitops_cluster]
+}
 
-# # 4. Install Helm based utilities for the EKS
-# module "helm_repos" {
-#   source        = "../../module/helm"
-#   ingress_ns    = var.ingress_ns
-#   argo_ns       = var.argo_ns
-#   monitoring_ns = var.monitoring_ns
+# 4. Install Helm based utilities for the EKS
+module "helm_repos" {
+  source        = "../../module/helm"
+  ingress_ns    = var.ingress_ns
+  argo_ns       = var.argo_ns
+  monitoring_ns = var.monitoring_ns
 
-#   depends_on = [module.eks_gitops_cluster]
-# }
+  depends_on = [module.eks_gitops_cluster]
+}
 
 # 5. Create EKS Access level profile Developer and Admin users for initate access
 module "eks_access" {
