@@ -120,15 +120,15 @@ module "eks_gitops_cluster" {
 #   depends_on = [module.eks_gitops_cluster]
 # }
 
-# 4. Install Helm based utilities for the EKS
-module "helm_repos" {
-  source        = "../../module/helm"
-  ingress_ns    = var.ingress_ns
-  argo_ns       = var.argo_ns
-  monitoring_ns = var.monitoring_ns
+# # 4. Install Helm based utilities for the EKS
+# module "helm_repos" {
+#   source        = "../../module/helm"
+#   ingress_ns    = var.ingress_ns
+#   argo_ns       = var.argo_ns
+#   monitoring_ns = var.monitoring_ns
 
-  depends_on = [module.eks_gitops_cluster]
-}
+#   depends_on = [module.eks_gitops_cluster]
+# }
 
 # 5. Create EKS Access level profile Developer and Admin users for initate access
 module "eks_access" {
