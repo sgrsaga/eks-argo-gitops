@@ -47,6 +47,12 @@ ingress_ns    = "ingress"
 argo_ns       = "argo"
 monitoring_ns = "monitoring"
 
+##-------------- eks_access Module
+# Developer Username
+devuser = "devuser"
+adminuser = "eksadmin"
+
+
 ### ----------- EC2 nodes
 ami_id         = "ami-0f5ee92e2d63afc18"
 ec2_node_cnt   = 1

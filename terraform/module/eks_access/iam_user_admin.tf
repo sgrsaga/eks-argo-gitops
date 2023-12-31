@@ -35,7 +35,7 @@ resource "aws_iam_group" "eks_admins" {
 
 # Create 1 Developer role
 resource "aws_iam_user" "eks_admin" {
-  name = "eks_admins1"
+  name = var.adminuser
   path = "/"
 
   tags = {

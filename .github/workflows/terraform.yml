@@ -66,12 +66,33 @@ jobs:
     - name: Terraform Plan
       run: |
         cd terraform/environment/${GITHUB_REF##*/}/
+        echo 'Install AWS CLI'
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+        aws --version
         echo '#Install kubectl'
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
         kubectl version --client
-        echo "Configure kubectl"
-        aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
+        ## Configure kubectl only if the EKS cluster is available
+        # Check if the EKS cluster exists
+        cluster_status=$(aws eks describe-cluster --region $REGION --name $CLUSTER_NAME --query "cluster.status" --output text 2>/dev/null)
+        if [ $? -eq 0 ]; then
+          # The cluster exists, and the AWS CLI command was successful
+          if [ "$cluster_status" == "ACTIVE" ]; then
+            # The cluster is active, so run a simple command (replace with your command)
+            echo "EKS cluster is active. Running a simple command..."
+             aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
+            kubectl get nodes
+          else
+            echo "EKS cluster exists but is not yet active."
+          fi
+        else
+          # The AWS CLI command failed, indicating the cluster might not exist
+          echo "EKS cluster does not exist or there was an issue retrieving its status."
+        fi
+        # Run Terraform Plan
         terraform plan -input=false
 
     # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
@@ -117,3 +138,55 @@ jobs:
     #     terraform destroy --auto-approve -input=false
 
     # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
+  
+  # Apply Kubernetes Access
+  aws-eks-tools:
+    needs: [terraform]
+    name: 'Helm'
+    runs-on: ubuntu-latest
+    environment: development
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner in Public repo
+    - name: Checkout
+      uses: actions/checkout@v3
+
+
+    # Set AWS Credentials
+    - name: Configure AWS credentials with OIDC and Role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.OIDC_ARN }}
+        aws-region: ap-south-1
+
+
+
+  # Apply Kubernetes Access
+  kubernetes:
+    needs: [terraform]
+    name: 'Kubernetes'
+    runs-on: ubuntu-latest
+    environment: development
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner in Public repo
+    - name: Checkout
+      uses: actions/checkout@v3
+
+
+    # Set AWS Credentials
+    - name: Configure AWS credentials with OIDC and Role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.OIDC_ARN }}
+        aws-region: ap-south-1

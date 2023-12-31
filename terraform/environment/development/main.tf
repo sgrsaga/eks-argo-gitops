@@ -110,17 +110,7 @@ module "eks_gitops_cluster" {
   depends_on = [module.main_network]
 }
 
-# 3. Kubernetes resources 
-module "k8s" {
-  source        = "../../module/k8s_resources"
-  ingress_ns    = var.ingress_ns
-  argo_ns       = var.argo_ns
-  monitoring_ns = var.monitoring_ns
-
-  depends_on = [module.eks_gitops_cluster]
-}
-
-# 4. Install Helm based utilities for the EKS
+# 3. Install Helm based utilities for the EKS
 module "helm_repos" {
   source        = "../../module/helm"
   ingress_ns    = var.ingress_ns
@@ -130,9 +120,11 @@ module "helm_repos" {
   depends_on = [module.eks_gitops_cluster]
 }
 
-# 5. Create EKS Access level profile Developer and Admin users for initate access
+# 4. Create EKS Access level profile Developer and Admin users for initate access
 module "eks_access" {
   source = "../../module/eks_access"
+  devuser = var.devuser
+  adminuser = var.adminuser
 
   depends_on = [module.eks_gitops_cluster]
 }

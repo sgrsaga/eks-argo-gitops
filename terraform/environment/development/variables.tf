@@ -197,3 +197,14 @@ variable "argo_ns" {
 variable "monitoring_ns" {
   type = string
 }
+
+#################### eks access module
+# Developer Username
+variable "devuser" {
+    type = string  
+}
+
+# Admin Username
+variable "adminuser" {
+    type = string  
+}

@@ -40,7 +40,7 @@ resource "aws_iam_group" "developers" {
 
 # Create 1 Developer role
 resource "aws_iam_user" "developer" {
-  name = "developer1"
+  name = var.devuser
   path = "/"
 
   tags = {
