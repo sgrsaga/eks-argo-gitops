@@ -20,7 +20,7 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: development
+    environment: development1
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -147,6 +147,6 @@ jobs:
         pwd
         kubectl apply -f developer-role.yaml
         kubectl apply -f admin-role.yaml
-        kubectk get clusterrole
+        kubectl get clusterrole
         kubectl apply -f kube-system_aws_auth.yaml
         kubectl get cm aws-auth -n kube-system -o yaml
