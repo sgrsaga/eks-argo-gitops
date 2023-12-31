@@ -54,34 +54,34 @@ jobs:
         pwd
         echo "${GITHUB_REF##*/}"
         echo "${GITHUB_ENV}"
-        cd $CURRENT_DIR
+        cd terraform/environment/${GITHUB_REF##*/}/
         pwd
         terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: |
-        cd $CURRENT_DIR
+        cd terraform/environment/${GITHUB_REF##*/}/
         terraform fmt
 
     # Configure environment - Check EKS Sluster status, Configure kubectl
     - name: AWS EKS Cluster status check and kubectl configure
       id: eks_status
       run: |
-        cd $CURRENT_DIR
+        cd terraform/environment/${GITHUB_REF##*/}/
         aws --version
         aws s3 ls
         echo '#Install kubectl'
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
         kubectl version --client
-        cd $SCRIPTS_DIR
+        cd terraform/environment/scripts/
         ./check_eks_status.sh
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: |
-        cd $CURRENT_DIR
+        cd terraform/environment/${GITHUB_REF##*/}/
         # Run Terraform Plan
         terraform plan -input=false
 
@@ -89,16 +89,16 @@ jobs:
     - name: Terraform Apply for Network, EKS and EKS Access modules
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
-        cd $CURRENT_DIR
+        cd terraform/environment/${GITHUB_REF##*/}/
         terraform apply -target=module.main_network -target=module.eks_gitops_cluster -target=module.eks_access --auto-approve -input=false
 
     # # Apply HELM Module
     - name: Terraform Apply HELM Module
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
-        cd $SCRIPTS_DIR
+        cd terraform/environment/scripts/
         ./check_eks_status.sh
-        cd $CURRENT_DIR
+        cd ../${GITHUB_REF##*/}/
         echo "Apply helm module"
         terraform apply -target=module.helm_repos --auto-approve -input=false
 
