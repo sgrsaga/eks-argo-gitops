@@ -9,9 +9,8 @@ on:
 env:
   CLUSTER_NAME: EKS-GitOps-Cluster
   REGION: ap-south-1
-  # ROOT: ~/work/eks-argo-gitops/eks-argo-gitops
-  # CURRENT_DIR: $ROOT/terraform/environment/${GITHUB_REF##*/}/
-  # SCRIPTS_DIR: $ROOT/terraform/environment/scripts/
+  CURRENT_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/development/
+  SCRIPTS_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/scripts/
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -22,11 +21,6 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: development
-
-    env:
-      ROOT: ~/work/eks-argo-gitops/eks-argo-gitops
-      CURRENT_DIR: $ROOT/terraform/environment/${GITHUB_REF##*/}/
-      SCRIPTS_DIR: $ROOT/terraform/environment/scripts/
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
