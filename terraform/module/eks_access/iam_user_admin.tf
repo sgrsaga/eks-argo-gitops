@@ -1,6 +1,6 @@
 # IAM Policy to attach to EKS Developer role
 resource "aws_iam_group_policy" "admin_group_policy" {
-  name        = "admin_group_policy"
+  name        = "eks_admin_group_policy"
   group = aws_iam_group.eks_admins.name
 
   # Terraform's "jsonencode" function converts a
@@ -16,6 +16,21 @@ resource "aws_iam_group_policy" "admin_group_policy" {
 				"ssm:*"
 			],
 			"Resource": "*"
+		},
+		{
+			"Sid": "Statement1",
+			"Effect": "Allow",
+			"Action": [
+				"iam:PassRole"
+			],
+			"Resource": [
+				"*"
+			],
+			"Condition": {
+				"StringEquals": {
+					"iam:PassedToService": "eks.amazon.com"
+				}
+			}
 		}
 	]
 })
