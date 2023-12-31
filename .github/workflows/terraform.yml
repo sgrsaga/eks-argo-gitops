@@ -146,8 +146,8 @@ jobs:
         cd ../../../kubernetes/eks_access/
         pwd
         kubectl get cm aws-auth -n kube-system -o yaml
-        kubectl apply -f developer-role.yaml
-        kubectl apply -f admin-role.yaml
-        kubectl get clusterrole
-        kubectl apply -f kube-system_aws_auth.yaml
-        kubectl get cm aws-auth -n kube-system -o yaml
+        # kubectl apply -f developer-role.yaml
+        # kubectl apply -f admin-role.yaml
+        # kubectl get clusterrole
+        # kubectl apply -f kube-system_aws_auth.yaml
+        # kubectl get cm aws-auth -n kube-system -o yaml

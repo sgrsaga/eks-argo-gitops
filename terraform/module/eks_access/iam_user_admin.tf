@@ -1,11 +1,31 @@
 # IAM Policy to attach to EKS Developer role
-resource "aws_iam_group_policy" "admin_group_policy" {
+resource "aws_iam_policy" "admin_assume_policy" {
   name        = "eks_admin_group_policy"
-  group = aws_iam_group.eks_admins.name
-
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "sts:AssumeRole",
+            "Principal": {
+                "AWS": "arn:aws:iam::598792377165:root"
+            },
+            "Condition": {}
+        }
+    ]
+})
+}
+
+
+## Create IAM Admin role
+resource "aws_iam_role" "eksAdminRole" {
+  name = "eksAdminRole"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  assume_role_policy = jsonencode({
 	"Version": "2012-10-17",
 	"Statement": [
 		{
@@ -43,10 +63,10 @@ resource "aws_iam_group" "eks_admins" {
 }
 
 # Attach the Developer Policy to Developer Group
-# resource "aws_iam_group_policy_attachment" "developer_attach" {
-#   group      = aws_iam_group.developers.name
-#   policy_arn = aws_iam_group_policy.developer_group_policy.name
-# }
+resource "aws_iam_group_policy_attachment" "admin_policy_attach" {
+  group      = aws_iam_group.eks_admins.name
+  policy_arn = aws_iam_policy.admin_assume_policy.arn
+}
 
 # Create 1 Developer role
 resource "aws_iam_user" "eks_admin" {
