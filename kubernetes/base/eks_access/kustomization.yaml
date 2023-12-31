@@ -1,6 +1,0 @@
-resources:
-  - .\admin-role.yaml
-  - .\developer-role.yaml
-
-commonLabels:
-   paas: eks-paas

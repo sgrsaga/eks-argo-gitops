@@ -113,33 +113,6 @@ jobs:
     # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
   
   # Apply Kubernetes Access
-  aws-eks-tools:
-    needs: [terraform]
-    name: 'Helm'
-    runs-on: ubuntu-latest
-    environment: development
-
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
-
-    steps:
-    # Checkout the repository to the GitHub Actions runner in Public repo
-    - name: Checkout
-      uses: actions/checkout@v3
-
-
-    # Set AWS Credentials
-    - name: Configure AWS credentials with OIDC and Role
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ secrets.OIDC_ARN }}
-        aws-region: ap-south-1
-
-
-
-  # Apply Kubernetes Access
   kubernetes:
     needs: [terraform]
     name: 'Kubernetes'
@@ -163,3 +136,17 @@ jobs:
       with:
         role-to-assume: ${{ secrets.OIDC_ARN }}
         aws-region: ap-south-1
+
+    # Apply aws_auth config map with users
+    - name: Add users to aws_auth config map for EKS cluster access
+      run: |
+        cd terraform/environment/scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
+        cd ../../../kubernetes/eks_access/
+        pwd
+        kubectl apply -f developer-role.yaml
+        kubectl apply -f admin-role.yaml
+        kubectk get clusterrole
+        kubectl apply -f kube-system_aws_auth.yaml
+        kubectl get cm aws-auth -n kube-system -o yaml

@@ -1,5 +1,0 @@
-resources:
-  - .\kube-system_aws_auth.yaml
-
-commonLabels:
-   paas: eks-paas
