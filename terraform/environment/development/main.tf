@@ -22,19 +22,19 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-# provider "helm" {
-#   kubernetes {
-#     # config_path = var.config_path
-#     # Use Exec plugins
-#     host = module.k8s.eks_cluster_endpoint
-#     cluster_ca_certificate = base64decode(module.k8s.kubeconfig-certificate-authority-data) 
-#     exec {
-#       api_version = "client.authentication.k8s.io/v1beta1" 
-#       args = ["eks", "get-token", "--cluster-name", var.cluster_name] 
-#       command = "aws"
-#     }
-#   }
-# }
+provider "helm" {
+  kubernetes {
+    config_path = var.config_path
+    # # Use Exec plugins
+    # host = module.k8s.eks_cluster_endpoint
+    # cluster_ca_certificate = base64decode(module.k8s.kubeconfig-certificate-authority-data) 
+    # exec {
+    #   api_version = "client.authentication.k8s.io/v1beta1" 
+    #   args = ["eks", "get-token", "--cluster-name", var.cluster_name] 
+    #   command = "aws"
+    # }
+  }
+}
 
 provider "kubernetes" {
   config_path = var.config_path
@@ -124,7 +124,7 @@ module "helm_repos" {
   ingress_ns    = var.ingress_ns
   argo_ns       = var.argo_ns
   monitoring_ns = var.monitoring_ns
-  cert_data = module.eks_gitops_cluster.kubeconfig-certificate-authority-data
+  #cert_data = module.eks_gitops_cluster.kubeconfig-certificate-authority-data
 
   depends_on = [module.eks_gitops_cluster]
 }

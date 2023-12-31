@@ -33,7 +33,7 @@ variable "monitoring_ns"{
     type = string
 }
 
-# Cert Auth Data
-variable "cert_data" {
-    type = string  
-}
+# # Cert Auth Data
+# variable "cert_data" {
+#     type = string  
+# }
