@@ -17,11 +17,8 @@ data:
       username: system:node:{{EC2PrivateDNSName}}
 kind: ConfigMap
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"v1","data":{"mapRoles":"- groups:\n  - system:bootstrappers\n  - system:nodes\n  rolearn: arn:aws:iam::598792377165:role/eks-node-group-role\n  username: system:node:{{EC2PrivateDNSName}}\n","mapUsers":"- userarn: arn:aws:iam::598792377165:user/developer1\n  username: developer\n  groups:\n  - developer\n"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":"2023-12-21T06:46:19Z","name":"aws-auth","namespace":"kube-system","resourceVersion":"902","uid":"09fbc5fd-4cfe-4987-ad4f-06d0beaee629"}}
-  creationTimestamp: "2023-12-21T06:46:19Z"
+  creationTimestamp: "2023-12-31T14:30:00Z"
   name: aws-auth
   namespace: kube-system
-  resourceVersion: "91374"
-  uid: 09fbc5fd-4cfe-4987-ad4f-06d0beaee629
+  resourceVersion: "928"
+  uid: 15908da9-ad35-4895-8ab5-6e816f9e58a7
