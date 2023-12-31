@@ -6,9 +6,9 @@ data:
       groups:
       - developer
     - userarn: arn:aws:iam::598792377165:user/eksadmin
-      username: admin
+      username: eksadmin
       groups:
-      - admin
+      - eksadmin
   mapRoles: |
     - groups:
       - system:bootstrappers
