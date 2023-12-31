@@ -79,34 +79,18 @@ jobs:
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
         cd terraform/environment/${GITHUB_REF##*/}/
-        echo ${GITHUB_REF##*/}
-        echo ${GITHUB_REF}
+        echo "Check kubectl already available"
+        kubectl version --client
         echo '#Install kubectl'
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
         kubectl version --client
         echo "Configure kubectl"
         aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
-        #terraform apply -target=module.main_network -target=module.eks_gitops_cluster -target=module.eks_access --auto-approve -input=false
-        terraform apply --auto-approve -input=false
-
+        terraform apply -target=module.main_network -target=module.eks_gitops_cluster -target=module.eks_access --auto-approve -input=false
 
     # # Apply HELM Module
-    # - name: Terraform Apply HELM Module
-    #   if: github.ref == 'refs/heads/development' && github.event_name == 'push'
-    #   run: |
-    #     cd terraform/environment/${GITHUB_REF##*/}/
-    #     echo '#Install kubectl'
-    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    #     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    #     kubectl version --client
-    #     echo "Configure kubectl"
-    #     aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
-    #     echo "Apply helm module"
-    #     terraform apply -target=module.helm_repos -target=module.k8s --auto-approve -input=false
-
-    # # Destroy the whole infrastructure
-    - name: Terraform Destroy
+    - name: Terraform Apply HELM Module
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
         cd terraform/environment/${GITHUB_REF##*/}/
@@ -116,6 +100,20 @@ jobs:
         kubectl version --client
         echo "Configure kubectl"
         aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
-        terraform destroy --auto-approve -input=false
+        echo "Apply helm module"
+        terraform apply -target=module.helm_repos -target=module.k8s --auto-approve -input=false
+
+    # # # Destroy the whole infrastructure
+    # - name: Terraform Destroy
+    #   if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+    #   run: |
+    #     cd terraform/environment/${GITHUB_REF##*/}/
+    #     echo '#Install kubectl'
+    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    #     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    #     kubectl version --client
+    #     echo "Configure kubectl"
+    #     aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
+    #     terraform destroy --auto-approve -input=false
 
     # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
