@@ -2,7 +2,7 @@
 bases:
   - ../base/sampleApp
 
-namespace: Dev
+namespace: dev
 
 patches:
   - app1-dep1.yaml

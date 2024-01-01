@@ -148,11 +148,11 @@ jobs:
         cd ../../../kubernetes/overlays/development/
         pwd
         kubectl get ns
-        kubectl create ns Dev
+        kubectl create ns dev
         echo 'Test Kustomize'
         kubectl kustomize .
         kubectl apply -k .
-        kubectl get po -n Dev
+        kubectl get po -n dev
 
 
     # # Apply aws_auth config map with users
