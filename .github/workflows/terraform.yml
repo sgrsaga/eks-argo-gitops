@@ -139,22 +139,38 @@ jobs:
         role-to-assume: ${{ secrets.OIDC_ARN }}
         aws-region: ap-south-1
 
-    # Apply aws_auth config map with users
-    - name: Add users to aws_auth config map for EKS cluster access
+    # Apply sampleapp with kustomize
+    - name: Test Sample application
       run: |
         cd terraform/environment/scripts/
         chmod +x check_eks_status.sh
         ./check_eks_status.sh
-        cd ../../../kubernetes/overlays/eks_config/
+        cd ../../../kubernetes/overlays/development/
         pwd
-        kubectl get cm aws-auth -n kube-system -o yaml
-        # Feed the latest config to base
-        kubectl get cm aws-auth -n kube-system -o yaml > ../../../kubernetes/base/eks_access/kube-system_aws_auth.yaml
-        cat ../../../kubernetes/base/eks_access/kube-system_aws_auth.yaml
-        kubectl apply -f developer-role.yaml
-        kubectl apply -f admin-role.yaml
-        kubectl get clusterrole
+        kubectl get ns
+        kubectl create ns Dev
         echo 'Test Kustomize'
         kubectl kustomize .
-        # kubectl apply -f kube-system_aws_auth.yaml
-        # kubectl get cm aws-auth -n kube-system -o yaml
+        kubectl apply -k .
+        kubectl get po -n Dev
+
+
+    # # Apply aws_auth config map with users
+    # - name: Add users to aws_auth config map for EKS cluster access
+    #   run: |
+    #     cd terraform/environment/scripts/
+    #     chmod +x check_eks_status.sh
+    #     ./check_eks_status.sh
+    #     cd ../../../kubernetes/overlays/eks_config/
+    #     pwd
+    #     kubectl get cm aws-auth -n kube-system -o yaml
+    #     # Feed the latest config to base
+    #     kubectl get cm aws-auth -n kube-system -o yaml > ../../../kubernetes/base/eks_access/kube-system_aws_auth.yaml
+    #     cat ../../../kubernetes/base/eks_access/kube-system_aws_auth.yaml
+    #     kubectl apply -f developer-role.yaml
+    #     kubectl apply -f admin-role.yaml
+    #     kubectl get clusterrole
+    #     echo 'Test Kustomize'
+    #     kubectl kustomize .
+    #     # kubectl apply -f kube-system_aws_auth.yaml
+    #     # kubectl get cm aws-auth -n kube-system -o yaml
