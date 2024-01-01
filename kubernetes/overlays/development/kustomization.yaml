@@ -1,5 +1,1 @@
 # Development configuration with Kustomization
-resources:
-  - ../../base/sampleApp/
-
-namespace: dev

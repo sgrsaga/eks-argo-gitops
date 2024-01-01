@@ -1,0 +1,6 @@
+# Development configuration with Kustomization
+bases:
+  - ../base/eks_access
+
+patches:
+  - k_kube-system_aws_auth.yaml

@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::598792377165:user/devuser
+      username: developer
+      groups:
+      - developer
+    - userarn: arn:aws:iam::598792377165:user/eksadmin
+      username: eksadmin
+      groups:
+      - eksadmin
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system

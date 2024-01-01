@@ -1,0 +1,5 @@
+# Development configuration with Kustomization
+resources:
+  - kube-system_aws_auth.yaml
+
+namespace: kube-system
