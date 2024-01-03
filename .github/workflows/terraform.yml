@@ -103,14 +103,14 @@ jobs:
         echo "Apply helm module"
         terraform apply -target=module.helm_repos --auto-approve -input=false
 
-    # # Destroy the whole infrastructure
-    - name: Terraform Destroy
-      if: github.ref == 'refs/heads/development' && github.event_name == 'push'
-      run: |
-        cd terraform/environment/scripts/
-        ./check_eks_status.sh
-        cd ../${GITHUB_REF##*/}/
-        terraform destroy --auto-approve -input=false
+    # # # Destroy the whole infrastructure
+    # - name: Terraform Destroy
+    #   if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+    #   run: |
+    #     cd terraform/environment/scripts/
+    #     ./check_eks_status.sh
+    #     cd ../${GITHUB_REF##*/}/
+    #     terraform destroy --auto-approve -input=false
 
     # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
   
