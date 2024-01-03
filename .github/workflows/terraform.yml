@@ -20,7 +20,7 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: development
+    environment: ${GITHUB_REF##*/}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -85,6 +85,7 @@ jobs:
         cd terraform/environment/${GITHUB_REF##*/}/
         # Run Terraform Plan
         terraform plan -input=false
+
 
     # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
     - name: Terraform Apply for Network, EKS and EKS Access modules
@@ -155,6 +156,7 @@ jobs:
         kubectl get po -n dev
 
 
+
     # # Apply aws_auth config map with users
     # - name: Add users to aws_auth config map for EKS cluster access
     #   run: |
@@ -174,3 +176,7 @@ jobs:
     #     kubectl kustomize .
     #     # kubectl apply -f kube-system_aws_auth.yaml
     #     # kubectl get cm aws-auth -n kube-system -o yaml
+
+    # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
+    # TRy Main branch trigger test
+

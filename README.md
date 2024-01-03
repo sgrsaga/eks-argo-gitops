@@ -1,17 +1,45 @@
+
 # AWS EKS Complete Infrastructure project
 
 This project will show case you some of the technologies you can use to completly configure AWS EKS cluster to host your Dockerized Kubernetes applications.
 
-## Features
 
-- Kubenetes platform is in AWS EKS
-- Terraform is used to configure all AWS resources
-- HELM provider for the Terraform is used to install utility applications for the platform
-- Kubernetes provider is used to create initial resources
-- GitHub Action is uses as CI/CD pipeline with Open ID Connect(OIDC)
-- Kustomize is used to configure multiple environments
-- Two user categories "Developer" and "Admin" also created
 
+Configure GitHub Project with OIDC connection with AWS 
+This is one of the most secure methods to communicate AWS by configuring the GitHub Identity provider in AWS IAM. It reduces the credential overhead and possible security concerns.
+1. Create an Identity provider under AWS IAM
+Provider URL: Use https://token.actions.githubusercontent.com
+Audience: Use sts.amazonaws.com
+
+2. Create a role to connect to the Identity provider.
+Click on the Identity Provider and then <Assign Role>
+Select <Create New Role>
+Set the trust identities as follows
+Now set the permissions [We set Administrator access for now, you can provide only the required access levels based on your resources]
+The final Trust relationship is as follows
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::xxxxxxxxxxxx:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development",
+                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+                }
+            }
+        }
+    ]
+}
+```
+Note: We have set the Trust relationship so that only the "development" environment changes will be accommodated via this role. We can harden the OIDC connection with many different approaches. You can lose it as well with some wild card implementation.
+For more details, use GitHub OIDC reference: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
 
 
 ----------- Drafts -----------------
