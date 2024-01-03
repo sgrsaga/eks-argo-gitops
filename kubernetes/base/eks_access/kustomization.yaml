@@ -1,6 +1,5 @@
+# Development configuration with Kustomization
 resources:
-  - .\admin-role.yaml
-  - .\developer-role.yaml
+  - kube-system_aws_auth.yaml
 
-commonLabels:
-   paas: eks-paas
+namespace: kube-system

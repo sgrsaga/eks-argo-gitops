@@ -197,3 +197,20 @@ variable "argo_ns" {
 variable "monitoring_ns" {
   type = string
 }
+
+# # Cert Auth Data
+# variable "cert_data" {
+#     type = string
+#     default = "cert_data"
+# }
+
+#################### eks access module
+# Developer Username
+variable "devuser" {
+    type = string  
+}
+
+# Admin Username
+variable "adminuser" {
+    type = string  
+}

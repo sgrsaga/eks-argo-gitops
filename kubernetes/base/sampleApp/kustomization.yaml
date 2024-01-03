@@ -6,3 +6,5 @@ resources:
 
 commonLabels:
    app: app1
+
+namespace: Test

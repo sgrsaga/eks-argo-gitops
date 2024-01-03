@@ -2,26 +2,26 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: eks-admin
+  name: eksadmin
 rules:
 - apiGroups:
   - ""
   resources:
-  - '*'
+  - pods
   verbs:
-  - '*'
+  - "*"
 
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: admin-binding
+  name: eksadmin-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: eks-admin
+  name: eksadmin
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: Group
-  name: admin
+  name: eksadmin

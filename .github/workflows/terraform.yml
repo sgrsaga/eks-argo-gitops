@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ "staging", "production" ]
 
+env:
+  CLUSTER_NAME: EKS-GitOps-Cluster
+  REGION: ap-south-1
+  CURRENT_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/development/
+  SCRIPTS_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/scripts/
+
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read
@@ -58,23 +64,119 @@ jobs:
         cd terraform/environment/${GITHUB_REF##*/}/
         terraform fmt
 
+    # Configure environment - Check EKS Sluster status, Configure kubectl
+    - name: AWS EKS Cluster status check and kubectl configure
+      id: eks_status
+      run: |
+        cd terraform/environment/${GITHUB_REF##*/}/
+        aws --version
+        aws s3 ls
+        echo '#Install kubectl'
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        kubectl version --client
+        cd ../scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
+
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: |
         cd terraform/environment/${GITHUB_REF##*/}/
+        # Run Terraform Plan
         terraform plan -input=false
 
-    # # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
-    # - name: Terraform Apply for Network and EKS modules
-    #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    #   run: |
-    #     cd terraform/environment/${GITHUB_REF##*/}/
-    #     terraform apply -target=module.main_network -target=module.eks_gitops_cluster --auto-approve -input=false
+
+    # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
+    - name: Terraform Apply for Network, EKS and EKS Access modules
+      if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+      run: |
+        cd terraform/environment/${GITHUB_REF##*/}/
+        terraform apply -target=module.main_network -target=module.eks_gitops_cluster -target=module.eks_access --auto-approve -input=false
+
+    # # Apply HELM Module
+    - name: Terraform Apply HELM Module
+      if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+      run: |
+        cd terraform/environment/scripts/
+        ./check_eks_status.sh
+        cd ../${GITHUB_REF##*/}/
+        echo "Apply helm module"
+        terraform apply -target=module.helm_repos --auto-approve -input=false
 
     # # Destroy the whole infrastructure
-    # - name: Terraform Destroy
-    #   if: github.ref == 'refs/heads/destroy' && github.event_name == 'push'
-    #   run: terraform apply -auto-approve -input=false
+    - name: Terraform Destroy
+      if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+      run: |
+        cd terraform/environment/scripts/
+        ./check_eks_status.sh
+        cd ../${GITHUB_REF##*/}/
+        terraform destroy --auto-approve -input=false
+
+    # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
+  
+  # Apply Kubernetes Access
+  kubernetes:
+    needs: [terraform]
+    name: 'Kubernetes'
+    runs-on: ubuntu-latest
+    environment: development
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner in Public repo
+    - name: Checkout
+      uses: actions/checkout@v3
+
+
+    # Set AWS Credentials
+    - name: Configure AWS credentials with OIDC and Role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.OIDC_ARN }}
+        aws-region: ap-south-1
+
+    # Apply sampleapp with kustomize
+    - name: Test Sample application
+      run: |
+        cd terraform/environment/scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
+        cd ../../../kubernetes/overlays/development/
+        pwd
+        kubectl get ns
+        kubectl create ns dev
+        echo 'Test Kustomize'
+        kubectl kustomize .
+        kubectl apply -k .
+        kubectl get po -n dev
+
+
+
+    # # Apply aws_auth config map with users
+    # - name: Add users to aws_auth config map for EKS cluster access
+    #   run: |
+    #     cd terraform/environment/scripts/
+    #     chmod +x check_eks_status.sh
+    #     ./check_eks_status.sh
+    #     cd ../../../kubernetes/overlays/eks_config/
+    #     pwd
+    #     kubectl get cm aws-auth -n kube-system -o yaml
+    #     # Feed the latest config to base
+    #     kubectl get cm aws-auth -n kube-system -o yaml > ../../../kubernetes/base/eks_access/kube-system_aws_auth.yaml
+    #     cat ../../../kubernetes/base/eks_access/kube-system_aws_auth.yaml
+    #     kubectl apply -f developer-role.yaml
+    #     kubectl apply -f admin-role.yaml
+    #     kubectl get clusterrole
+    #     echo 'Test Kustomize'
+    #     kubectl kustomize .
+    #     # kubectl apply -f kube-system_aws_auth.yaml
+    #     # kubectl get cm aws-auth -n kube-system -o yaml
 
     # TRy new Trust policy -  "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development"
     # TRy Main branch trigger test
+

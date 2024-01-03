@@ -25,6 +25,14 @@ provider "aws" {
 provider "helm" {
   kubernetes {
     config_path = var.config_path
+    # # Use Exec plugins
+    # host = module.k8s.eks_cluster_endpoint
+    # cluster_ca_certificate = base64decode(module.k8s.kubeconfig-certificate-authority-data) 
+    # exec {
+    #   api_version = "client.authentication.k8s.io/v1beta1" 
+    #   args = ["eks", "get-token", "--cluster-name", var.cluster_name] 
+    #   command = "aws"
+    # }
   }
 }
 
@@ -110,29 +118,22 @@ module "eks_gitops_cluster" {
   depends_on = [module.main_network]
 }
 
-# # 3. Kubernetes resources 
-# module "k8s" {
-#   source        = "../../module/k8s_resources"
-#   ingress_ns    = var.ingress_ns
-#   argo_ns       = var.argo_ns
-#   monitoring_ns = var.monitoring_ns
-
-#   depends_on = [module.eks_gitops_cluster]
-# }
-
-# 4. Install Helm based utilities for the EKS
+# 3. Install Helm based utilities for the EKS
 module "helm_repos" {
   source        = "../../module/helm"
   ingress_ns    = var.ingress_ns
   argo_ns       = var.argo_ns
   monitoring_ns = var.monitoring_ns
+  #cert_data = module.eks_gitops_cluster.kubeconfig-certificate-authority-data
 
   depends_on = [module.eks_gitops_cluster]
 }
 
-# 5. Create EKS Access level profile Developer and Admin users for initate access
+# 4. Create EKS Access level profile Developer and Admin users for initate access
 module "eks_access" {
   source = "../../module/eks_access"
+  devuser = var.devuser
+  adminuser = var.adminuser
 
   depends_on = [module.eks_gitops_cluster]
 }

@@ -30,7 +30,7 @@ public_access_sg_ingress_rules = [
 cluster_name = "EKS-GitOps-Cluster"
 #k8s_version = "1.27"
 node_group_names = ["NG_1", "NG_2"]
-node_group_size  = [2, 3, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
+node_group_size  = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
 public_ng_size   = 1
 private_ng_size  = 1
 
@@ -46,6 +46,12 @@ config_path   = "~/.kube/config"
 ingress_ns    = "ingress"
 argo_ns       = "argo"
 monitoring_ns = "monitoring"
+
+##-------------- eks_access Module
+# Developer Username
+devuser = "devuser"
+adminuser = "eksadmin"
+
 
 ### ----------- EC2 nodes
 ami_id         = "ami-0f5ee92e2d63afc18"

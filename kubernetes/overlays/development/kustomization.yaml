@@ -1,5 +1,12 @@
 # Development configuration with Kustomization
-resources:
-  - ../../base/sampleApp/
+bases:
+  - ../base/sampleApp
 
 namespace: dev
+
+patches:
+  - app1-dep1.yaml
+  - app1-svc1.yaml
+  - app1-ing1.yaml
+  - app1-ing2.yaml
+
