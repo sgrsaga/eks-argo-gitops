@@ -4,7 +4,7 @@
 
 
 # Install Grafana helm chart
-resource "helm_release" "argocd" {
+resource "helm_release" "grafana" {
     name = "grafana"
     repository = "https://grafana.github.io/helm-charts"
     chart = "grafana"
