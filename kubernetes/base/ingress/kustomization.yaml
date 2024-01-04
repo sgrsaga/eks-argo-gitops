@@ -2,7 +2,7 @@ resources:
   - argoing.yaml
   - grafing.yaml
   - proming.yaml
-  - lokiing.yaml
+  - lokigrafing.yaml
 
 commonLabels:
-   app: argocd-ui
+   app: gitops
