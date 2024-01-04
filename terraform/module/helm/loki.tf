@@ -32,4 +32,9 @@ resource "helm_release" "loki" {
         name = "promtail.enabled"
         value = "true"
     }
+    # enable grafana
+    set {
+        name = "grafana.enabled"
+        value = "true"
+    }
 }

@@ -2,6 +2,7 @@ resources:
   - argoing.yaml
   - grafing.yaml
   - proming.yaml
+  - lokiing.yaml
 
 commonLabels:
    app: argocd-ui
