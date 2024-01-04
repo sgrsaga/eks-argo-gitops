@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: loking
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: loki.devops-expert.foundation
+    http:
+      paths:
+      - backend:
+          service:
+            name: loki
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer: {}

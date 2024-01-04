@@ -25,6 +25,11 @@ resource "helm_release" "loki" {
     # enable fluent-bit
     set {
         name = "fluent-bit.enabled"
+        value = "false"
+    }
+    # enable fluent-bit
+    set {
+        name = "promtail.enabled"
         value = "true"
     }
 }
