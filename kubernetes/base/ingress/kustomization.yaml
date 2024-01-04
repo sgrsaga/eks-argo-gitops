@@ -1,5 +1,7 @@
 resources:
-  - ./argoing.yaml
+  - argoing.yaml
+  - grafing.yaml
+  - proming.yaml
 
 commonLabels:
    app: argocd-ui

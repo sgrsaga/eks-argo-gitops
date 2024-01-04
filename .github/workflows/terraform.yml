@@ -140,7 +140,7 @@ jobs:
         role-to-assume: ${{ secrets.OIDC_ARN }}
         aws-region: ap-south-1
 
-    # Apply sampleapp with kustomize
+    # Apply Argocd, Prometheus, Grafana and Loki Ingress
     - name: Test Sample application
       run: |
         cd terraform/environment/scripts/
@@ -155,6 +155,20 @@ jobs:
         kubectl apply -k .
         kubectl get po -n dev
 
+    # Apply sampleapp with kustomize
+    - name: Test Sample application
+      run: |
+        cd terraform/environment/scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
+        cd ../../../kubernetes/overlays/development/
+        pwd
+        kubectl get ns
+        kubectl create ns dev
+        echo 'Test Kustomize'
+        kubectl kustomize .
+        kubectl apply -k .
+        kubectl get po -n dev
 
 
     # # Apply aws_auth config map with users

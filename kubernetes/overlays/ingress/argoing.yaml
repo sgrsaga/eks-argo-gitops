@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  name: argoing
+  namespace: argo
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: argocd.devops-expert.foundation
+    http:
+      paths:
+      - backend:
+          service:
+            name: argocd-server
+            port:
+              name: https
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - argocd.devops-expert.foundation
+    secretName: argocd-secret # do not change, this is provided by Argo CD
+
+# Note:
+# Make sure to add the Route53 entry to the ALB for "argocd.devops-expert.foundation"
