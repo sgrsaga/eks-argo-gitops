@@ -22,16 +22,16 @@ variable "ingress_ns"{
 }
 
 
-# # ArgoCD  namespece
-# variable "argo_ns"{
-#     type = string
-# }
+# ArgoCD  namespece
+variable "argo_ns"{
+    type = string
+}
 
 
-# # Monitoring  namespece
-# variable "monitoring_ns"{
-#     type = string
-# }
+# Monitoring  namespece
+variable "monitoring_ns"{
+    type = string
+}
 
 # # Cert Auth Data
 # variable "cert_data" {
