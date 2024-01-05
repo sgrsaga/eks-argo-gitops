@@ -73,7 +73,7 @@ resource "helm_release" "nginx_ingress" {
   # Set the protocol
   set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol"
-    value = "tls"
+    value = "tcp"
     # Can have tcp or tls  - tls for security enabling
   }
   # cross zoneenabling
