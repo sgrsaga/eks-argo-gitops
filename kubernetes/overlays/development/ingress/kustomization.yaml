@@ -1,5 +1,5 @@
 # Development configuration with Kustomization
 resources:
-  - ../../base/ingress
+  - ../../../base/ingress
 
 
