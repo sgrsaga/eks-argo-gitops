@@ -20,8 +20,6 @@ resource "helm_release" "nginx_ingress" {
 
   namespace = kubernetes_namespace.ingress.metadata.0.name
 
-  values = [ file("nginx-ingress-values.yaml")]
-
   # Spin up a AWS ALB
   set {
     name  = "service.type"
