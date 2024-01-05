@@ -127,6 +127,7 @@ module "helm_repos" {
   #cert_data = module.eks_gitops_cluster.kubeconfig-certificate-authority-data
 
   domain_name_used = var.domain_name_used
+  alt_names = var.alt_names
 
   depends_on = [module.eks_gitops_cluster]
 }
