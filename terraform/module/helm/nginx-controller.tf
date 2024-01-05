@@ -60,19 +60,19 @@ resource "helm_release" "nginx_ingress" {
   # Set to Network load balancer snnotations
   ##############################
   set {
-    name = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol"
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol"
     value = "tcp"
   }
   set {
-    name = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
     value = "true"
   }
   set {
-    name = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-connection-idle-timeout"
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-connection-idle-timeout"
     value = "60"
   }
   set {
-    name = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
     value = "nlb"
   }
   # Set  --enable-ssl-passthrough for argocd (Setting this manually)
