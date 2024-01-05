@@ -60,7 +60,7 @@ resource "helm_release" "nginx_ingress" {
   # Set to Network load balancer snnotations
   ##############################
   set {
-    name = "service.annotations.service\\.beta.kubernetes\\.io/aws-load-balancer-backend-protocol"
+    name = "service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol"
     value = "tcp"
   }
   set {
