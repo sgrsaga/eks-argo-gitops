@@ -2,6 +2,16 @@
 ## Install required resources for nginx controller with helm
 #######################################
 
+## Request Certificate for the domain to use in TLS
+resource "aws_acm_certificate" "devops_expert_found_crt" {
+  domain_name       = var.domain_name_used
+  validation_method = "DNS"
+}
+
+output "cert_arn" {
+  value = aws_acm_certificate.devops_expert_found_crt.arn
+  
+}
 
 # Create name space for Ingress Controller
 resource "kubernetes_namespace" "ingress" {  
@@ -57,23 +67,34 @@ resource "helm_release" "nginx_ingress" {
     name = "controller.autoscaling.minReplicas"
     value = 2
   }
+  ##############################
   # Set to Network load balancer snnotations
   ##############################
+  # Set the protocol
   set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol"
-    value = "tcp"
+    value = "tls"
+    # Can have tcp or tls  - tls for security enabling
   }
+  # cross zoneenabling
   set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
     value = "true"
   }
+  # connection idle time
   set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-connection-idle-timeout"
     value = "60"
   }
+  # load balance type
   set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
     value = "nlb"
+  }
+  # Set TLS Certificate for the NLB
+  set {
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
+    value = aws_acm_certificate.devops_expert_found_crt.arn
   }
   # Set  --enable-ssl-passthrough for argocd (Setting this manually)
   # Note that the nginx.ingress.kubernetes.io/ssl-passthrough annotation requires that the --enable-ssl-passthrough flag be added to the command line arguments to nginx-ingress-controller
@@ -81,4 +102,6 @@ resource "helm_release" "nginx_ingress" {
   #   name = "controller.extraArgs"
   #   value = ["--enable-ssl-passthrough"]
   # }
+
+  depends_on = [ aws_acm_certificate.devops_expert_found_crt ]
 }

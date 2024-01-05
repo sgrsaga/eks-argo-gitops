@@ -16,6 +16,12 @@
 # }
 
 
+# Domain name
+variable "domain_name_used"{
+    type = string
+}
+
+
 # Ingress namespece
 variable "ingress_ns"{
     type = string

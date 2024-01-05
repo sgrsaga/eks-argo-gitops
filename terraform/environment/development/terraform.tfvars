@@ -46,6 +46,7 @@ config_path   = "~/.kube/config"
 ingress_ns    = "ingress"
 argo_ns       = "argo"
 monitoring_ns = "monitoring"
+domain_name_used = "*.devops-expert.foundation"
 
 ##-------------- eks_access Module
 # Developer Username
