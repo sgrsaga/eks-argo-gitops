@@ -58,9 +58,10 @@ resource "helm_release" "nginx_ingress" {
     value = 2
   }
   # Set to Network load balancer
-  set-list {
-    name = "controller.service.annotations"
-    value = ["service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp", "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'", "service.beta.kubernetes.io/aws-load-balancer-type: nlb" ]
+  set {
+    name = "controller.service.annotations\\.service.beta.kubernetes\\.io/aws-load-balancer-backend-protocol"
+    value = "tcp"
+    #, "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'", "service.beta.kubernetes.io/aws-load-balancer-type: nlb" ]
   }
   # Set  --enable-ssl-passthrough for argocd (Setting this manually)
   # Note that the nginx.ingress.kubernetes.io/ssl-passthrough annotation requires that the --enable-ssl-passthrough flag be added to the command line arguments to nginx-ingress-controller
