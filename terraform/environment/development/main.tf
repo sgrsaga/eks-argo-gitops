@@ -122,7 +122,7 @@ module "eks_gitops_cluster" {
 module "helm_repos" {
   source        = "../../module/helm"
   ingress_ns    = var.ingress_ns
-  # argo_ns       = var.argo_ns
+  argo_ns       = var.argo_ns
   # monitoring_ns = var.monitoring_ns
   #cert_data = module.eks_gitops_cluster.kubeconfig-certificate-authority-data
 
