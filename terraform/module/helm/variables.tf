@@ -21,13 +21,6 @@ variable "ingress_ns"{
     type = string
 }
 
-# Ingress namespece
-variable "ingress_values"{
-    type = object({
-      name = 
-    })
-}
-
 # # ArgoCD  namespece
 # variable "argo_ns"{
 #     type = string
