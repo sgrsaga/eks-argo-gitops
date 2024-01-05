@@ -208,6 +208,10 @@ variable "monitoring_ns" {
 variable "domain_name_used" {
     type = string
 }
+# Domain aleternate names
+variable "alt_names"{
+    type = list(string)
+}
 
 
 #################### eks access module

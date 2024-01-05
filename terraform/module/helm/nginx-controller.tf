@@ -6,11 +6,11 @@
 resource "aws_acm_certificate" "devops_expert_found_crt" {
   domain_name       = var.domain_name_used
   validation_method = "DNS"
-}
+   subject_alternative_names = var.alt_names
 
-output "cert_arn" {
-  value = aws_acm_certificate.devops_expert_found_crt.arn
-  
+  lifecycle {
+    create_before_destroy = true
+    }
 }
 
 # Create name space for Ingress Controller
