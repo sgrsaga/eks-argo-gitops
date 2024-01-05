@@ -20,9 +20,7 @@ resource "helm_release" "nginx_ingress" {
 
   namespace = kubernetes_namespace.ingress.metadata.0.name
 
-  values = [
-    "${file("nginx-ingress-values.yaml")}"
-  ]
+  values = [ file("nginx-ingress-values.yaml")]
 
   # Spin up a AWS ALB
   set {
@@ -62,7 +60,7 @@ resource "helm_release" "nginx_ingress" {
     value = 2
   }
   # Set to Network load balancer
-  set {
+  set-list {
     name = "controller.service.annotations"
     value = ["service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp", "service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'", "service.beta.kubernetes.io/aws-load-balancer-type: nlb" ]
   }
