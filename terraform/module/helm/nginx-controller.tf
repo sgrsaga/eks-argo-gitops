@@ -103,5 +103,4 @@ resource "helm_release" "nginx_ingress" {
   #   value = ["--enable-ssl-passthrough"]
   # }
 
-  depends_on = [ aws_acm_certificate.devops_expert_found_crt ]
 }
