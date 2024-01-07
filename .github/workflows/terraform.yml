@@ -20,7 +20,7 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: ${GITHUB_REF##*/}
+    environment: development
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -146,11 +146,9 @@ jobs:
         cd terraform/environment/scripts/
         chmod +x check_eks_status.sh
         ./check_eks_status.sh
-        cd ../../../kubernetes/overlays/development/
+        cd ../../../kubernetes/overlays/development/ingress
         pwd
-        kubectl get ns
-        kubectl create ns dev
-        echo 'Test Kustomize'
+        echo 'Apply Ingress with Kustomize'
         kubectl kustomize .
         kubectl apply -k .
         kubectl get po -n dev
@@ -168,7 +166,7 @@ jobs:
         echo 'Test Kustomize'
         kubectl kustomize .
         kubectl apply -k .
-        kubectl get po -n dev
+        kubectl get all -n monitoring
 
 
     # # Apply aws_auth config map with users

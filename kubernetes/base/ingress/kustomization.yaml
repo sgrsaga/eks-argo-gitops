@@ -3,6 +3,3 @@ resources:
   - grafing.yaml
   - proming.yaml
   - lokigrafing.yaml
-
-commonLabels:
-   app: gitops
