@@ -2,7 +2,7 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "development", "staging", "production" ]
+    branches: ["staging", "production" ]
   pull_request:
     branches: [ "staging", "production" ]
 
