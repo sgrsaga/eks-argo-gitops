@@ -14,3 +14,13 @@ output "argo_ns"{
 # output "monitoring_ns"{
 #     value = kubernetes_namespace.monitoring.metadata.0.name
 # }
+
+## Check Argo manifest file
+output "manifest_files" {
+  value = helm_release.argocd.manifest
+}
+
+## Final Values
+output "final_values" {
+  value = helm_release.argocd.values
+}

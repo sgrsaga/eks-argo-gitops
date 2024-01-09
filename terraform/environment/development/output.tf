@@ -40,6 +40,19 @@ output "eks_cluster_endpoint" {
 
 }
 
+
+## HELM repo details
+# Argo cd Manifest
+## Check Argo manifest file
+output "manifest_files_yaml" {
+  value = module.helm_repos.manifest_files
+}
+
+## Final Values
+output "final_values" {
+  value = module.helm_repos.final_values
+}
+
 /*
 ## EIP details
 output "eip_allocation_id" {

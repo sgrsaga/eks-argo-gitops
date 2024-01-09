@@ -46,3 +46,4 @@ resource "helm_release" "argocd" {
     # Dependency with nginx ingress controller
     depends_on = [ helm_release.nginx_ingress ]
 }
+
