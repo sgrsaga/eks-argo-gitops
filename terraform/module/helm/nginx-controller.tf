@@ -91,11 +91,11 @@ resource "helm_release" "nginx_ingress" {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
     value = "nlb"
   }
-  # Set TLS Certificate for the NLB
-  set {
-    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
-    value = aws_acm_certificate.devops_expert_found_crt.arn
-  }
+  # # Set TLS Certificate for the NLB
+  # set {
+  #   name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
+  #   value = aws_acm_certificate.devops_expert_found_crt.arn
+  # }
   # Set  --enable-ssl-passthrough for argocd (Setting this manually)
   # Note that the nginx.ingress.kubernetes.io/ssl-passthrough annotation requires that the --enable-ssl-passthrough flag be added to the command line arguments to nginx-ingress-controller
   # set_list {
