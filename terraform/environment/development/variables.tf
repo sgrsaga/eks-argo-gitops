@@ -204,6 +204,16 @@ variable "monitoring_ns" {
 #     default = "cert_data"
 # }
 
+# Domain name
+variable "domain_name_used" {
+    type = string
+}
+# Domain aleternate names
+variable "alt_names"{
+    type = list(string)
+}
+
+
 #################### eks access module
 # Developer Username
 variable "devuser" {

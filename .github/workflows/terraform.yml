@@ -2,7 +2,7 @@ name: 'Terraform'
 
 on:
   push:
-    branches: [ "development", "staging", "production" ]
+    branches: ["development", "staging", "production" ]
   pull_request:
     branches: [ "staging", "production" ]
 
@@ -20,7 +20,7 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: ${GITHUB_REF##*/}
+    environment: development
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -79,32 +79,32 @@ jobs:
         chmod +x check_eks_status.sh
         ./check_eks_status.sh
 
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: |
-        cd terraform/environment/${GITHUB_REF##*/}/
-        # Run Terraform Plan
-        terraform plan -input=false
+    # # Generates an execution plan for Terraform
+    # - name: Terraform Plan
+    #   run: |
+    #     cd terraform/environment/${GITHUB_REF##*/}/
+    #     # Run Terraform Plan
+    #     terraform plan -input=false
 
 
-    # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
-    - name: Terraform Apply for Network, EKS and EKS Access modules
-      if: github.ref == 'refs/heads/development' && github.event_name == 'push'
-      run: |
-        cd terraform/environment/${GITHUB_REF##*/}/
-        terraform apply -target=module.main_network -target=module.eks_gitops_cluster -target=module.eks_access --auto-approve -input=false
+    # # Apply targetted module. We have designed the modules in a way that we can bring up them with some level of independence
+    # - name: Terraform Apply for Network, EKS and EKS Access modules
+    #   if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+    #   run: |
+    #     cd terraform/environment/${GITHUB_REF##*/}/
+    #     terraform apply -target=module.main_network -target=module.eks_gitops_cluster -target=module.eks_access --auto-approve -input=false
 
-    # # Apply HELM Module
-    - name: Terraform Apply HELM Module
-      if: github.ref == 'refs/heads/development' && github.event_name == 'push'
-      run: |
-        cd terraform/environment/scripts/
-        ./check_eks_status.sh
-        cd ../${GITHUB_REF##*/}/
-        echo "Apply helm module"
-        terraform apply -target=module.helm_repos --auto-approve -input=false
+    # # # Apply HELM Module
+    # - name: Terraform Apply HELM Module
+    #   if: github.ref == 'refs/heads/development' && github.event_name == 'push'
+    #   run: |
+    #     cd terraform/environment/scripts/
+    #     ./check_eks_status.sh
+    #     cd ../${GITHUB_REF##*/}/
+    #     echo "Apply helm module"
+    #     terraform apply -target=module.helm_repos --auto-approve -input=false
 
-    # # Destroy the whole infrastructure
+    # # # Destroy the whole infrastructure
     - name: Terraform Destroy
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
@@ -140,6 +140,19 @@ jobs:
         role-to-assume: ${{ secrets.OIDC_ARN }}
         aws-region: ap-south-1
 
+    # Apply Argocd, Prometheus, Grafana and Loki Ingress
+    - name: Apply Ingress with Kustomize
+      run: |
+        cd terraform/environment/scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
+        cd ../../../kubernetes/overlays/development/ingress
+        pwd
+        echo 'Apply Ingress with Kustomize'
+        kubectl kustomize .
+        kubectl apply -k .
+        kubectl get po -n dev
+
     # Apply sampleapp with kustomize
     - name: Test Sample application
       run: |
@@ -153,8 +166,7 @@ jobs:
         echo 'Test Kustomize'
         kubectl kustomize .
         kubectl apply -k .
-        kubectl get po -n dev
-
+        kubectl get all -n monitoring
 
 
     # # Apply aws_auth config map with users

@@ -9,6 +9,7 @@ resource "kubernetes_namespace" "monitoring" {
   }
 }
 
+
 # Install Prometheus helm chart
 resource "helm_release" "prometheus" {
     name = "prometheus"

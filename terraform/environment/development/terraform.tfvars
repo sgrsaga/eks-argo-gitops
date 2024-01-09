@@ -46,6 +46,14 @@ config_path   = "~/.kube/config"
 ingress_ns    = "ingress"
 argo_ns       = "argo"
 monitoring_ns = "monitoring"
+domain_name_used = "devops-expert.foundation"
+alt_names = [
+  "prom.devops-expert.foundation", 
+  "loki.devops-expert.foundation",
+  "lokigrafana.devops-expert.foundation",
+  "grafana.devops-expert.foundation",
+  "argocd.devops-expert.foundation"
+  ]
 
 ##-------------- eks_access Module
 # Developer Username

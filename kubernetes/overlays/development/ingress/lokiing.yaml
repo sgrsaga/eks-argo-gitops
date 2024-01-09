@@ -1,21 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: proming1
+  name: loking
   namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
-  - host: ade6e2d653877402ea998eeda457abfb-653602256.ap-south-1.elb.amazonaws.com
+  - host: loki.devops-expert.foundation
     http:
       paths:
       - backend:
           service:
-            name: prometheus-server
+            name: loki
             port:
-              number: 9090
+              number: 3100
         path: /
         pathType: Prefix
 status:

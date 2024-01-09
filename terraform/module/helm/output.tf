@@ -10,7 +10,7 @@ output "argo_ns"{
 }
 
 
-# Monitoring namesapce
-output "monitoring_ns"{
-    value = kubernetes_namespace.monitoring.metadata.0.name
-}
+# # Monitoring namesapce
+# output "monitoring_ns"{
+#     value = kubernetes_namespace.monitoring.metadata.0.name
+# }

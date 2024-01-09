@@ -1092,3 +1092,4 @@ portNamePrefix: ""
 # This can be generated with: `openssl dhparam 4096 2> /dev/null | base64`
 ## Ref: https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/ssl-dh-param
 dhParam: ""
+

@@ -1,12 +1,16 @@
 # Development configuration with Kustomization
+# apiVersion: kustomize.config.k8s.io/v1beta1
+# kind: Kustomization
 bases:
-  - ../base/sampleApp
+- ../../base/ingress
 
-namespace: dev
 
 patches:
-  - app1-dep1.yaml
-  - app1-svc1.yaml
-  - app1-ing1.yaml
-  - app1-ing2.yaml
+- replicas.yaml
+- addrole.yaml
 
+configMapGenerator:
+  - name: test-auth
+    behavior: merge
+    envs:
+    - env-vars
