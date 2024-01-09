@@ -22,11 +22,25 @@ resource "helm_release" "argocd" {
         name  = "replicas"
         value = "2"
     }
-    # Set Node Selector to Utility nodes
+    # Set Tollerations to host in utility node group
     set {
-        name = "nodeSelector.category"
-        value = "utility"
-        type = "string"
+      name  = "tolerations[0].key"
+      value = "utility"
+    }
+
+    set {
+      name  = "tolerations[0].value"
+      value = "yes"
+    }
+
+    set {
+      name  = "tolerations[0].operator"
+      value = "Equal"
+    }
+
+    set {
+      name  = "tolerations[0].effect"
+      value = "PREFER_NO_SCHEDULE"
     }
 
     # Dependency with nginx ingress controller
