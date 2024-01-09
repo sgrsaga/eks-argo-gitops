@@ -22,6 +22,7 @@ resource "helm_release" "grafana" {
         value = "utility"
         type = "string"
     }
+    
 }
 
 ## Apply below configuration parameters for the grafana.ini via [grafana] ConfigMap

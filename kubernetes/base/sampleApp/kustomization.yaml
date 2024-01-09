@@ -4,7 +4,6 @@ resources:
 - app1dep1.yaml
 - app1-svc1.yaml
 - app1-ing1.yaml
-- cm1.yaml
 
 namePrefix:
   kustom-
