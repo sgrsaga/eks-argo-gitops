@@ -1,5 +1,7 @@
 # Development configuration with Kustomization
 # apiVersion: kustomize.config.k8s.io/v1beta1
 # kind: Kustomization
-bases:
+resources:
 - ../../base/sampleApp
+
+namespace: dev
