@@ -141,7 +141,7 @@ jobs:
         aws-region: ap-south-1
 
     # Apply Argocd, Prometheus, Grafana and Loki Ingress
-    - name: Test Sample application
+    - name: Apply Ingress with Kustomize
       run: |
         cd terraform/environment/scripts/
         chmod +x check_eks_status.sh
