@@ -29,17 +29,17 @@ resource "helm_release" "argocd" {
     }
 
     set {
-      name  = "tolerations[0].value"
+      name  = "tolerations[1].value"
       value = "yes"
     }
 
     set {
-      name  = "tolerations[0].operator"
+      name  = "tolerations[2].operator"
       value = "Equal"
     }
 
     set {
-      name  = "tolerations[0].effect"
+      name  = "tolerations[3].effect"
       value = "PREFER_NO_SCHEDULE"
     }
 
