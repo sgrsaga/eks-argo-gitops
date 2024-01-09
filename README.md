@@ -1,29 +1,29 @@
 
 # AWS EKS Complete Infrastructure project
 
-In this project use Terraform to completely deploy an AWS EKS cluster with ArgoCD, Grafana, Prometheus and Loki. From Tools and technologies perspective Terraform, EKS, GitHub, GitHub Actions, Kuberenetes, Kustomize and Helm are used.
+This project uses Terraform to completely deploy an AWS EKS cluster with ArgoCD, Grafana, Prometheus and Loki. Terraform, EKS, GitHub, GitHub Actions, Kubernetes, Kustomize and Helm are used from the Tools and technologies perspective.
+
+## Architecture
+
+High-Level architecture
+
+![High Level architecture](Images/K8S_High_Level.png)
 
 ## Following activities will be completed through the Automated pipeline.
 
 ### 1. AWS Network component provisioning with Terraform
 Resources: VPC, Internet Gateway, Nat Gateway, Route Tables, Subnets, Security Groups, Elastic IP
 ### 2. Provision AWS EKS cluster with node groups and other components with Terraform
-Resources: IAM role with Minimum access, KMS for Cluster encyption, EKS Cluster, Kubernetes OIDC provider, IAM role for the Node Group, Node Groups, EKS Addon
-### 3. Install ArgoCD for GitOps based deployment 
+Resources: IAM role with Minimum access, KMS for Cluster encryption, EKS Cluster, Kubernetes OIDC provider, IAM role for the Node Group, Node Groups, EKS Addon
+### 3. Install ArgoCD for GitOps-based deployment 
 Resources: Use Helm to deploy the ArgoCD helm chart via Terraform
-### 4. Install and Configure Nginx Ingress Controller
-Resources: Use helm and Terraform to deploy Kubernetes Nginx Ingress Controller
-### 5. Install Monitoring application Prometheus, Loki and Grafana
+### 4. Install and Configure the Nginx Ingress Controller
+Resources: Use Helm and Terraform to deploy Kubernetes Nginx Ingress Controller
+### 5. Install Monitoring applications Prometheus, Loki and Grafana
 Resources: Use Helm and Terraform to deploy Prometheus, Loki and Grafana
 ### 6. Apply Ingress to access ArgoCD GUI, Grafana GUI and Prometheus
-Resources: Use kubectl tool to apply Ingress rules to provide access to GUI component. Kustomize also used so we cna deploy the same ingress based on different environement.
+Resources: Use kubectl tool to apply Ingress rules to provide access to the GUI component. Kustomize is also used to deploy the same ingress based on different environments.
 
-
-## Architecture
-
-High Level architecture
-
-![High Level architecture](Images/K8S_High_Level.png)
 
 EKS Internal components
 
