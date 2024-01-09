@@ -1,45 +1,42 @@
 
 # AWS EKS Complete Infrastructure project
 
-This project will show case you some of the technologies you can use to completly configure AWS EKS cluster to host your Dockerized Kubernetes applications.
+This project uses Terraform to completely deploy an AWS EKS cluster with ArgoCD, Grafana, Prometheus and Loki. Terraform, EKS, GitHub, GitHub Actions, Kubernetes, Kustomize and Helm are used from the Tools and technologies perspective.
+
+## Architecture
+
+High-Level architecture
+
+![High Level architecture](Images/K8S_High_Level.png)
+
+## Following activities will be completed through the Automated pipeline.
+
+### 1. AWS Network component provisioning with Terraform
+Resources: VPC, Internet Gateway, Nat Gateway, Route Tables, Subnets, Security Groups, Elastic IP
+### 2. Provision AWS EKS cluster with node groups and other components with Terraform
+Resources: IAM role with Minimum access, KMS for Cluster encryption, EKS Cluster, Kubernetes OIDC provider, IAM role for the Node Group, Node Groups, EKS Addon
+### 3. Install ArgoCD for GitOps-based deployment 
+Resources: Use Helm to deploy the ArgoCD helm chart via Terraform
+### 4. Install and Configure the Nginx Ingress Controller
+Resources: Use Helm and Terraform to deploy Kubernetes Nginx Ingress Controller
+### 5. Install Monitoring applications Prometheus, Loki and Grafana
+Resources: Use Helm and Terraform to deploy Prometheus, Loki and Grafana
+### 6. Apply Ingress to access ArgoCD GUI, Grafana GUI and Prometheus
+Resources: Use kubectl tool to apply Ingress rules to provide access to the GUI component. Kustomize is also used to deploy the same ingress based on different environments.
 
 
+EKS Internal components
 
-Configure GitHub Project with OIDC connection with AWS 
-This is one of the most secure methods to communicate AWS by configuring the GitHub Identity provider in AWS IAM. It reduces the credential overhead and possible security concerns.
-1. Create an Identity provider under AWS IAM
-Provider URL: Use https://token.actions.githubusercontent.com
-Audience: Use sts.amazonaws.com
+![EKS Internal components](Images/K8S_EKS_Internal.png)
 
-2. Create a role to connect to the Identity provider.
-Click on the Identity Provider and then <Assign Role>
-Select <Create New Role>
-Set the trust identities as follows
-Now set the permissions [We set Administrator access for now, you can provide only the required access levels based on your resources]
-The final Trust relationship is as follows
+### Best Practices used
 
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "arn:aws:iam::xxxxxxxxxxxx:oidc-provider/token.actions.githubusercontent.com"
-            },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringEquals": {
-                    "token.actions.githubusercontent.com:sub": "repo:sgrsaga/eks-argo-gitops:environment:development",
-                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
-                }
-            }
-        }
-    ]
-}
-```
-Note: We have set the Trust relationship so that only the "development" environment changes will be accommodated via this role. We can harden the OIDC connection with many different approaches. You can lose it as well with some wild card implementation.
-For more details, use GitHub OIDC reference: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+1. Use Open ID Connect to communicate with AWS
+    Configure GitHub Project with OIDC connection with AWS  This is one of the most secure methods to communicate AWS by configuring the GitHub Identity provider in AWS IAM. It reduces the credential overhead and possible security concerns.
+
+To be Continued
+
+
 
 
 ----------- Drafts -----------------
