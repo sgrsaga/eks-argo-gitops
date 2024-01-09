@@ -24,25 +24,21 @@ resource "helm_release" "argocd" {
     }
     # Set Tollerations to host in utility node group
     set {
-      name  = "tolerations[0].key"
+      name  = "global.tolerations[0].key"
       value = "utility"
     }
-
     set {
-      name  = "tolerations[1].value"
+      name  = "global.tolerations[0].value"
       value = "yes"
     }
-
     set {
-      name  = "tolerations[2].operator"
+      name  = "global.tolerations[0].operator"
       value = "Equal"
     }
-
     set {
-      name  = "tolerations[3].effect"
+      name  = "global.tolerations[0].effect"
       value = "PREFER_NO_SCHEDULE"
     }
-
     # Dependency with nginx ingress controller
     depends_on = [ helm_release.nginx_ingress ]
 }
