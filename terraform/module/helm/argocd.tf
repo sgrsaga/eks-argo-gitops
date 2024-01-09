@@ -37,7 +37,7 @@ resource "helm_release" "argocd" {
     }
     set {
       name  = "global.tolerations[0].effect"
-      value = "PREFER_NO_SCHEDULE"
+      value = "PreferNoSchedule"
     }
     # Dependency with nginx ingress controller
     depends_on = [ helm_release.nginx_ingress ]
