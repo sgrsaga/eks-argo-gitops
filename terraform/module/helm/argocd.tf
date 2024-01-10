@@ -22,7 +22,7 @@ resource "helm_release" "argocd" {
         name  = "replicas"
         value = "2"
     }
-    # Set Tollerations to host in utility node group
+    # Set global Tollerations to host in utility node group
     set {
       name  = "global.tolerations[0].key"
       value = "utility"
@@ -37,6 +37,57 @@ resource "helm_release" "argocd" {
     }
     set {
       name  = "global.tolerations[0].effect"
+      value = "NoSchedule"
+    }
+    # Set Controller Tollerations to host in utility node group
+    set {
+      name  = "controller.tolerations[0].key"
+      value = "utility"
+    }
+    set {
+      name  = "controller.tolerations[0].value"
+      value = "no"
+    }
+    set {
+      name  = "controller.tolerations[0].operator"
+      value = "Equal"
+    }
+    set {
+      name  = "controller.tolerations[0].effect"
+      value = "NoSchedule"
+    }
+    # Set Redis Tollerations to host in utility node group
+    set {
+      name  = "redis.tolerations[0].key"
+      value = "utility"
+    }
+    set {
+      name  = "redis.tolerations[0].value"
+      value = "no"
+    }
+    set {
+      name  = "redis.tolerations[0].operator"
+      value = "Equal"
+    }
+    set {
+      name  = "redis.tolerations[0].effect"
+      value = "NoSchedule"
+    }
+    # Set Server Tollerations to host in utility node group
+    set {
+      name  = "server.tolerations[0].key"
+      value = "utility"
+    }
+    set {
+      name  = "server.tolerations[0].value"
+      value = "no"
+    }
+    set {
+      name  = "server.tolerations[0].operator"
+      value = "Equal"
+    }
+    set {
+      name  = "server.tolerations[0].effect"
       value = "NoSchedule"
     }
     # Dependency with nginx ingress controller
