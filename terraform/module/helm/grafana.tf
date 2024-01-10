@@ -22,23 +22,23 @@ resource "helm_release" "grafana" {
         value = "utility"
         type = "string"
     }
-    # Set Tollerations to host in utility node group
-    set {
-      name  = "tolerations[0].key"
-      value = "utility"
-    }
-    set {
-      name  = "tolerations[0].value"
-      value = "no"
-    }
-    set {
-      name  = "tolerations[0].operator"
-      value = "Equal"
-    }
-    set {
-      name  = "tolerations[0].effect"
-      value = "NoSchedule"
-    }
+    # # Set Tollerations to host in utility node group
+    # set {
+    #   name  = "tolerations[0].key"
+    #   value = "utility"
+    # }
+    # set {
+    #   name  = "tolerations[0].value"
+    #   value = "no"
+    # }
+    # set {
+    #   name  = "tolerations[0].operator"
+    #   value = "Equal"
+    # }
+    # set {
+    #   name  = "tolerations[0].effect"
+    #   value = "NoSchedule"
+    # }
 }
 
 ## Apply below configuration parameters for the grafana.ini via [grafana] ConfigMap
