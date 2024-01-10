@@ -41,21 +41,21 @@ resource "helm_release" "prometheus" {
         value = "utility"
         type = "string"
     }
-    # Set Tollerations to host in utility node group
-    set {
-      name  = "server.tolerations[0].key"
-      value = "utility"
-    }
-    set {
-      name  = "server.tolerations[0].value"
-      value = "no"
-    }
-    set {
-      name  = "server.tolerations[0].operator"
-      value = "Equal"
-    }
-    set {
-      name  = "server.tolerations[0].effect"
-      value = "NoSchedule"
-    }
+    # # Set Tollerations to host in utility node group
+    # set {
+    #   name  = "server.tolerations[0].key"
+    #   value = "utility"
+    # }
+    # set {
+    #   name  = "server.tolerations[0].value"
+    #   value = "no"
+    # }
+    # set {
+    #   name  = "server.tolerations[0].operator"
+    #   value = "Equal"
+    # }
+    # set {
+    #   name  = "server.tolerations[0].effect"
+    #   value = "NoSchedule"
+    # }
 }

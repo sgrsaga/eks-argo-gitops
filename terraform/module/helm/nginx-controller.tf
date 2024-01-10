@@ -91,23 +91,23 @@ resource "helm_release" "nginx_ingress" {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
     value = "nlb"
   }
-    # Set Tollerations to host in utility node group
-  set {
-    name  = "controller.tolerations[0].key"
-     value = "utility"
-  }
-  set {
-    name  = "controller.tolerations[0].value"
-    value = "no"
-  }
-  set {
-    name  = "controller.tolerations[0].operator"
-    value = "Equal"
-  }
-  set {
-    name  = "controller.tolerations[0].effect"
-    value = "NoSchedule"
-  }
+  #   # Set Tollerations to host in utility node group
+  # set {
+  #   name  = "controller.tolerations[0].key"
+  #    value = "utility"
+  # }
+  # set {
+  #   name  = "controller.tolerations[0].value"
+  #   value = "no"
+  # }
+  # set {
+  #   name  = "controller.tolerations[0].operator"
+  #   value = "Equal"
+  # }
+  # set {
+  #   name  = "controller.tolerations[0].effect"
+  #   value = "NoSchedule"
+  # }
   # # Set TLS Certificate for the NLB
   # set {
   #   name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
