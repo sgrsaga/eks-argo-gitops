@@ -78,23 +78,18 @@ variable "node_group_names" {
 }
 
 # 5. Node Group Thresholds
-variable "node_group_size" {
+variable "node_group_size1" {
   type        = list(number)
   description = "Value should be desired_size,max_size, min_size and max_unavailable"
   default     = [1, 2, 1, 1]
 }
 
-# 6. Public NG size
-variable "public_ng_size" {
-  type    = number
-  default = 1
+# 6. Node Group Thresholds
+variable "node_group_size2" {
+    type = list(number)
+    description = "Value should be desired_size,max_size, min_size and max_unavailable"
+    default = [1,2,1,1]
 }
-# 7. Private NG size
-variable "private_ng_size" {
-  type    = number
-  default = 1
-}
-
 # # 8. K8S version to spin up
 # variable "k8s_version" {
 #     type = string 

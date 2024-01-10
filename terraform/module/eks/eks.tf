@@ -186,23 +186,22 @@ data "aws_security_groups" "public_sg" {
 # 06. Create Node Groups
 # Node Groups 1 for utilities
 resource "aws_eks_node_group" "node_groups1" {
-  count           = var.public_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "NG1"
   node_role_arn   = aws_iam_role.ng_role.arn
   subnet_ids      = data.aws_subnets.private_subnets.ids
 
   scaling_config {
-      desired_size = "${var.node_group_size[0]}"
-      max_size     = "${var.node_group_size[1]}"
-      min_size     = "${var.node_group_size[2]}"
+      desired_size = "${var.node_group_size1[0]}"
+      max_size     = "${var.node_group_size1[1]}"
+      min_size     = "${var.node_group_size1[2]}"
   }
 
   update_config {
-    max_unavailable = "${var.node_group_size[3]}"
+    max_unavailable = "${var.node_group_size1[3]}"
   }
   tags = {
-    Name = "PUBLIC_NODE_${count.index}"
+    Name = "PUBLIC_NODE_GROUP"
     Type = "NodeGroup"
   }
   labels = {
@@ -225,23 +224,22 @@ resource "aws_eks_node_group" "node_groups1" {
 
 # Node Group 2 for workloads
 resource "aws_eks_node_group" "node_groups2" {
-  count           = var.private_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "NG2"
   node_role_arn   = aws_iam_role.ng_role.arn
   subnet_ids      = data.aws_subnets.private_subnets.ids
 
   scaling_config {
-      desired_size = "${var.node_group_size[0]}"
-      max_size     = "${var.node_group_size[1]}"
-      min_size     = "${var.node_group_size[2]}"
+      desired_size = "${var.node_group_size2[0]}"
+      max_size     = "${var.node_group_size2[1]}"
+      min_size     = "${var.node_group_size2[2]}"
   }
 
   update_config {
-    max_unavailable = "${var.node_group_size[3]}"
+    max_unavailable = "${var.node_group_size2[3]}"
   }
   tags = {
-    Name = "PRIVATE_NODE_${count.index}"
+    Name = "PRIVATE_NODE_GROUP"
     Type = "NodeGroup"
   }
   labels = {

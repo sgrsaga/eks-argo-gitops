@@ -102,12 +102,12 @@ module "main_network" {
 # 2. EKS Cluster creation
 module "eks_gitops_cluster" {
   source           = "../../module/eks"
-  private_ng_size  = var.private_ng_size
+
   public_ng_size   = var.public_ng_size
   cluster_name     = var.cluster_name
   node_group_names = var.node_group_names
-  node_group_size  = var.node_group_size
-
+  node_group_size1  = var.node_group_size1
+  node_group_size2  = var.node_group_size2
   # Versions
   # version                 = var.k8s_version
   # cni-version             = var.cni-version

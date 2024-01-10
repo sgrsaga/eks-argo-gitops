@@ -19,7 +19,7 @@ resource "helm_release" "argocd" {
 
     # Set replicas
     set {
-        name  = "replicas"
+        name  = "server.replicas"
         value = "2"
     }
   # Set Node Selector to Utility nodes

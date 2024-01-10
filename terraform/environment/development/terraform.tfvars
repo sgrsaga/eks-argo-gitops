@@ -30,9 +30,8 @@ public_access_sg_ingress_rules = [
 cluster_name = "EKS-GitOps-Cluster"
 #k8s_version = "1.27"
 node_group_names = ["NG_1", "NG_2"]
-node_group_size  = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
-public_ng_size   = 2
-private_ng_size  = 1
+node_group_size1  = [2, 3, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
+node_group_size2  = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
 
 ## Add Ons
 # cni-version = "v1.15.4-eksbuild.1"
