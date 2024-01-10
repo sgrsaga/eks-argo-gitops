@@ -23,6 +23,11 @@ resource "helm_release" "prometheus" {
         name  = "replicas"
         value = "2"
     }
+    # Disable Grafana since we have Grafana seperately
+    set {
+        name  = "grafana.enabled"
+        value = "false"
+    }
     # # Set alertmanager.persistentVolume.storageClass
     # set {
     #     name = "alertmanager.persistentVolume.storageClass"
