@@ -27,10 +27,10 @@ spec:
             memory: "128Mi"
             cpu: "500m"
       tolerations:
-      - key: "utility"
+      - key: "workload"
         operator: "Equal"
         value: "no"
-        effect: "PreferNoSchedule"
+        effect: "NoSchedule"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

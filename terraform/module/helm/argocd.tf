@@ -29,7 +29,7 @@ resource "helm_release" "argocd" {
     }
     set {
       name  = "global.tolerations[0].value"
-      value = "yes"
+      value = "no"
     }
     set {
       name  = "global.tolerations[0].operator"
@@ -37,7 +37,7 @@ resource "helm_release" "argocd" {
     }
     set {
       name  = "global.tolerations[0].effect"
-      value = "PreferNoSchedule"
+      value = "NoSchedule"
     }
     # Dependency with nginx ingress controller
     depends_on = [ helm_release.nginx_ingress ]

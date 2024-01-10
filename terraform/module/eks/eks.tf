@@ -184,7 +184,7 @@ data "aws_security_groups" "public_sg" {
 
 
 # 06. Create Node Groups
-# Node Groups 1
+# Node Groups 1 for utilities
 resource "aws_eks_node_group" "node_groups1" {
   count           = var.public_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
@@ -210,8 +210,8 @@ resource "aws_eks_node_group" "node_groups1" {
   }
   taint {
     key    = "utility"
-    value  = "yes"
-    effect = "PREFER_NO_SCHEDULE"
+    value  = "no"
+    effect = "NO_SCHEDULE"
   }
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
@@ -223,7 +223,7 @@ resource "aws_eks_node_group" "node_groups1" {
   ]
 }
 
-# Node Group 2
+# Node Group 2 for workloads
 resource "aws_eks_node_group" "node_groups2" {
   count           = var.private_ng_size
   cluster_name    = aws_eks_cluster.eks_cluster.name
@@ -248,9 +248,9 @@ resource "aws_eks_node_group" "node_groups2" {
     category = "workload"
   }
   taint {
-    key    = "utility"
+    key    = "workload"
     value  = "no"
-    effect = "PREFER_NO_SCHEDULE"
+    effect = "NO_SCHEDULE"
   }
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
