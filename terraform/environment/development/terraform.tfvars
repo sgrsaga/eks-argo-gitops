@@ -31,7 +31,7 @@ cluster_name = "EKS-GitOps-Cluster"
 #k8s_version = "1.27"
 node_group_names = ["NG_1", "NG_2"]
 node_group_size  = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
-public_ng_size   = 1
+public_ng_size   = 2
 private_ng_size  = 1
 
 ## Add Ons
