@@ -23,23 +23,42 @@ resource "helm_release" "prometheus" {
         name  = "replicas"
         value = "2"
     }
-    # Set alertmanager.persistentVolume.storageClass
-    set {
-        name = "alertmanager.persistentVolume.storageClass"
-        value = "gp2"
-        type = "string"
-    }
-    # Set server.persistentVolume.storageClass
-    set {
-        name = "server.persistentVolume.storageClass"
-        value = "gp2"
-        type = "string"
-    }
+    # # Set alertmanager.persistentVolume.storageClass
+    # set {
+    #     name = "alertmanager.persistentVolume.storageClass"
+    #     value = "gp2"
+    #     type = "string"
+    # }
+    # # Set server.persistentVolume.storageClass
+    # set {
+    #     name = "server.persistentVolume.storageClass"
+    #     value = "gp2"
+    #     type = "string"
+    # }
     # Set Node Selector to Utility nodes
     set {
-        name = "nodeSelector.category"
+        name = "prometheusOperator.admissionWebhooks.deployment.nodeSelector.category"
         value = "utility"
         type = "string"
+    }
+    set {
+        name = "prometheusOperator.nodeSelector.category"
+        value = "utility"
+        type = "string"
+    }
+    set {
+        name = "alertmanager.alertmanagerSpec.nodeSelector.category"
+        value = "utility"
+        type = "string"
+    }
+    ## Replicas set
+    set {
+        name = "alertmanager.alertmanagerSpec.replicas"
+        value = "2"
+    }
+    set {
+        name = "prometheusOperator.admissionWebhooks.deployment.replicas"
+        value = "2"
     }
     # # Set Tollerations to host in utility node group
     # set {
