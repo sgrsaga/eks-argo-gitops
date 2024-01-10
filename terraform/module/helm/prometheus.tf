@@ -14,9 +14,9 @@ resource "kubernetes_namespace" "monitoring" {
 resource "helm_release" "prometheus" {
     name = "prometheus"
     repository = "https://prometheus-community.github.io/helm-charts"
-    chart = "prometheus"
+    chart = "kube-prometheus-stack"
     namespace = kubernetes_namespace.monitoring.metadata.0.name
-    version = "25.8.2"
+    version = "55.7.0"
 
     # Set replicas
     set {
