@@ -5,8 +5,8 @@ resources:
 - app1-svc1.yaml
 - app1-ing1.yaml
 
-namePrefix:
-  kustom-
+# namePrefix:
+#   kustom-
 
-nameSuffix:
-  -v1
+# nameSuffix:
+#   -v1
