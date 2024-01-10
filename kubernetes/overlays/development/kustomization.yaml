@@ -5,12 +5,12 @@ bases:
 - ../../../base/ingress
 
 
-patches:
-- replicas.yaml
-- addrole.yaml
+# patches:
+# - replicas.yaml
+# - addrole.yaml
 
-configMapGenerator:
-  - name: test-auth
-    behavior: merge
-    envs:
-    - env-vars
+# configMapGenerator:
+#   - name: test-auth
+#     behavior: merge
+#     envs:
+#     - env-vars
