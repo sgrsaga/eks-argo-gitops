@@ -93,19 +93,19 @@ resource "helm_release" "nginx_ingress" {
   }
     # Set Tollerations to host in utility node group
   set {
-    name  = "global.tolerations[0].key"
+    name  = "controller.tolerations[0].key"
      value = "utility"
   }
   set {
-    name  = "global.tolerations[0].value"
+    name  = "controller.tolerations[0].value"
     value = "no"
   }
   set {
-    name  = "global.tolerations[0].operator"
+    name  = "controller.tolerations[0].operator"
     value = "Equal"
   }
   set {
-    name  = "global.tolerations[0].effect"
+    name  = "controller.tolerations[0].effect"
     value = "NoSchedule"
   }
   # # Set TLS Certificate for the NLB
