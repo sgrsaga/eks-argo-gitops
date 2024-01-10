@@ -26,11 +26,6 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
-      tolerations:
-      - key: "category"
-        operator: "Equal"
-        value: "no"
-        effect: "PreferNoSchedule"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
