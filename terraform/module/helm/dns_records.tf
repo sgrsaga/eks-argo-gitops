@@ -3,7 +3,7 @@
 # 1. Get the Route 53c Zone ID
 data "aws_route53_zone" "dns_zone" {
   name         = var.domain_name_used
-  private_zone = true
+  private_zone = false
 }
 
 ## Get Zone ID
@@ -19,13 +19,18 @@ data "aws_lbs" "nlb" {
   depends_on = [ helm_release.nginx_ingress ]
 }
 
-data "aws_lb" "test" {
-  arn  = "${element(data.aws_lbs.nlb.arns, 0)}"  ##element(list, 0 )
+data "aws_lb" "get_nlb_dns_name" {
+  arn  = element(tolist(data.aws_lbs.nlb.arns)[0])  ##element(list_data, 0 )
   depends_on = [ helm_release.nginx_ingress ]
 }
 
+## Get Zone ID
+output "arns_list" {
+    value = data.aws_lbs.nlb.arns
+}
+
 output "nlb_dns_name" {
-    value = data.aws_lb.test.dns_name
+    value = data.aws_lb.get_nlb_dns_name.dns_name
 }
 
 # 3. Create Simple routing with DNS names
@@ -37,7 +42,7 @@ resource "aws_route53_record" "ingres_routes" {
 
 
       alias {
-        name =  data.aws_lb.test.dns_name
+        name =  data.aws_lb.get_nlb_dns_name.dns_name
         zone_id = "${data.aws_route53_zone.dns_zone.id}"
         evaluate_target_health = true
       }
