@@ -49,7 +49,6 @@ domain_name_used = "devops-expert.foundation"
 alt_names = [
   "prom.devops-expert.foundation", 
   "loki.devops-expert.foundation",
-  "lokigrafana.devops-expert.foundation",
   "grafana.devops-expert.foundation",
   "argocd.devops-expert.foundation"
   ]
