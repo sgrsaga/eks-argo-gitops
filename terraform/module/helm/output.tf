@@ -24,3 +24,15 @@ output "manifest_files" {
 output "final_values" {
   value = helm_release.argocd.values
 }
+## Get Zone ID
+output "zone_id" {
+    value = data.aws_route53_zone.dns_zone.id
+}
+## Get Zone ID
+output "arns_list" {
+    value = data.aws_lbs.nlb.arns
+}
+
+output "nlb_dns_name" {
+    value = data.aws_lb.get_nlb_dns_name.dns_name
+}

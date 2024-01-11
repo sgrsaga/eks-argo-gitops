@@ -6,11 +6,6 @@ data "aws_route53_zone" "dns_zone" {
   private_zone = false
 }
 
-## Get Zone ID
-output "zone_id" {
-    value = data.aws_route53_zone.dns_zone.id
-}
-
 # 2. Get the AWS NLB arn
 data "aws_lbs" "nlb" {
   tags = {
@@ -24,19 +19,10 @@ data "aws_lb" "get_nlb_dns_name" {
   depends_on = [ helm_release.nginx_ingress ]
 }
 
-## Get Zone ID
-output "arns_list" {
-    value = data.aws_lbs.nlb.arns
-}
-
-output "nlb_dns_name" {
-    value = data.aws_lb.get_nlb_dns_name.dns_name
-}
-
 # 3. Create Simple routing with DNS names
 resource "aws_route53_record" "ingres_routes" {
     count = length(var.alt_names)
-      zone_id = "${data.aws_route53_zone.dns_zone.id}"
+      zone_id = var.alias_zone_id
       name    = var.alt_names[count.index]
       type    = "A"
     #   ttl = 300
