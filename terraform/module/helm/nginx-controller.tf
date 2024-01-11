@@ -91,6 +91,11 @@ resource "helm_release" "nginx_ingress" {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
     value = "nlb"
   }
+  # load balance labels
+  set {
+    name = "controller.service.labels\\.nlb_name"
+    value = "nginx_ingress_controller_nlb"
+  }
   #   # Set Tollerations to host in utility node group
   # set {
   #   name  = "controller.tolerations[0].key"

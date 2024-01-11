@@ -53,7 +53,7 @@ alt_names = [
   "grafana.devops-expert.foundation",
   "argocd.devops-expert.foundation"
   ]
-
+main_dns = "devops-expert.foundation"
 ##-------------- eks_access Module
 # Developer Username
 devuser = "devuser"

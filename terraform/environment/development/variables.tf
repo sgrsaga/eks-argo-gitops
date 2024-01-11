@@ -208,6 +208,10 @@ variable "alt_names"{
     type = list(string)
 }
 
+# Main DNS name
+variable "main_dns" {
+    type = string  
+}
 
 #################### eks access module
 # Developer Username

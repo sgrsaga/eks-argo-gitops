@@ -36,3 +36,8 @@ variable "argo_ns"{
 # variable "cert_data" {
 #     type = string  
 # }
+
+# Main DNS name
+variable "main_dns" {
+    type = string  
+}
