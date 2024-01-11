@@ -38,7 +38,7 @@ resource "aws_route53_record" "ingres_routes" {
 
       alias {
         name =  data.aws_lb.test.dns_name
-        zone_id = aws_elb.main.zone_id
+        zone_id = "${data.aws_route53_zone.dns_zone.id}"
         evaluate_target_health = true
       }
 
