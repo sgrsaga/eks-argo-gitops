@@ -20,7 +20,7 @@ data "aws_lbs" "nlb" {
 }
 
 data "aws_lb" "get_nlb_dns_name" {
-  arn  = element(tolist(data.aws_lbs.nlb.arns)[0])  ##element(list_data, 0 )
+  arn  = element(tolist(data.aws_lbs.nlb.arns),0)  ##element(list_data, 0 )
   depends_on = [ helm_release.nginx_ingress ]
 }
 
