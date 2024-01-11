@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lokigrafing
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: lokigrafana.devops-expert.foundation
+    http:
+      paths:
+      - backend:
+          service:
+            name: loki-grafana
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer: {}
