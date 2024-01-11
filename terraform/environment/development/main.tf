@@ -127,6 +127,8 @@ module "helm_repos" {
   domain_name_used = var.domain_name_used
   alt_names = var.alt_names
   alt_names_prefix = var.alt_names_prefix
+  alias_zone_id = var.alias_zone_id
+  
   depends_on = [module.eks_gitops_cluster]
 }
 

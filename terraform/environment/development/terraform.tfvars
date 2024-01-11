@@ -59,6 +59,7 @@ alt_names_prefix = [
   "argocd"
   ]
 main_dns = "devops-expert.foundation"
+alias_zone_id = "ZVDDRBQ08TROA"
 ##-------------- eks_access Module
 # Developer Username
 devuser = "devuser"
