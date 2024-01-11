@@ -38,7 +38,7 @@ resource "aws_route53_record" "ingres_routes" {
     count = length(var.alt_names_prefix)
       zone_id = "${data.aws_route53_zone.dns_zone.id}"
       name    = var.alt_names_prefix[count.index]
-      type    = "A"
+      type    = "CNAME"
 
 
       alias {
