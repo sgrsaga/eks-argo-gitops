@@ -50,13 +50,15 @@ alt_names = [
   "prom.devops-expert.foundation", 
   "loki.devops-expert.foundation",
   "grafana.devops-expert.foundation",
-  "argocd.devops-expert.foundation"
+  "argocd.devops-expert.foundation",
+  "lokigrafana.devops-expert.foundation"
   ]
 alt_names_prefix = [
   "prom", 
   "loki",
   "grafana",
-  "argocd"
+  "argocd",
+  "lokigrafana"
   ]
 main_dns = "devops-expert.foundation"
 alias_zone_id = "ZVDDRBQ08TROA"
