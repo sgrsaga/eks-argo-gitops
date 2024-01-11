@@ -14,7 +14,7 @@ output "zone_id" {
 # 2. Get the AWS NLB arn
 data "aws_lbs" "nlb" {
   tags = {
-    "nlb_name" = "nginx_ingress_controller_nlb"
+    "kubernetes.io/service-name" = "ingress/nginx-ingress-controller-ingress-nginx-controller"
   }
   depends_on = [ helm_release.nginx_ingress ]
 }
