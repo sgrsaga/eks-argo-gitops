@@ -2,7 +2,7 @@
 
 # 1. Get the Route 53c Zone ID
 data "aws_route53_zone" "dns_zone" {
-  name         = var.main_dns
+  name         = var.domain_name_used
   private_zone = true
 }
 
