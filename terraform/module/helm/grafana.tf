@@ -14,7 +14,7 @@ resource "helm_release" "grafana" {
     # Set replicas
     set {
         name  = "replicas"
-        value = "2"
+        value = "1"
     }
     # Set Node Selector to Utility nodes
     set {

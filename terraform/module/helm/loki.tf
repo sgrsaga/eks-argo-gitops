@@ -11,11 +11,11 @@ resource "helm_release" "loki" {
     namespace = var.monitoring_ns
     version = "2.9.11"
 
-    # Set replicas
-    set {
-        name  = "replicas"
-        value = "2"
-    }
+    # # Set replicas
+    # set {
+    #     name  = "replicas"
+    #     value = "2"
+    # }
     # Set Node Selector to Utility nodes
     set {
         name = "nodeSelector.category"
@@ -32,11 +32,11 @@ resource "helm_release" "loki" {
         name = "promtail.enabled"
         value = "true"
     }
-    # # enable grafana
-    # set {
-    #     name = "grafana.enabled"
-    #     value = "true"
-    # }
+    # enable grafana
+    set {
+        name = "grafana.enabled"
+        value = "true"
+    }
     # # Set Tollerations to host in utility node group
     # set {
     #   name  = "tolerations[0].key"
