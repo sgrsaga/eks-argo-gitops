@@ -20,7 +20,7 @@ data "aws_lbs" "nlb" {
 }
 
 data "aws_lb" "test" {
-  arn  = "${data.aws_lbs.nlb.arns[0]}"
+  arn  = "${element(data.aws_lbs.nlb.arns, 0)}"  ##element(list, 0 )
   depends_on = [ helm_release.nginx_ingress ]
 }
 
