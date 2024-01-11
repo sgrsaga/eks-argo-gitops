@@ -207,7 +207,10 @@ variable "domain_name_used" {
 variable "alt_names"{
     type = list(string)
 }
-
+# Domain alt_names_prefix names
+variable "alt_names_prefix"{
+    type = list(string)
+}
 # Main DNS name
 variable "main_dns" {
     type = string  

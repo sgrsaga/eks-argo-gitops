@@ -52,6 +52,12 @@ alt_names = [
   "grafana.devops-expert.foundation",
   "argocd.devops-expert.foundation"
   ]
+alt_names_prefix = [
+  "prom", 
+  "loki",
+  "grafana",
+  "argocd"
+  ]
 main_dns = "devops-expert.foundation"
 ##-------------- eks_access Module
 # Developer Username

@@ -35,9 +35,9 @@ output "nlb_dns_name" {
 
 # 3. Create Simple routing with DNS names
 resource "aws_route53_record" "ingres_routes" {
-    count = length(var.alt_names)
+    count = length(var.alt_names_prefix)
       zone_id = "${data.aws_route53_zone.dns_zone.id}"
-      name    = var.alt_names[count.index]
+      name    = var.alt_names_prefix[count.index]
       type    = "A"
 
 
