@@ -215,7 +215,10 @@ variable "alt_names_prefix"{
 variable "main_dns" {
     type = string  
 }
-
+# alias_zone_id
+variable "alias_zone_id" {
+    type = string  
+}
 #################### eks access module
 # Developer Username
 variable "devuser" {

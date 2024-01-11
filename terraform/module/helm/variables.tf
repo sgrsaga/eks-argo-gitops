@@ -17,7 +17,10 @@ variable "alt_names"{
 variable "alt_names_prefix"{
     type = list(string)
 }
-
+# alias_zone_id
+variable "alias_zone_id" {
+    type = string  
+}
 
 # Ingress namespece
 variable "ingress_ns"{
