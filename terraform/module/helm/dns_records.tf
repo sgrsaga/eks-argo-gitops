@@ -39,11 +39,13 @@ resource "aws_route53_record" "ingres_routes" {
       zone_id = "${data.aws_route53_zone.dns_zone.id}"
       name    = var.alt_names[count.index]
       type    = "A"
-      alias {
-        name =  data.aws_lb.get_nlb_dns_name.dns_name
-        zone_id = data.aws_route53_zone.dns_zone.id
-        evaluate_target_health = true
-      }
+      ttl = 300
+      records = [data.aws_lb.get_nlb_dns_name.dns_name]
+    #   alias {
+    #     name =  data.aws_lb.get_nlb_dns_name.dns_name
+    #     zone_id = data.aws_route53_zone.dns_zone.id
+    #     evaluate_target_health = true
+    #   }
 
     depends_on = [ helm_release.nginx_ingress ]
 }
