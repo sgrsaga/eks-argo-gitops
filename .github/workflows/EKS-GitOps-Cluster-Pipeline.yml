@@ -64,20 +64,20 @@ jobs:
         cd terraform/environment/${GITHUB_REF##*/}/
         terraform fmt
 
-    # # Configure environment - Check EKS Sluster status, Configure kubectl
-    # - name: AWS EKS Cluster status check and kubectl configure
-    #   id: eks_status
-    #   run: |
-    #     cd terraform/environment/${GITHUB_REF##*/}/
-    #     aws --version
-    #     aws s3 ls
-    #     echo '#Install kubectl'
-    #     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    #     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    #     kubectl version --client
-    #     cd ../scripts/
-    #     chmod +x check_eks_status.sh
-    #     ./check_eks_status.sh
+    # Configure environment - Check EKS Sluster status, Configure kubectl
+    - name: AWS EKS Cluster status check and kubectl configure
+      id: eks_status
+      run: |
+        cd terraform/environment/${GITHUB_REF##*/}/
+        aws --version
+        aws s3 ls
+        echo '#Install kubectl'
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        kubectl version --client
+        cd ../scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
 
     # # Generates an execution plan for Terraform
     # - name: Terraform Plan
