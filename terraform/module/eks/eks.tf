@@ -62,7 +62,7 @@ data "aws_security_groups" "private_sg" {
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks_iam_role.arn
-  #version = var.k8s_version
+  version = var.k8s_version
 
   vpc_config {
     subnet_ids              = data.aws_subnets.private_subnet.ids
@@ -283,10 +283,10 @@ resource "aws_eks_addon" "kube-proxy" {
   addon_name   = "kube-proxy"
   #addon_version = var.kube-proxy-version
 }
-# ebs-csi plugin
-resource "aws_eks_addon" "ebs-csi-driver" {
-  cluster_name = aws_eks_cluster.eks_cluster.name
-  addon_name   = "aws-ebs-csi-driver"
-  #addon_version = var.ebs-csi-version
-}
+# # ebs-csi plugin
+# resource "aws_eks_addon" "ebs-csi-driver" {
+#   cluster_name = aws_eks_cluster.eks_cluster.name
+#   addon_name   = "aws-ebs-csi-driver"
+#   #addon_version = var.ebs-csi-version
+# }
 

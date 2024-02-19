@@ -39,10 +39,10 @@ variable "private_ng_size" {
   default = 1
 }
 
-# # 8. K8S version to spin up
-# variable "k8s_version" {
-#     type = string
-# }
+# 8. K8S version to spin up
+variable "k8s_version" {
+    type = string
+}
 
 # # 9. CNI version
 # variable "cni-version" {

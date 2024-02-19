@@ -1,11 +1,13 @@
-name: 'Terraform'
+name: 'EKS-GitOps-Cluster-Pipeline'
 
+# When the GitHub Action workflow should trigger
 on:
   push:
     branches: ["development", "staging", "production" ]
   pull_request:
     branches: [ "staging", "production" ]
 
+# Define ENV variables for the project
 env:
   CLUSTER_NAME: EKS-GitOps-Cluster
   REGION: ap-south-1
@@ -126,20 +128,20 @@ jobs:
         kubectl apply -k .
         kubectl get po -n dev
 
-    # Apply sampleapp with kustomize
-    - name: Test Sample application
-      run: |
-        cd terraform/environment/scripts/
-        chmod +x check_eks_status.sh
-        ./check_eks_status.sh
-        cd ../../../kubernetes/overlays/development/
-        pwd
-        kubectl get ns
-        kubectl create ns dev
-        echo 'Test Kustomize'
-        kubectl kustomize .
-        kubectl apply -k .
-        kubectl get all -n monitoring
+    # # Apply sampleapp with kustomize
+    # - name: Test Sample application
+    #   run: |
+    #     cd terraform/environment/scripts/
+    #     chmod +x check_eks_status.sh
+    #     ./check_eks_status.sh
+    #     cd ../../../kubernetes/overlays/development/
+    #     pwd
+    #     kubectl get ns
+    #     kubectl create ns dev
+    #     echo 'Test Kustomize'
+    #     kubectl kustomize .
+    #     kubectl apply -k .
+    #     kubectl get all -n monitoring
 
 
     # # Apply aws_auth config map with users
