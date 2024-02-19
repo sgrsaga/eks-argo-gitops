@@ -11,7 +11,6 @@ on:
 env:
   CLUSTER_NAME: EKS-GitOps-Cluster
   REGION: ap-south-1
-  CURRENT_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/development/
   SCRIPTS_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/scripts/
 
 permissions:
@@ -19,7 +18,7 @@ permissions:
   contents: read
 
 jobs:
-  terraform:
+  EKS-GitOps-Cluster:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: development
@@ -30,7 +29,7 @@ jobs:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner in Pirivate repo mode
+    # Checkout the repository to the GitHub Actions runner in Pirivate repo or external repo if required
     # - name: Checkout
     #   uses: actions/checkout@v3
     #   with:
@@ -42,8 +41,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-
-    # Set AWS Credentials
+    # Set AWS Credentials - Use pre-configured OIDC to communicate to AWS
     - name: Configure AWS credentials with OIDC and Role
       uses: aws-actions/configure-aws-credentials@v4
       with:
