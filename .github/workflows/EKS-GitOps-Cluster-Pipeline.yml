@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   EKS-GitOps-Cluster:
-    name: 'Terraform'
+    name: 'EKS-GitOps-Cluster-Pipeline'
     runs-on: ubuntu-latest
     environment: development
 

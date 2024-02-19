@@ -6,7 +6,7 @@ if [ $? -eq 0 ]; then
     if [ "$cluster_status" == "ACTIVE" ]; then
         # The cluster is active, so run a simple command (replace with your command)
         echo "EKS cluster is active. Configuring the kubectl environment"
-        cd ../development/
+        cd ../${GITHUB_REF##*/}
         aws eks --region $REGION update-kubeconfig --name $CLUSTER_NAME
         kubectl get nodes
     else
