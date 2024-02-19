@@ -110,7 +110,7 @@ jobs:
       run: |
         # cd terraform/environment/scripts/
         # ./check_eks_status.sh
-        cd ../${GITHUB_REF##*/}/
+         cd terraform/environment/${GITHUB_REF##*/}/
         terraform destroy --auto-approve -input=false
 
     # # Apply Argocd, Prometheus, Grafana and Loki Ingress
