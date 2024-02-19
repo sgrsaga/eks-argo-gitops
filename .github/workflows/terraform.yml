@@ -108,8 +108,8 @@ jobs:
     - name: Terraform Destroy
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
-        cd terraform/environment/scripts/
-        ./check_eks_status.sh
+        # cd terraform/environment/scripts/
+        # ./check_eks_status.sh
         cd ../${GITHUB_REF##*/}/
         terraform destroy --auto-approve -input=false
 
