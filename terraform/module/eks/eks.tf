@@ -275,7 +275,7 @@ resource "aws_eks_addon" "vpc_cni" {
 resource "aws_eks_addon" "coredns" {
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = "coredns"
-  #addon_version = var.coredns-version
+  addon_version = var.coredns-version
 }
 # kube-proxy plugin
 resource "aws_eks_addon" "kube-proxy" {

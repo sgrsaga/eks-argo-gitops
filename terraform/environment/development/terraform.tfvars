@@ -36,7 +36,7 @@ private_ng_size  = 1
 
 ## Add Ons
 # cni-version = "v1.15.4-eksbuild.1"
-# coredns-version = "v1.10.1-eksbuild.6"
+coredns-version = "v1.10.1-eksbuild.7"
 # kube-proxy-version = "v1.28.4-eksbuild.1"
 # ebs-csi-version = "v1.25.0-eksbuild.1"
 

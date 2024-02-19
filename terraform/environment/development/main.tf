@@ -111,7 +111,7 @@ module "eks_gitops_cluster" {
   # Versions
   k8s_version                 = var.k8s_version
   # cni-version             = var.cni-version
-  # coredns-version         = var.coredns-version
+  coredns-version             = var.coredns-version
   # kube-proxy-version      = var.kube-proxy-version
   # ebs-csi-version         = var.ebs-csi-version
 

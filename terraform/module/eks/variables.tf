@@ -49,10 +49,10 @@ variable "k8s_version" {
 #     type = string  
 # }
 
-# # 10. CoreDNS version
-# variable "coredns-version" {
-#     type = string  
-# }
+# 10. CoreDNS version
+variable "coredns-version" {
+    type = string  
+}
 
 # # 11. KubeProxy version
 # variable "kube-proxy-version" {
