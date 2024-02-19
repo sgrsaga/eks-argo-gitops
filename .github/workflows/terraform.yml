@@ -108,9 +108,10 @@ jobs:
     - name: Terraform Destroy
       if: github.ref == 'refs/heads/development' && github.event_name == 'push'
       run: |
-        # cd terraform/environment/scripts/
-        # ./check_eks_status.sh
-         cd terraform/environment/${GITHUB_REF##*/}/
+        cd cd terraform/environment/scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
+        cd terraform/environment/${GITHUB_REF##*/}/
         terraform destroy --auto-approve -input=false
 
     # # Apply Argocd, Prometheus, Grafana and Loki Ingress
