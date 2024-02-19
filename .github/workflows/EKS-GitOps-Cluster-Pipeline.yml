@@ -112,7 +112,7 @@ jobs:
         chmod +x check_eks_status.sh
         ./check_eks_status.sh
         cd ../${GITHUB_REF##*/}/
-        terraform destroy --auto-approve -input=false
+        terraform destroy -target=module.main_network --auto-approve -input=false
 
     # # Apply Argocd, Prometheus, Grafana and Loki Ingress
     # - name: Apply Ingress with Kustomize
