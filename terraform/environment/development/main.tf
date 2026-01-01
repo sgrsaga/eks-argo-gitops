@@ -3,15 +3,15 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.15.0" ## was 5.5.0
+      version = "6.27.0" ## was 5.5.0
     }
     helm = {
       source  = "hashicorp/helm"
-      version = "2.12.1"
+      version = "3.1.1"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.24.0"
+      version = "3.0.1"
     }
   }
 }
@@ -50,22 +50,22 @@ provider "kubernetes" {
   # }
 }
 
-/*
+
 terraform {
   backend "local" {
     path = "terraform.tfstate"
   }
 }
-*/
 
 
-terraform {
-  backend "s3" {
-    bucket = "terraform-state-files-sgr-jay"
-    key    = "eks-argo-helm.tfstate"
-    region = "ap-south-1"
-  }
-}
+
+# terraform {
+#   backend "s3" {
+#     bucket = "terraform-state-files-sgr-jay"
+#     key    = "eks-argo-helm.tfstate"
+#     region = "ap-south-1"
+#   }
+# }
 
 
 /*
@@ -99,44 +99,44 @@ module "main_network" {
 
 
 
-# 2. EKS Cluster creation
-module "eks_gitops_cluster" {
-  source           = "../../module/eks"
-  cluster_name     = var.cluster_name
-  node_group_names = var.node_group_names
-  node_group_size1  = var.node_group_size1
-  node_group_size2  = var.node_group_size2
-  # Versions
-  # version                 = var.k8s_version
-  # cni-version             = var.cni-version
-  # coredns-version         = var.coredns-version
-  # kube-proxy-version      = var.kube-proxy-version
-  # ebs-csi-version         = var.ebs-csi-version
+# # 2. EKS Cluster creation
+# module "eks_gitops_cluster" {
+#   source           = "../../module/eks"
+#   cluster_name     = var.cluster_name
+#   node_group_names = var.node_group_names
+#   node_group_size1  = var.node_group_size1
+#   node_group_size2  = var.node_group_size2
+#   # Versions
+#   # version                 = var.k8s_version
+#   # cni-version             = var.cni-version
+#   # coredns-version         = var.coredns-version
+#   # kube-proxy-version      = var.kube-proxy-version
+#   # ebs-csi-version         = var.ebs-csi-version
 
-  depends_on = [module.main_network]
-}
+#   depends_on = [module.main_network]
+# }
 
-# 3. Install Helm based utilities for the EKS
-module "helm_repos" {
-  source        = "../../module/helm"
-  ingress_ns    = var.ingress_ns
-  argo_ns       = var.argo_ns
-  monitoring_ns = var.monitoring_ns
-  #cert_data = module.eks_gitops_cluster.kubeconfig-certificate-authority-data
+# # 3. Install Helm based utilities for the EKS
+# module "helm_repos" {
+#   source        = "../../module/helm"
+#   ingress_ns    = var.ingress_ns
+#   argo_ns       = var.argo_ns
+#   monitoring_ns = var.monitoring_ns
+#   #cert_data = module.eks_gitops_cluster.kubeconfig-certificate-authority-data
 
-  domain_name_used = var.domain_name_used
-  alt_names = var.alt_names
-  alt_names_prefix = var.alt_names_prefix
-  alias_zone_id = var.alias_zone_id
-  
-  depends_on = [module.eks_gitops_cluster]
-}
+#   domain_name_used = var.domain_name_used
+#   alt_names = var.alt_names
+#   alt_names_prefix = var.alt_names_prefix
+#   alias_zone_id = var.alias_zone_id
 
-# 4. Create EKS Access level profile Developer and Admin users for initate access
-module "eks_access" {
-  source = "../../module/eks_access"
-  devuser = var.devuser
-  adminuser = var.adminuser
+#   depends_on = [module.eks_gitops_cluster]
+# }
 
-  depends_on = [module.eks_gitops_cluster]
-}
+# # 4. Create EKS Access level profile Developer and Admin users for initate access
+# module "eks_access" {
+#   source = "../../module/eks_access"
+#   devuser = var.devuser
+#   adminuser = var.adminuser
+
+#   depends_on = [module.eks_gitops_cluster]
+# }

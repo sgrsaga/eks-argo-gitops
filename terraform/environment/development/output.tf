@@ -55,11 +55,11 @@ output "final_values" {
 
 ## Get Zone ID
 output "zone_id" {
-    value =  module.helm_repos.zone_id
+  value = module.helm_repos.zone_id
 }
 ## Get NLB DNS Name
 output "nlb_dns_name" {
-    value = module.helm_repos.nlb_dns_name
+  value = module.helm_repos.nlb_dns_name
 }
 /*
 ## EIP details

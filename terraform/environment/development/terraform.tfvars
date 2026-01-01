@@ -30,8 +30,8 @@ public_access_sg_ingress_rules = [
 cluster_name = "EKS-GitOps-Cluster"
 #k8s_version = "1.27"
 node_group_names = ["NG_1", "NG_2"]
-node_group_size1  = [2, 3, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
-node_group_size2  = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
+node_group_size1 = [2, 3, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
+node_group_size2 = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
 
 ## Add Ons
 # cni-version = "v1.15.4-eksbuild.1"
@@ -41,30 +41,30 @@ node_group_size2  = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailabl
 
 
 ##-------------- HELM module 
-config_path   = "~/.kube/config"
-ingress_ns    = "ingress"
-argo_ns       = "argo"
-monitoring_ns = "monitoring"
+config_path      = "~/.kube/config"
+ingress_ns       = "ingress"
+argo_ns          = "argo"
+monitoring_ns    = "monitoring"
 domain_name_used = "devops-expert.foundation"
 alt_names = [
-  "prom.devops-expert.foundation", 
+  "prom.devops-expert.foundation",
   "loki.devops-expert.foundation",
   "grafana.devops-expert.foundation",
   "argocd.devops-expert.foundation",
   "lokigrafana.devops-expert.foundation"
-  ]
+]
 alt_names_prefix = [
-  "prom", 
+  "prom",
   "loki",
   "grafana",
   "argocd",
   "lokigrafana"
-  ]
-main_dns = "devops-expert.foundation"
+]
+main_dns      = "devops-expert.foundation"
 alias_zone_id = "ZVDDRBQ08TROA"
 ##-------------- eks_access Module
 # Developer Username
-devuser = "devuser"
+devuser   = "devuser"
 adminuser = "eksadmin"
 
 

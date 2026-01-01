@@ -86,9 +86,9 @@ variable "node_group_size1" {
 
 # 6. Node Group Thresholds
 variable "node_group_size2" {
-    type = list(number)
-    description = "Value should be desired_size,max_size, min_size and max_unavailable"
-    default = [1,2,1,1]
+  type        = list(number)
+  description = "Value should be desired_size,max_size, min_size and max_unavailable"
+  default     = [1, 2, 1, 1]
 }
 # # 8. K8S version to spin up
 # variable "k8s_version" {
@@ -201,31 +201,31 @@ variable "monitoring_ns" {
 
 # Domain name
 variable "domain_name_used" {
-    type = string
+  type = string
 }
 # Domain aleternate names
-variable "alt_names"{
-    type = list(string)
+variable "alt_names" {
+  type = list(string)
 }
 # Domain alt_names_prefix names
-variable "alt_names_prefix"{
-    type = list(string)
+variable "alt_names_prefix" {
+  type = list(string)
 }
 # Main DNS name
 variable "main_dns" {
-    type = string  
+  type = string
 }
 # alias_zone_id
 variable "alias_zone_id" {
-    type = string  
+  type = string
 }
 #################### eks access module
 # Developer Username
 variable "devuser" {
-    type = string  
+  type = string
 }
 
 # Admin Username
 variable "adminuser" {
-    type = string  
+  type = string
 }
