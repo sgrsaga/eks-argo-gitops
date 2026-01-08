@@ -27,7 +27,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: terraform/environment/${GITHUB_REF##*/}/
+        working-directory: terraform/environment/development
 
     steps:
     - name: Checkout
