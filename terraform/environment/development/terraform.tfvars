@@ -4,6 +4,7 @@ vpc_cidr              = "10.0.0.0/16"
 public_source_cidr    = ["0.0.0.0/0"]
 public_source_cidr_v6 = ["::/0"]
 #azs = ["ap-south-1a","ap-south-1b","ap-south-1c"]
+cluster_region = "ap-south-1"
 
 # 2. Create a Internet Gateway
 ig_name = "K8S_IG"
@@ -27,10 +28,10 @@ public_access_sg_ingress_rules = [
 ]
 
 ### ----------- EKS Cluster variables
-cluster_name = "EKS-GitOps-Cluster"
-#k8s_version = "1.27"
+cluster_name     = "EKS-GitOps-Cluster"
+k8s_version      = "1.33"
 node_group_names = ["NG_1", "NG_2"]
-node_group_size1 = [2, 3, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
+node_group_size1 = [2, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
 node_group_size2 = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable]
 
 ## Add Ons
@@ -38,20 +39,45 @@ node_group_size2 = [1, 2, 1, 1] #[desired_size,max_size,min_size,max_unavailable
 # coredns-version = "v1.10.1-eksbuild.6"
 # kube-proxy-version = "v1.28.4-eksbuild.1"
 # ebs-csi-version = "v1.25.0-eksbuild.1"
-
+eks_addons = [
+  {
+    name    = "coredns"
+    version = "v1.12.4-eksbuild.2"
+  },
+  {
+    name    = "vpc-cni"
+    version = "v1.21.1-eksbuild.1"
+  },
+  {
+    name    = "kube-proxy"
+    version = "v1.33.5-eksbuild.2"
+  },
+  {
+    name    = "external-dns"
+    version = "v0.20.0-eksbuild.2"
+  },
+  {
+    name    = "cert-manager"
+    version = "v1.19.2-eksbuild.1"
+  },
+  {
+    name    = "aws-ebs-csi-driver"
+    version = "v1.54.0-eksbuild.1"
+  },
+]
 
 ##-------------- HELM module 
 config_path      = "~/.kube/config"
 ingress_ns       = "ingress"
 argo_ns          = "argo"
 monitoring_ns    = "monitoring"
-domain_name_used = "devops-expert.foundation"
+domain_name_used = "devops-saga.click"
 alt_names = [
-  "prom.devops-expert.foundation",
-  "loki.devops-expert.foundation",
-  "grafana.devops-expert.foundation",
-  "argocd.devops-expert.foundation",
-  "lokigrafana.devops-expert.foundation"
+  "prom.devops-saga.click",
+  "loki.devops-saga.click",
+  "grafana.devops-saga.click",
+  "argocd.devops-saga.click",
+  "lokigrafana.devops-saga.click"
 ]
 alt_names_prefix = [
   "prom",
@@ -60,8 +86,9 @@ alt_names_prefix = [
   "argocd",
   "lokigrafana"
 ]
-main_dns      = "devops-expert.foundation"
-alias_zone_id = "ZVDDRBQ08TROA"
+main_dns      = "devops-saga.click"
+alias_zone_id = "Z075744218WX11269AV0O"
+
 ##-------------- eks_access Module
 # Developer Username
 devuser   = "devuser"

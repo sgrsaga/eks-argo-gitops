@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd
+  namespace: argocd
+  annotations:
+    # --- AWS Load Balancer Controller ---
+    alb.ingress.kubernetes.io/scheme: internet-facing            # or internal
+    alb.ingress.kubernetes.io/target-type: ip                    # recommended for EKS
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/group.name: platform               # optional: group ALBs
+
+    # --- ExternalDNS ---
+    external-dns.alpha.kubernetes.io/hostname: argocd.devops-saga.click
+
+spec:
+  ingressClassName: alb
+  rules:
+    - host: argocd.devops-saga.click
+      http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  number: 80

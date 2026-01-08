@@ -1,0 +1,73 @@
+name: 'Terraform Destroy'
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to destroy'
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+      confirmation:
+        description: 'Type "DESTROY" to confirm'
+        required: true
+
+env:
+  CLUSTER_NAME: EKS-GitOps-Cluster
+  REGION: ap-south-1
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  destroy:
+    name: 'Terraform Destroy'
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Validate confirmation
+      run: |
+        if [ "${{ github.event.inputs.confirmation }}" != "DESTROY" ]; then
+          echo "Confirmation failed. You must type DESTROY to proceed."
+          exit 1
+        fi
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials with OIDC and Role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.OIDC_ARN }}
+        aws-region: ap-south-1
+
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        kubectl version --client
+
+    - name: Terraform Init
+      run: |
+        cd terraform/environment/${{ github.event.inputs.environment }}/
+        terraform init
+
+    - name: Check EKS Cluster Status
+      id: eks_status
+      run: |
+        cd terraform/environment/scripts/
+        chmod +x check_eks_status.sh
+        ./check_eks_status.sh
+
+    - name: Terraform Destroy
+      run: |
+        cd terraform/environment/${{ github.event.inputs.environment }}/
+        terraform destroy --auto-approve -input=false

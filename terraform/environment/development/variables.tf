@@ -5,6 +5,9 @@ variable "vpc_name" {
 variable "vpc_cidr" {
   type = string
 }
+variable "cluster_region" {
+  type = string
+}
 variable "public_source_cidr" {
   type = list(string)
 }
@@ -90,11 +93,11 @@ variable "node_group_size2" {
   description = "Value should be desired_size,max_size, min_size and max_unavailable"
   default     = [1, 2, 1, 1]
 }
-# # 8. K8S version to spin up
-# variable "k8s_version" {
-#     type = string 
-#     default = "1.28"
-# }
+# 8. K8S version to spin up
+variable "k8s_version" {
+  type    = string
+  default = "1.28"
+}
 
 
 # # 9. CNI version
@@ -228,4 +231,40 @@ variable "devuser" {
 # Admin Username
 variable "adminuser" {
   type = string
+}
+
+# EKS Addons
+variable "eks_addons" {
+  type = list(object({
+    name    = string
+    version = string
+  }))
+  default = [
+    {
+      name    = "coredns"
+      version = "v1.12.1-eksbuild.2"
+    },
+    {
+      name    = "vpc-cni"
+      version = "v1.21.1-eksbuild.1"
+    },
+    {
+      name    = "kube-proxy"
+      version = "v1.33.5-eksbuild.2"
+    },
+    {
+      name    = "external-dns"
+      version = "v0.20.0-eksbuild.2"
+    },
+    {
+      name    = "cert-manager"
+      version = "v1.19.2-eksbuild.1"
+    },
+  ]
+}
+# Allowed CIDR blocks for EKS public endpoint access
+variable "allowed_eks_public_cidrs" {
+  type        = list(string)
+  description = "List of CIDR blocks allowed to access EKS public endpoint"
+  default     = ["0.0.0.0/0"]
 }

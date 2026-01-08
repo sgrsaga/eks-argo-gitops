@@ -172,6 +172,10 @@ resource "aws_security_group" "private_access_sg" {
 # 1.8. Create EIP
 resource "aws_eip" "nat_public_ip" {
   domain   = "vpc"
+  tags     = {
+    Name = "EIP-NAT-GW"
+    Type = "EIP"
+  }
 }
 
 # 1.9. Create a NatGateway and link a public subnet

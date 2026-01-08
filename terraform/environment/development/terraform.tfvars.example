@@ -1,0 +1,185 @@
+# ==============================================================================
+# Network Configuration
+# ==============================================================================
+vpc_name              = "K8S_VPC"
+vpc_cidr              = "10.0.0.0/16"
+public_source_cidr    = ["0.0.0.0/0"]
+public_source_cidr_v6 = ["::/0"]
+cluster_region        = "ap-south-1"
+
+# Internet Gateway
+ig_name = "K8S_IG"
+
+# Route Tables
+public_rt  = "PUBLIC_RT"
+private_rt = "PRIVATE_RT"
+
+# Subnets - Spread across 3 Availability Zones
+public_subnets  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnets = ["10.0.5.0/24", "10.0.6.0/24", "10.0.7.0/24"]
+
+# Security Group Ingress Rules
+# WARNING: The example below allows all traffic. Restrict to specific ports in production!
+public_access_sg_ingress_rules = [
+  {
+    protocol  = "tcp"
+    from_port = 443
+    to_port   = 443
+  },
+  {
+    protocol  = "tcp"
+    from_port = 80
+    to_port   = 80
+  }
+]
+
+# ==============================================================================
+# EKS Cluster Configuration
+# ==============================================================================
+cluster_name     = "EKS-GitOps-Cluster"
+k8s_version      = "1.33"
+node_group_names = ["NG_1", "NG_2"]
+
+# Node Group Sizes: [desired_size, max_size, min_size, max_unavailable]
+node_group_size1 = [2, 2, 1, 1]  # Utility nodes
+node_group_size2 = [1, 2, 1, 1]  # Workload nodes
+
+# Allowed CIDR blocks for EKS public endpoint access
+# IMPORTANT: Restrict to your VPN/office IP ranges in production!
+allowed_eks_public_cidrs = ["0.0.0.0/0"]
+
+# EKS Add-ons
+eks_addons = [
+  {
+    name    = "coredns"
+    version = "v1.12.4-eksbuild.2"
+  },
+  {
+    name    = "vpc-cni"
+    version = "v1.21.1-eksbuild.1"
+  },
+  {
+    name    = "kube-proxy"
+    version = "v1.33.5-eksbuild.2"
+  },
+  {
+    name    = "external-dns"
+    version = "v0.20.0-eksbuild.2"
+  },
+  {
+    name    = "cert-manager"
+    version = "v1.19.2-eksbuild.1"
+  },
+  {
+    name    = "aws-ebs-csi-driver"
+    version = "v1.54.0-eksbuild.1"
+  },
+]
+
+# ==============================================================================
+# Helm Module Configuration
+# ==============================================================================
+config_path   = "~/.kube/config"
+ingress_ns    = "ingress"
+argo_ns       = "argo"
+monitoring_ns = "monitoring"
+
+# Domain Configuration
+domain_name_used = "devops-saga.click"
+alt_names = [
+  "prom.devops-saga.click",
+  "loki.devops-saga.click",
+  "grafana.devops-saga.click",
+  "argocd.devops-saga.click",
+  "lokigrafana.devops-saga.click"
+]
+alt_names_prefix = [
+  "prom",
+  "loki",
+  "grafana",
+  "argocd",
+  "lokigrafana"
+]
+main_dns      = "devops-saga.click"
+alias_zone_id = "Z075744218WX11269AV0O"  # Replace with your Route53 Hosted Zone ID
+
+# ==============================================================================
+# EKS Access Module - IAM Users
+# ==============================================================================
+devuser   = "devuser"
+adminuser = "eksadmin"
+
+# ==============================================================================
+# EC2 Nodes Configuration (if using EC2-based nodes instead of managed node groups)
+# ==============================================================================
+ami_id         = "ami-0f5ee92e2d63afc18"  # Ubuntu 20.04 LTS in ap-south-1
+ec2_node_cnt   = 1
+ssh_key_name   = "NewKey"  # Replace with your SSH key name
+instance_type  = "t2.micro"
+role_name      = "admin"
+root_sorage    = 30
+master_names   = ["Master1"]
+master_type    = "t2.medium"
+worker_names   = ["Worker_1", "Worker_2"]
+worker_type    = "t2.micro"
+
+# User data script for EC2 nodes (Kubernetes setup)
+user_data_file = <<UDT
+#!/bin/bash
+### K8S cluster nodes
+sudo apt-get update
+sudo apt install net-tools -y
+ip link show
+sudo cat /sys/class/dmi/id/product_uuid
+
+## Swap Off
+swapoff -a
+sed -i '/swap/d' /etc/fstab
+
+# Forwarding IPv4 and letting iptables see bridged traffic
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+sudo sysctl --system
+sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+
+# Install containerd
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get install -y containerd.io
+
+# Container runtime configuration
+sudo su
+cat << EOF > /etc/containerd/config.toml
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    SystemdCgroup = true
+EOF
+exit
+
+sudo systemctl restart containerd
+
+# Install kubeadm
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+UDT

@@ -2,3 +2,7 @@ terraform/environment/development/.terraform/*
 terraform/environment/development/.terraform.lock.hcl
 terraform/environment/development/.terraform.lock.hcl
 ../../../.terraform.lock.hcl
+.venv/
+.claude/
+*.tfstate*
+tfplan
