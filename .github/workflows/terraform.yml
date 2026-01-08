@@ -11,7 +11,7 @@ env:
   REGION: ap-south-1
   CURRENT_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/development/
   SCRIPTS_DIR: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/scripts/
-  TFVARS_FILE: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/${GITHUB_REF##*/}/terraform.tfvars
+  TFVARS_FILE: ~/work/eks-argo-gitops/eks-argo-gitops/terraform/environment/development/terraform.tfvars
       
 
 permissions:
@@ -46,10 +46,6 @@ jobs:
 
     - name: Terraform Init
       run: |
-        pwd
-        echo "${GITHUB_REF##*/}"
-        echo "${GITHUB_ENV}"
-        pwd
         terraform init
 
     - name: Terraform Format
