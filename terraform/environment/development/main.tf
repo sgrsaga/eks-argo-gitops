@@ -15,7 +15,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "terraform-state-files-sgr-jay"
+    bucket         = "terraform-state-files-eks-argo-gitops"
     key            = "eks-argo-gitops/development/terraform.tfstate"
     region         = "ap-south-1"
     encrypt        = true
