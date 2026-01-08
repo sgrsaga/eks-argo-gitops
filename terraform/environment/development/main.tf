@@ -42,15 +42,6 @@ provider "aws" {
   }
 }
 
-provider "helm" {
-  kubernetes {
-    config_path = var.config_path
-  }
-}
-
-provider "kubernetes" {
-  config_path = var.config_path
-}
 
 # 1. Call the main network module
 module "main_network" {
